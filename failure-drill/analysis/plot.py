@@ -27,7 +27,8 @@ DRILLS = [
     ("pod-kill", "Primary pod killed"),
     ("node-drain", "Primary's node drained"),
     ("node-terminate", "Primary's EC2 instance terminated"),
-    ("az-down", "Whole availability zone removed"),
+    ("az-down", "Zone drained (node group scaled to 0)"),
+    ("az-outage", "Zone outage (instance terminated, no drain)"),
     ("nodegroup-upgrade", "Managed node group upgrade"),
 ]
 LABEL = dict(DRILLS)
@@ -69,13 +70,14 @@ def timelines(runs):
         s = read_series(name)
         restore = fnum(r["zone_restore_after_fault_s"])
         right = max(120, int((restore or 0) + 120))
+        s = s[:-1]  # the writer's last second is partial
         s = [p for p in s if -30 <= p[0] <= right]
         xs = [p[0] for p in s]
-        if r["drill"] == "az-down" and restore:
+        if r["drill"] in ("az-down", "az-outage") and restore:
             empty = fnum(r["zone_empty_after_fault_s"]) or 0
             ax.axvspan(empty, restore, color=SHADE, zorder=0)
-            ax.text((empty + restore) / 2, 0.97, "zone has no nodes", transform=ax.get_xaxis_transform(),
-                    ha="center", va="top", color=INK2, fontsize=8.5)
+            ax.text((empty + restore) / 2, 0.45, "zone has no nodes", transform=ax.get_xaxis_transform(),
+                    ha="center", va="center", color=INK2, fontsize=8.5)
         # Seconds after the fault with no acknowledged write, as one or more spans.
         zero = [p[0] for p in s if p[0] >= 0 and p[1] == 0]
         spans, start, prev = [], None, None
@@ -166,7 +168,9 @@ def recovery_phases(runs):
     ax.set_axisbelow(True)
     ax.legend(loc="lower left", bbox_to_anchor=(0, 1.0), frameon=False, ncol=2)
     ax.set_title("What clients see vs what the operator reports", loc="left", pad=28)
-    fig.tight_layout()
+    fig.text(0.01, 0.01, "Shard status is sampled every 6 to 9 s. Node drain: 2 of 3 runs drained the node holding two "
+             "etcd members and hit finding F4.", fontsize=8, color=INK2)
+    fig.tight_layout(rect=(0, 0.04, 1, 1))
     fig.savefig(os.path.join(CHARTS, "recovery-phases.png"))
     plt.close(fig)
 

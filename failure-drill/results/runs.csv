@@ -1,5 +1,6 @@
 drill,run,target_zone,writer_zone,primary_before_zone,primary_after_zone,acked,failed,ambiguous,lost_acked,outages,longest_outage_s,max_ack_gap_s,total_outage_s,writes_back_after_fault_s,zone_empty_after_fault_s,zone_restore_after_fault_s,shard_not_healthy_s,shard_healthy_after_fault_s,errors,p50_ms,p99_ms,max_ms
 az-down,1,apse2-az1,apse2-az2,apse2-az2,apse2-az2,143975,0,0,0,0,0.0,0.05,0,0.0,160.2,403.8,459.3,542.5,,5,10,45
+az-outage,1,apse2-az3,apse2-az2,apse2-az2,apse2-az2,239941,1,1,0,0,0.0,0.08,0,0.0,42.0,289.6,453.4,468.6,connection refused=1;unexpected EOF=1,5,10,68
 node-drain,1,apse2-az3,apse2-az1,apse2-az3,apse2-az2,143189,0,3,0,1,1.9,1.93,1.9,9.1,,,680.5,698.9,unexpected EOF=3,5,9,1946
 node-drain,2,apse2-az2,apse2-az1,apse2-az2,apse2-az3,143204,0,0,0,1,2.0,1.95,2.0,8.6,,,33.6,43.4,,5,9,1950
 node-drain,3,apse2-az3,apse2-az1,apse2-az3,apse2-az2,143198,0,3,0,1,1.9,1.9,1.9,8.7,,,688.5,706.7,unexpected EOF=3,5,12,1926

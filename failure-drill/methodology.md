@@ -21,6 +21,7 @@ Two answers matter more than any latency number:
 | Multigres cluster | 3 cells, one per zone, pinned by zone ID; one pooler per cell (3 in total); durability `MULTI_CELL_AT_LEAST_2`; global topology on the operator-managed 3-member etcd; `fsGroup: 999` on the pool (see finding F1) |
 | Backups | pgBackRest to S3, credentials through IRSA (no static keys) |
 | PostgreSQL | 17, as shipped in the operator's default images |
+| Monitoring (zone outage drill only) | the operator's own stack from `config/monitoring` and `config/deploy-observability` at the tested commit, pinned to `apse2-az1`; the operator's image unchanged, with its `OTEL_*` settings added |
 
 Exact image digests for every container are recorded per run in `results/<run>/run.txt`.
 

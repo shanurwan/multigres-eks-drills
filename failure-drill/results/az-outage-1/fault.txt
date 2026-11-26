@@ -1,0 +1,4 @@
+dce8b5f6-fe37-3a3d-b833-d79df4288d80
+i-02442d395b49e7cc5	shutting-down
+instance=i-02442d395b49e7cc5 state=terminated
+678b6eea-cbb1-37ca-ac90-a01967dbe396

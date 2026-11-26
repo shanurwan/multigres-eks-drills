@@ -1,0 +1,18 @@
+NAME                                                              READY   STATUS      RESTARTS   AGE   IP             NODE                                              NOMINATED NODE   READINESS GATES
+ackcheck                                                          1/1     Running     0          52m   10.42.39.218   ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           <none>
+demo-az1-multigateway-8d59bb63-6f79d89f84-9vjps                   1/1     Running     0          22m   10.42.10.46    ip-10-42-2-70.ap-southeast-2.compute.internal     <none>           <none>
+demo-az2-multigateway-225ffbee-7dd74c5c8d-wtrxb                   1/1     Running     0          22m   10.42.38.8     ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           <none>
+demo-az3-multigateway-9d51cd81-77c59b8496-d7cf4                   0/1     Completed   0          13m   10.42.17.73    ip-10-42-18-123.ap-southeast-2.compute.internal   <none>           <none>
+demo-az3-multigateway-9d51cd81-77c59b8496-kvn88                   0/1     Pending     0          31s   <none>         <none>                                            <none>           <none>
+demo-global-topo-0                                                0/1     Pending     0          34s   <none>         <none>                                            <none>           <none>
+demo-global-topo-1                                                0/1     Running     0          61m   10.42.32.10    ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           <none>
+demo-global-topo-2                                                0/1     Pending     0          40s   <none>         <none>                                            <none>           <none>
+demo-multiadmin-6b85487468-p844f                                  1/1     Running     0          22m   10.42.32.65    ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           <none>
+demo-multiadmin-web-7f6585b866-v5cbc                              1/1     Running     0          13m   10.42.37.206   ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           <none>
+demo-postgres-default-0-inf-multiorch-az1-5175f405-6b9f4746v7gb   0/1     Running     0          22m   10.42.11.194   ip-10-42-2-70.ap-southeast-2.compute.internal     <none>           <none>
+demo-postgres-default-0-inf-multiorch-az2-77786e6e-754dd78dhf4r   0/1     Running     0          22m   10.42.40.248   ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           <none>
+demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-56bb955bvvpx   0/1     Pending     0          41s   <none>         <none>                                            <none>           <none>
+demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-56bb955f9xc8   0/1     Completed   0          13m   10.42.25.25    ip-10-42-18-123.ap-southeast-2.compute.internal   <none>           <none>
+demo-postgres-default-0-inf-pool-default-az1-4b646709-0           3/3     Running     0          22m   10.42.14.119   ip-10-42-2-70.ap-southeast-2.compute.internal     <none>           1/1
+demo-postgres-default-0-inf-pool-default-az2-7166e172-0           3/3     Running     0          21m   10.42.47.31    ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           1/1
+demo-postgres-default-0-inf-pool-default-az3-97695bdb-0           0/3     Pending     0          5s    <none>         <none>                                            <none>           0/1

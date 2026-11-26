@@ -1,0 +1,2 @@
+2026-11-26T15:12:07.947Z writer start (6m)
+2026-11-26T15:13:14.724Z fault: scale node group az2-20261126122021811000000001 (apse2-az3) to 0

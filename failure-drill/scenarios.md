@@ -19,12 +19,15 @@ Each scenario answers one question a team needs answered before running Multigre
 | `pod-kill` | the Postgres process or its container dies | force-delete the primary pooler pod (`--grace-period=0 --force`) | baseline: how long until writes succeed through the gateway again? |
 | `node-drain` | planned maintenance: patching, scaling down | `kubectl drain` the primary's node, then `uncordon` | does a graceful drain hand the primary off with a shorter gap than a crash? Does the drain finish? |
 | `node-terminate` | an EC2 instance fails or is reclaimed | `aws ec2 terminate-instances` on the primary's node | failover when the node disappears without warning; does the replacement node's pooler re-attach its EBS volume? |
-| `az-down` | an availability zone outage | scale the zone's node group to 0, hold 4 minutes, scale back to 1 | does the shard keep taking writes on 2 of 3 zones? What happens to the cell whose EBS volume cannot leave the zone, and to the etcd members in that zone? |
+| `az-down` | a zone taken out of service on purpose (maintenance, capacity) | scale the zone's node group to 0, hold 4 minutes, scale back to 1. EKS drains the node and honours PodDisruptionBudgets, so this is a graceful drain of the zone, not an outage | does a planned zone removal disturb writes? Does it finish? |
+| `az-outage` | an availability zone outage | scale the zone's node group to 0 so nothing replaces the instance, and terminate the zone's instance at once, with no drain; hold 4 minutes, scale back to 1 | does the shard keep taking writes on 2 of 3 zones? What happens to the cell whose EBS volume cannot leave the zone, and to the etcd members in that zone? |
 
-The zone drill runs against two different zones, because the zones are not equal (finding F3):
+The zones are not equal (finding F3), so the zone drills target different zones:
 
-- a zone holding **no** etcd member (`apse2-az1`): the clean case, where only one pooler is lost
-- the zone holding **two of the three** etcd members (`apse2-az3`): the global topology loses quorum along with the zone
+- `az-down` on `apse2-az1`, a zone holding **no** etcd member
+- `az-outage` on `apse2-az3`, the zone holding **two of the three** etcd members and a standby pooler: the global topology loses quorum along with the zone. The operator's own monitoring stack ran (in `apse2-az1`) during this drill.
+
+A first `az-down` attempt on `apse2-az3` showed that a graceful zone drain cannot finish there (finding F4); `az-outage` was added to test a real outage.
 
 ## Part 3: cost and capacity
 

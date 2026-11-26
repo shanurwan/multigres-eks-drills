@@ -1,0 +1,22 @@
+2026-11-26T15:20:26Z
+node group az2-20261126122021811000000001 (apse2-az3) scaled to 0 at 15:13:14Z by the az-down drill
+NAME                                             STATUS                     ROLES    AGE    VERSION               ZONE-ID
+ip-10-42-17-60.ap-southeast-2.compute.internal   Ready,SchedulingDisabled   <none>   178m   v1.35.9-eks-9adbfea   apse2-az3
+ip-10-42-2-70.ap-southeast-2.compute.internal    Ready                      <none>   24m    v1.35.9-eks-9adbfea   apse2-az1
+ip-10-42-33-80.ap-southeast-2.compute.internal   Ready                      <none>   53m    v1.35.9-eks-9adbfea   apse2-az2
+
+NAME                                                              READY   STATUS    RESTARTS   AGE     IP             NODE                                             NOMINATED NODE   READINESS GATES
+demo-az3-multigateway-9d51cd81-77c59b8496-d7cf4                   0/1     Pending   0          6m5s    <none>         <none>                                           <none>           <none>
+demo-global-topo-0                                                0/1     Pending   0          5m56s   <none>         <none>                                           <none>           <none>
+demo-global-topo-1                                                1/1     Running   0          54m     10.42.32.10    ip-10-42-33-80.ap-southeast-2.compute.internal   <none>           <none>
+demo-global-topo-2                                                1/1     Running   0          72m     10.42.31.206   ip-10-42-17-60.ap-southeast-2.compute.internal   <none>           <none>
+demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-56bb955f9xc8   0/1     Pending   0          6m5s    <none>         <none>                                           <none>           <none>
+demo-postgres-default-0-inf-pool-default-az3-97695bdb-0           0/3     Pending   0          5m55s   <none>         <none>                                           <none>           0/1
+
+NAME                                       MIN AVAILABLE   MAX UNAVAILABLE   ALLOWED DISRUPTIONS   AGE
+demo-global-topo                           N/A             1                 0                     172m
+demo-postgres-default-0-inf-pdb-a48f4fbc   2               N/A               0                     171m
+
+2026-11-26T15:13:26.564000+00:00	MidTerminatingLifecycleAction	Terminating EC2 instance: i-0736b56d64a4c015e
+2026-11-26T12:21:16.487000+00:00	Successful	Launching a new EC2 instance: i-0736b56d64a4c015e
+i-0736b56d64a4c015e	Terminating:Wait

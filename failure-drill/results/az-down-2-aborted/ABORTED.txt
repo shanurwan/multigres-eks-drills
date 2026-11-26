@@ -1,0 +1,4 @@
+Aborted run. Scaling the apse2-az3 node group to 0 started a drain that could not finish: the etcd
+PodDisruptionBudget blocked the second member in that zone (finding F4). The run was stopped after
+6 minutes, the node group was scaled back to 1, and the zone outage was tested with the az-outage
+drill instead. Kept as evidence for F4; not included in runs.csv.

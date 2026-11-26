@@ -1,0 +1,9 @@
+2026-11-26T15:25:49.801Z writer start (10m)
+2026-11-26T15:26:59.840Z fault: node group az2-20261126122021811000000001 (apse2-az3) to 0 and terminate i-02442d395b49e7cc5 
+2026-11-26T15:27:41.820Z instances terminated: i-02442d395b49e7cc5 
+2026-11-26T15:31:49.453Z restore: scale node group az2-20261126122021811000000001 back to 1
+2026-11-26T15:32:27.769Z zone apse2-az3 has a Ready node again
+2026-11-26T15:32:27.907Z waiting for the writer to finish
+2026-11-26T15:35:57.589Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+2026-11-26T15:36:01.524Z shard Healthy
+2026-11-26T15:39:06.914Z done: /c/Users/user/Documents/Shafiqah/job hunting/project/multigres-eks-drills/failure-drill/results/az-outage-1

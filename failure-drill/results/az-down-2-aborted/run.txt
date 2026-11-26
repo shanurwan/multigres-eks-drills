@@ -1,0 +1,8 @@
+drill=az-down run=2 writer_zone=apse2-az2 target_zone=apse2-az3
+primary_before=demo-postgres-default-0-inf-pool-default-az2-7166e172-0 zone=apse2-az2 node=ip-10-42-33-80.ap-southeast-2.compute.internal
+operator_image=docker.io/grafana/grafana@sha256:d8ea37798ccc41061a62ab080f2676dda6bf7815558499f901bdb0f533a456fb
+multipooler=ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363
+postgres-exporter=quay.io/prometheuscommunity/postgres-exporter@sha256:ac5ec343104fae0e2d84a27bb8d69b38430a11910c5382cad85d478d2bab713e
+postgres=ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647
+kubernetes=v1.34.2
+write_for=6m fault_at=60s az_hold=240s

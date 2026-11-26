@@ -16,7 +16,7 @@ from collections import Counter
 from datetime import datetime, timezone
 
 RESULTS = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), "..", "results")
-RUN_DIR = re.compile(r"^(pod-kill|node-drain|node-terminate|az-down|nodegroup-upgrade)-(\d+)$")
+RUN_DIR = re.compile(r"^(pod-kill|node-drain|node-terminate|az-down|az-outage|nodegroup-upgrade)-(\d+)$")
 GAP = 1.0  # seconds without an acknowledged write that count as an outage
 STAMP = re.compile(r"^(\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d+Z) (.*)$")
 
@@ -81,7 +81,7 @@ def main():
             v = json.load(f)
         tl = timeline(os.path.join(d, "timeline.txt"))
         fault_t = next(t for t, text in tl if text.startswith("fault:"))
-        zone_empty_t = next((t for t, text in tl if "has 0 nodes" in text), None)
+        zone_empty_t = next((t for t, text in tl if "has 0 nodes" in text or text.startswith("instances terminated")), None)
         restore_t = next((t for t, text in tl if text.startswith("restore:")), None)
 
         events_path = os.path.join(d, "ackcheck", name + ".events.jsonl")

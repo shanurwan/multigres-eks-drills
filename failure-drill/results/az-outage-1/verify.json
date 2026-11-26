@@ -1,0 +1,27 @@
+{
+  "run": "az-outage-1",
+  "attempts": 239943,
+  "acked": 239941,
+  "failed": 1,
+  "ambiguous": 1,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 0,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "15:25:54.240",
+  "last_event": "15:35:54.211",
+  "outages": null,
+  "error_kinds": {
+    "connection refused": 1,
+    "unexpected EOF": 1
+  },
+  "ok_latency_ms": {
+    "p100": 68,
+    "p50": 5,
+    "p95": 7,
+    "p99": 10
+  }
+}

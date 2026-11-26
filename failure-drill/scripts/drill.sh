@@ -13,7 +13,7 @@ set -euo pipefail
 export MSYS_NO_PATHCONV=1   # Git Bash on Windows: do not rewrite /paths passed to kubectl
 
 here="$(cd "$(dirname "$0")/.." && pwd)"
-drill="${1:?drill: pod-kill | node-drain | node-terminate | az-down}"
+drill="${1:?drill: pod-kill | node-drain | node-terminate | az-down | az-outage}"
 n="${2:?run number}"
 target_zone="${3:-}"
 ns=multigres-demo
@@ -37,10 +37,10 @@ primary_line="$(grep ' primary$' "$out/primary-before.txt" || true)"
 [ -n "$primary_line" ] || { echo "no primary found" >&2; cat "$out/primary-before.txt" >&2; exit 1; }
 read -r primary_zone primary_pod primary_node _ <<<"$primary_line"
 [ -n "$target_zone" ] || target_zone="$primary_zone"
-if [ "$drill" = az-down ] && [ "$target_zone" = "$writer_zone" ]; then
+if [[ "$drill" == az-* ]] && [ "$target_zone" = "$writer_zone" ]; then
   echo "the writer runs in $writer_zone, the zone this drill breaks; move it first" >&2; exit 1
 fi
-if [ "$drill" != az-down ] && [ "$primary_node" = "$(kubectl -n $ns get pod ackcheck -o jsonpath='{.spec.nodeName}')" ] && [ "$drill" != pod-kill ]; then
+if [[ "$drill" != az-* ]] && [ "$primary_node" = "$(kubectl -n $ns get pod ackcheck -o jsonpath='{.spec.nodeName}')" ] && [ "$drill" != pod-kill ]; then
   echo "the writer shares the primary's node; move it to another zone first" >&2; exit 1
 fi
 kubectl -n $ns get pods -o wide > "$out/pods-before.txt"
@@ -109,6 +109,28 @@ case "$drill" in
     aws eks update-nodegroup-config --cluster-name "$cluster" --nodegroup-name "$ng" \
       --scaling-config minSize=1,maxSize=2,desiredSize=1 --query 'update.id' --output text >> "$out/fault.txt"
     until kubectl get nodes -l "topology.k8s.aws/zone-id=$target_zone" --no-headers 2>/dev/null | grep -q ' Ready'; do sleep 5; done
+    log "zone $target_zone has a Ready node again"
+    ;;
+  az-outage)
+    # An abrupt zone outage: nothing is drained. The node group goes to 0 so nothing replaces
+    # the instances, and every instance in the zone is terminated at once.
+    ng="$(nodegroup_for_zone "$target_zone")"
+    iids="$(kubectl get nodes -l "topology.k8s.aws/zone-id=$target_zone" -o jsonpath='{range .items[*]}{.spec.providerID}{"\n"}{end}' | awk -F/ 'NF{print $NF}' | tr '\n' ' ')"
+    log "fault: node group $ng ($target_zone) to 0 and terminate $iids"
+    aws eks update-nodegroup-config --cluster-name "$cluster" --nodegroup-name "$ng" \
+      --scaling-config minSize=0,maxSize=2,desiredSize=0 --query 'update.id' --output text >> "$out/fault.txt"
+    # shellcheck disable=SC2086
+    aws ec2 terminate-instances --instance-ids $iids --query 'TerminatingInstances[].[InstanceId,CurrentState.Name]' --output text >> "$out/fault.txt"
+    # shellcheck disable=SC2086
+    aws ec2 wait instance-terminated --instance-ids $iids
+    log "instances terminated: $iids"
+    for i in $iids; do echo "instance=$i state=$(aws ec2 describe-instances --instance-ids "$i" --query 'Reservations[0].Instances[0].State.Name' --output text)" >> "$out/fault.txt"; done
+    kubectl -n $ns get pods -o wide > "$out/pods-zone-down.txt"
+    sleep "$az_hold"
+    log "restore: scale node group $ng back to 1"
+    aws eks update-nodegroup-config --cluster-name "$cluster" --nodegroup-name "$ng" \
+      --scaling-config minSize=1,maxSize=2,desiredSize=1 --query 'update.id' --output text >> "$out/fault.txt"
+    until kubectl get nodes -l "topology.k8s.aws/zone-id=$target_zone" --no-headers 2>/dev/null | grep -q ' Ready '; do sleep 5; done
     log "zone $target_zone has a Ready node again"
     ;;
   *) echo "unknown drill $drill" >&2; exit 2 ;;
