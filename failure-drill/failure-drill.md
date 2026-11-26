@@ -4,7 +4,7 @@ Multigres (operator `current` build of 26 Nov 2026) was deployed across three av
 
 ## Summary
 
-| | |
+| Measure | Result |
 |---|---|
 | **Acknowledged writes lost** | **0** of 1,515,719, across 10 drills, including losing a whole zone together with 2 of the 3 global etcd members |
 | **Writes during a zone outage** | uninterrupted: no gap longer than 0.08 s between acknowledged writes |
@@ -45,7 +45,7 @@ flowchart LR
   end
   w -->|through the gateway Service| p2
   p2 -. "every commit confirmed in a second zone" .- p1
-  p2 -. .- p3
+  p2 -.- p3
 ```
 
 *Placement at the start of the zone outage drill. The primary moved between zones across runs; the two etcd members in `apse2-az3` did not (F3).*
