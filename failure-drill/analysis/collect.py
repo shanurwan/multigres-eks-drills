@@ -17,6 +17,7 @@ from datetime import datetime, timezone
 
 RESULTS = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), "..", "results")
 RUN_DIR = re.compile(r"^(pod-kill|node-drain|node-terminate|az-down|nodegroup-upgrade)-(\d+)$")
+GAP = 1.0  # seconds without an acknowledged write that count as an outage
 STAMP = re.compile(r"^(\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d+Z) (.*)$")
 
 
@@ -85,6 +86,7 @@ def main():
 
         events_path = os.path.join(d, "ackcheck", name + ".events.jsonl")
         per_sec_ok, per_sec_bad = Counter(), Counter()
+        ack_times = []
         first_bad_after, last_bad_after = None, None
         with open(events_path) as f:
             for line in f:
@@ -93,23 +95,23 @@ def main():
                 sec = int(t - fault_t) if t >= fault_t else int(t - fault_t) - 1
                 if e["r"] == "ok":
                     per_sec_ok[sec] += 1
+                    ack_times.append(t)
                 else:
                     per_sec_bad[sec] += 1
                     if t >= fault_t:
                         first_bad_after = t if first_bad_after is None else min(first_bad_after, t)
                         last_bad_after = t if last_bad_after is None else max(last_bad_after, t)
 
-        # Outages from the checker (gaps of >= 1 s with no acknowledged write), after the fault.
-        outs = []
-        for o in v.get("outages") or []:
-            day = datetime.fromtimestamp(fault_t, timezone.utc).strftime("%Y-%m-%d")
-            start = ts(f"{day}T{o['from']}Z")
-            end = ts(f"{day}T{o['to']}Z")
-            if end >= fault_t - 1:
-                outs.append((start, end, o["seconds"]))
+        # Outages: gaps of at least GAP seconds between consecutive acknowledged writes (any writer),
+        # starting from one second before the fault. Measured from the raw events rather than
+        # verify.json's "outages", which reported none for runs with ~2 s gaps.
+        acks = sorted(ack_times)
+        after = [t for t in acks if t >= fault_t - 1]
+        outs = [(a, b, b - a) for a, b in zip(after, after[1:]) if b - a >= GAP]
         total_out = round(sum(o[2] for o in outs), 1)
         longest = round(max((o[2] for o in outs), default=0.0), 1)
         writes_back = round(max(o[1] for o in outs) - fault_t, 1) if outs else 0.0
+        max_gap = round(max((b - a for a, b in zip(after, after[1:])), default=0.0), 2)
 
         unhealthy_s, healthy_back = shard_unhealthy(os.path.join(d, "shard-timeline.txt"), fault_t)
         primary_after = ""
@@ -134,6 +136,7 @@ def main():
             "lost_acked": v["lost_acked"],
             "outages": len(outs),
             "longest_outage_s": longest,
+            "max_ack_gap_s": max_gap,
             "total_outage_s": total_out,
             "writes_back_after_fault_s": writes_back,
             "zone_empty_after_fault_s": round(zone_empty_t - fault_t, 1) if zone_empty_t else "",

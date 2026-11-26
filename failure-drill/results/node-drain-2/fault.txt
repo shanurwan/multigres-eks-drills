@@ -1,0 +1,18 @@
+node/ip-10-42-38-108.ap-southeast-2.compute.internal cordoned
+Warning: ignoring DaemonSet-managed Pods: kube-system/aws-node-tpvg9, kube-system/ebs-csi-node-2gwss, kube-system/eks-pod-identity-agent-7m2hl, kube-system/kube-proxy-6rd5m
+evicting pod multigres-operator/multigres-operator-controller-manager-5948ff8f8-hxqgc
+evicting pod multigres-demo/demo-global-topo-1
+evicting pod kube-system/ebs-csi-controller-86974df58f-rqmnn
+evicting pod multigres-demo/demo-az2-multigateway-225ffbee-665696865d-dcwnj
+evicting pod multigres-demo/demo-postgres-default-0-inf-multiorch-az2-77786e6e-5c87d4dwfskj
+evicting pod multigres-demo/demo-multiadmin-web-7f6585b866-67lq8
+evicting pod multigres-demo/demo-postgres-default-0-inf-pool-default-az2-7166e172-0
+pod/demo-postgres-default-0-inf-multiorch-az2-77786e6e-5c87d4dwfskj evicted
+pod/demo-multiadmin-web-7f6585b866-67lq8 evicted
+pod/demo-az2-multigateway-225ffbee-665696865d-dcwnj evicted
+pod/multigres-operator-controller-manager-5948ff8f8-hxqgc evicted
+pod/ebs-csi-controller-86974df58f-rqmnn evicted
+pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0 evicted
+pod/demo-global-topo-1 evicted
+node/ip-10-42-38-108.ap-southeast-2.compute.internal drained
+node/ip-10-42-38-108.ap-southeast-2.compute.internal uncordoned

@@ -1,0 +1,24 @@
+{
+  "run": "az-down-1",
+  "attempts": 143975,
+  "acked": 143975,
+  "failed": 0,
+  "ambiguous": 0,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 0,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "14:47:27.415",
+  "last_event": "14:53:27.391",
+  "outages": null,
+  "error_kinds": {},
+  "ok_latency_ms": {
+    "p100": 45,
+    "p50": 5,
+    "p95": 7,
+    "p99": 10
+  }
+}

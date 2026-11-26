@@ -1,0 +1,3978 @@
+# The multigres-operator's own monitoring stack, rendered from commit
+# c9ef95f1351421a8579f5144e2ce2b76708236df (the 'current' release tested here):
+#   kubectl kustomize config/monitoring, followed by config/deploy-observability/
+#   {otel-collector,tempo,grafana,prometheus}.yaml. The operator itself is not included.
+# Apply into the multigres-operator namespace after the Prometheus Operator v0.80.0 bundle.
+apiVersion: v1
+data:
+  cluster-health.json: |
+    {
+        "annotations": {
+            "list": []
+        },
+        "description": "MultigresCluster topology health: cluster phase, cell gateways, shard pools, and TopoServer",
+        "editable": true,
+        "fiscalYearStartMonth": 0,
+        "graphTooltip": 1,
+        "links": [
+            {
+                "asDropdown": false,
+                "icon": "external link",
+                "tags": [],
+                "title": "Operator Overview",
+                "type": "link",
+                "url": "/d/multigres-operator-overview"
+            },
+            {
+                "asDropdown": false,
+                "icon": "external link",
+                "tags": [],
+                "title": "Data Plane",
+                "type": "link",
+                "url": "/d/multigres-data-plane"
+            }
+        ],
+        "panels": [
+            {
+                "collapsed": false,
+                "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 0
+                },
+                "id": 50,
+                "title": "At a Glance",
+                "type": "row"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus-uid"
+                },
+                "description": "Number of MultigresCluster resources currently managed.",
+                "fieldConfig": {
+                    "defaults": {
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                }
+                            ]
+                        },
+                        "unit": "short"
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 4,
+                    "w": 6,
+                    "x": 0,
+                    "y": 1
+                },
+                "id": 51,
+                "options": {
+                    "colorMode": "value",
+                    "graphMode": "none",
+                    "justifyMode": "auto",
+                    "orientation": "auto",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "",
+                        "values": false
+                    },
+                    "textMode": "auto"
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "count(multigres_operator_cluster_info)",
+                        "legendFormat": "Clusters"
+                    }
+                ],
+                "title": "Total Clusters",
+                "type": "stat"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus-uid"
+                },
+                "description": "Total number of cells across all clusters.",
+                "fieldConfig": {
+                    "defaults": {
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                }
+                            ]
+                        },
+                        "unit": "short"
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 4,
+                    "w": 6,
+                    "x": 6,
+                    "y": 1
+                },
+                "id": 52,
+                "options": {
+                    "colorMode": "value",
+                    "graphMode": "none",
+                    "justifyMode": "auto",
+                    "orientation": "auto",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "",
+                        "values": false
+                    },
+                    "textMode": "auto"
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "sum(multigres_operator_cluster_cells_total)",
+                        "legendFormat": "Cells"
+                    }
+                ],
+                "title": "Total Cells",
+                "type": "stat"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus-uid"
+                },
+                "description": "Total number of shards across all clusters.",
+                "fieldConfig": {
+                    "defaults": {
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                }
+                            ]
+                        },
+                        "unit": "short"
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 4,
+                    "w": 6,
+                    "x": 12,
+                    "y": 1
+                },
+                "id": 53,
+                "options": {
+                    "colorMode": "value",
+                    "graphMode": "none",
+                    "justifyMode": "auto",
+                    "orientation": "auto",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "",
+                        "values": false
+                    },
+                    "textMode": "auto"
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "sum(multigres_operator_cluster_shards_total)",
+                        "legendFormat": "Shards"
+                    }
+                ],
+                "title": "Total Shards",
+                "type": "stat"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus-uid"
+                },
+                "description": "Number of clusters currently in Error phase.",
+                "fieldConfig": {
+                    "defaults": {
+                        "mappings": [],
+                        "noValue": "0",
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                },
+                                {
+                                    "color": "red",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        "unit": "short"
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 4,
+                    "w": 6,
+                    "x": 18,
+                    "y": 1
+                },
+                "id": 54,
+                "options": {
+                    "colorMode": "value",
+                    "graphMode": "none",
+                    "justifyMode": "auto",
+                    "orientation": "auto",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "",
+                        "values": false
+                    },
+                    "textMode": "auto"
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "count(multigres_operator_cluster_info{phase=\"Error\"}) or vector(0)",
+                        "legendFormat": "Errors"
+                    }
+                ],
+                "title": "Clusters in Error",
+                "type": "stat"
+            },
+            {
+                "collapsed": false,
+                "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 5
+                },
+                "id": 100,
+                "title": "Cluster Overview",
+                "type": "row"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus-uid"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "fixed",
+                            "fixedColor": "text"
+                        },
+                        "custom": {
+                            "align": "center",
+                            "cellOptions": {
+                                "type": "color-text"
+                            }
+                        },
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": [
+                        {
+                            "matcher": {
+                                "id": "byName",
+                                "options": "phase"
+                            },
+                            "properties": [
+                                {
+                                    "id": "mappings",
+                                    "value": [
+                                        {
+                                            "type": "value",
+                                            "options": {
+                                                "Healthy": {
+                                                    "color": "green",
+                                                    "text": "Healthy"
+                                                },
+                                                "Provisioning": {
+                                                    "color": "yellow",
+                                                    "text": "Provisioning"
+                                                },
+                                                "Degraded": {
+                                                    "color": "orange",
+                                                    "text": "Degraded"
+                                                },
+                                                "Error": {
+                                                    "color": "red",
+                                                    "text": "Error"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "custom.cellOptions",
+                                    "value": {
+                                        "type": "color-text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "matcher": {
+                                "id": "byName",
+                                "options": "Value"
+                            },
+                            "properties": [
+                                {
+                                    "id": "custom.hidden",
+                                    "value": true
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "gridPos": {
+                    "h": 6,
+                    "w": 24,
+                    "x": 0,
+                    "y": 6
+                },
+                "id": 1,
+                "options": {
+                    "showHeader": true,
+                    "sortBy": [
+                        {
+                            "displayName": "name"
+                        }
+                    ]
+                },
+                "title": "Cluster Phases",
+                "type": "table",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "multigres_operator_cluster_info == 1",
+                        "format": "table",
+                        "instant": true
+                    }
+                ],
+                "transformations": [
+                    {
+                        "id": "filterFieldsByName",
+                        "options": {
+                            "include": {
+                                "names": [
+                                    "name",
+                                    "namespace",
+                                    "phase"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus-uid"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        },
+                        "custom": {
+                            "axisBorderShow": false,
+                            "axisCenteredZero": false,
+                            "drawStyle": "line",
+                            "fillOpacity": 15,
+                            "gradientMode": "opacity",
+                            "lineWidth": 2,
+                            "pointSize": 5,
+                            "showPoints": "never",
+                            "spanNulls": false,
+                            "stacking": {
+                                "mode": "none"
+                            }
+                        },
+                        "unit": "short"
+                    }
+                },
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 12
+                },
+                "id": 2,
+                "options": {
+                    "legend": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "displayMode": "table",
+                        "placement": "bottom"
+                    },
+                    "tooltip": {
+                        "mode": "multi",
+                        "sort": "desc"
+                    }
+                },
+                "title": "Cells per Cluster",
+                "type": "timeseries",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "multigres_operator_cluster_cells_total",
+                        "legendFormat": "{{cluster}} ({{namespace}})"
+                    }
+                ]
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus-uid"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        },
+                        "custom": {
+                            "axisBorderShow": false,
+                            "axisCenteredZero": false,
+                            "drawStyle": "line",
+                            "fillOpacity": 15,
+                            "gradientMode": "opacity",
+                            "lineWidth": 2,
+                            "pointSize": 5,
+                            "showPoints": "never",
+                            "spanNulls": false,
+                            "stacking": {
+                                "mode": "none"
+                            }
+                        },
+                        "unit": "short"
+                    }
+                },
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 12
+                },
+                "id": 3,
+                "options": {
+                    "legend": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "displayMode": "table",
+                        "placement": "bottom"
+                    },
+                    "tooltip": {
+                        "mode": "multi",
+                        "sort": "desc"
+                    }
+                },
+                "title": "Shards per Cluster",
+                "type": "timeseries",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "multigres_operator_cluster_shards_total",
+                        "legendFormat": "{{cluster}} ({{namespace}})"
+                    }
+                ]
+            },
+            {
+                "collapsed": false,
+                "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 20
+                },
+                "id": 101,
+                "title": "Cell Gateways",
+                "type": "row"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus-uid"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        },
+                        "custom": {
+                            "axisBorderShow": false,
+                            "axisCenteredZero": false,
+                            "drawStyle": "line",
+                            "fillOpacity": 15,
+                            "gradientMode": "opacity",
+                            "lineWidth": 2,
+                            "pointSize": 5,
+                            "showPoints": "never",
+                            "spanNulls": false,
+                            "stacking": {
+                                "mode": "none"
+                            }
+                        },
+                        "unit": "short"
+                    },
+                    "overrides": [
+                        {
+                            "matcher": {
+                                "id": "byRegexp",
+                                "options": ".*desired.*"
+                            },
+                            "properties": [
+                                {
+                                    "id": "custom.lineStyle",
+                                    "value": {
+                                        "fill": "dash",
+                                        "dash": [
+                                            10,
+                                            10
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "gridPos": {
+                    "h": 8,
+                    "w": 24,
+                    "x": 0,
+                    "y": 21
+                },
+                "id": 4,
+                "options": {
+                    "legend": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "displayMode": "table",
+                        "placement": "bottom"
+                    },
+                    "tooltip": {
+                        "mode": "multi",
+                        "sort": "desc"
+                    }
+                },
+                "title": "MultiGateway Replicas (Desired vs Ready)",
+                "type": "timeseries",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "multigres_operator_cell_gateway_replicas{state=\"desired\"}",
+                        "legendFormat": "{{cell}} desired"
+                    },
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "multigres_operator_cell_gateway_replicas{state=\"ready\"}",
+                        "legendFormat": "{{cell}} ready"
+                    }
+                ]
+            },
+            {
+                "collapsed": false,
+                "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 29
+                },
+                "id": 102,
+                "title": "Shard Pools",
+                "type": "row"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus-uid"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        },
+                        "custom": {
+                            "axisBorderShow": false,
+                            "axisCenteredZero": false,
+                            "drawStyle": "line",
+                            "fillOpacity": 15,
+                            "gradientMode": "opacity",
+                            "lineWidth": 2,
+                            "pointSize": 5,
+                            "showPoints": "never",
+                            "spanNulls": false,
+                            "stacking": {
+                                "mode": "none"
+                            }
+                        },
+                        "unit": "short"
+                    },
+                    "overrides": [
+                        {
+                            "matcher": {
+                                "id": "byRegexp",
+                                "options": ".*desired.*"
+                            },
+                            "properties": [
+                                {
+                                    "id": "custom.lineStyle",
+                                    "value": {
+                                        "fill": "dash",
+                                        "dash": [
+                                            10,
+                                            10
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "gridPos": {
+                    "h": 8,
+                    "w": 24,
+                    "x": 0,
+                    "y": 30
+                },
+                "id": 5,
+                "options": {
+                    "legend": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "displayMode": "table",
+                        "placement": "bottom"
+                    },
+                    "tooltip": {
+                        "mode": "multi",
+                        "sort": "desc"
+                    }
+                },
+                "title": "Pool Replicas (Desired vs Ready)",
+                "type": "timeseries",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "multigres_operator_shard_pool_replicas{state=\"desired\"}",
+                        "legendFormat": "{{shard}}/{{pool}} desired"
+                    },
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "multigres_operator_shard_pool_replicas{state=\"ready\"}",
+                        "legendFormat": "{{shard}}/{{pool}} ready"
+                    }
+                ]
+            },
+            {
+                "collapsed": false,
+                "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 38
+                },
+                "id": 103,
+                "title": "TopoServer",
+                "type": "row"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus-uid"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        },
+                        "custom": {
+                            "axisBorderShow": false,
+                            "axisCenteredZero": false,
+                            "drawStyle": "line",
+                            "fillOpacity": 15,
+                            "gradientMode": "opacity",
+                            "lineWidth": 2,
+                            "pointSize": 5,
+                            "showPoints": "never",
+                            "spanNulls": false,
+                            "stacking": {
+                                "mode": "none"
+                            }
+                        },
+                        "unit": "short"
+                    },
+                    "overrides": [
+                        {
+                            "matcher": {
+                                "id": "byRegexp",
+                                "options": ".*desired.*"
+                            },
+                            "properties": [
+                                {
+                                    "id": "custom.lineStyle",
+                                    "value": {
+                                        "fill": "dash",
+                                        "dash": [
+                                            10,
+                                            10
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "gridPos": {
+                    "h": 8,
+                    "w": 24,
+                    "x": 0,
+                    "y": 39
+                },
+                "id": 6,
+                "options": {
+                    "legend": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "displayMode": "table",
+                        "placement": "bottom"
+                    },
+                    "tooltip": {
+                        "mode": "multi",
+                        "sort": "desc"
+                    }
+                },
+                "title": "TopoServer Replicas (Desired vs Ready)",
+                "type": "timeseries",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "multigres_operator_toposerver_replicas{state=\"desired\"}",
+                        "legendFormat": "{{name}} desired"
+                    },
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "multigres_operator_toposerver_replicas{state=\"ready\"}",
+                        "legendFormat": "{{name}} ready"
+                    }
+                ]
+            },
+            {
+                "collapsed": false,
+                "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 47
+                },
+                "id": 104,
+                "title": "Backup & Drain Operations",
+                "type": "row"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus-uid"
+                },
+                "description": "Age of the most recent completed backup per shard. Values above 24h (orange) or 48h (red) indicate backup issues.",
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        },
+                        "custom": {
+                            "axisBorderShow": false,
+                            "axisCenteredZero": false,
+                            "drawStyle": "line",
+                            "fillOpacity": 10,
+                            "gradientMode": "opacity",
+                            "lineWidth": 2,
+                            "pointSize": 5,
+                            "showPoints": "never",
+                            "spanNulls": false,
+                            "stacking": {
+                                "mode": "none"
+                            },
+                            "thresholdsStyle": {
+                                "mode": "line"
+                            }
+                        },
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                },
+                                {
+                                    "color": "orange",
+                                    "value": 86400
+                                },
+                                {
+                                    "color": "red",
+                                    "value": 172800
+                                }
+                            ]
+                        },
+                        "unit": "s"
+                    }
+                },
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 48
+                },
+                "id": 7,
+                "options": {
+                    "legend": {
+                        "calcs": [
+                            "lastNotNull",
+                            "max"
+                        ],
+                        "displayMode": "table",
+                        "placement": "bottom"
+                    },
+                    "tooltip": {
+                        "mode": "multi",
+                        "sort": "desc"
+                    }
+                },
+                "title": "Last Backup Age",
+                "type": "timeseries",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "multigres_operator_last_backup_age_seconds",
+                        "legendFormat": "{{cluster}}/{{shard}} ({{namespace}})"
+                    }
+                ]
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus-uid"
+                },
+                "description": "Rate of graceful pod drain operations by result (success, timeout, failure).",
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        },
+                        "custom": {
+                            "axisBorderShow": false,
+                            "axisCenteredZero": false,
+                            "axisLabel": "ops/s",
+                            "drawStyle": "bars",
+                            "fillOpacity": 60,
+                            "gradientMode": "opacity",
+                            "lineWidth": 1,
+                            "pointSize": 5,
+                            "showPoints": "never",
+                            "spanNulls": false,
+                            "stacking": {
+                                "mode": "normal"
+                            }
+                        },
+                        "unit": "ops"
+                    },
+                    "overrides": [
+                        {
+                            "matcher": {
+                                "id": "byRegexp",
+                                "options": ".*(timeout|failure).*"
+                            },
+                            "properties": [
+                                {
+                                    "id": "color",
+                                    "value": {
+                                        "fixedColor": "red",
+                                        "mode": "fixed"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 48
+                },
+                "id": 8,
+                "options": {
+                    "legend": {
+                        "calcs": [
+                            "sum"
+                        ],
+                        "displayMode": "table",
+                        "placement": "bottom"
+                    },
+                    "tooltip": {
+                        "mode": "multi",
+                        "sort": "desc"
+                    }
+                },
+                "title": "Drain Operations",
+                "type": "timeseries",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "sum by (cluster, shard, result) (rate(multigres_operator_drain_operations_total[5m]))",
+                        "legendFormat": "{{cluster}}/{{shard}} {{result}}"
+                    }
+                ]
+            },
+            {
+                "collapsed": false,
+                "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 56
+                },
+                "id": 105,
+                "title": "Rolling Updates",
+                "type": "row"
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus-uid"
+                },
+                "description": "Indicates which pools are currently performing a rolling update (value 1 = active).",
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        },
+                        "custom": {
+                            "axisBorderShow": false,
+                            "axisCenteredZero": false,
+                            "drawStyle": "line",
+                            "fillOpacity": 30,
+                            "gradientMode": "opacity",
+                            "lineWidth": 2,
+                            "pointSize": 5,
+                            "showPoints": "never",
+                            "spanNulls": false,
+                            "stacking": {
+                                "mode": "none"
+                            }
+                        },
+                        "mappings": [
+                            {
+                                "type": "value",
+                                "options": {
+                                    "0": {
+                                        "text": "Idle"
+                                    },
+                                    "1": {
+                                        "text": "Rolling"
+                                    }
+                                }
+                            }
+                        ],
+                        "unit": "short"
+                    }
+                },
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 57
+                },
+                "id": 9,
+                "options": {
+                    "legend": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "displayMode": "table",
+                        "placement": "bottom"
+                    },
+                    "tooltip": {
+                        "mode": "multi",
+                        "sort": "desc"
+                    }
+                },
+                "title": "Rolling Update In Progress",
+                "type": "timeseries",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "multigres_operator_rolling_update_in_progress",
+                        "legendFormat": "{{shard}}/{{pool}} in {{cell}}"
+                    }
+                ]
+            },
+            {
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus-uid"
+                },
+                "description": "Number of pool pods with a spec-hash mismatch from the desired configuration. Non-zero values indicate pods pending a rolling update.",
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        },
+                        "custom": {
+                            "axisBorderShow": false,
+                            "axisCenteredZero": false,
+                            "drawStyle": "line",
+                            "fillOpacity": 15,
+                            "gradientMode": "opacity",
+                            "lineWidth": 2,
+                            "pointSize": 5,
+                            "showPoints": "never",
+                            "spanNulls": false,
+                            "stacking": {
+                                "mode": "none"
+                            },
+                            "thresholdsStyle": {
+                                "mode": "line"
+                            }
+                        },
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                },
+                                {
+                                    "color": "orange",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        "unit": "short"
+                    }
+                },
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 57
+                },
+                "id": 10,
+                "options": {
+                    "legend": {
+                        "calcs": [
+                            "lastNotNull",
+                            "max"
+                        ],
+                        "displayMode": "table",
+                        "placement": "bottom"
+                    },
+                    "tooltip": {
+                        "mode": "multi",
+                        "sort": "desc"
+                    }
+                },
+                "title": "Spec-Hash Drifted Pods",
+                "type": "timeseries",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus-uid"
+                        },
+                        "expr": "multigres_operator_pool_pods_drifted",
+                        "legendFormat": "{{shard}}/{{pool}} in {{cell}}"
+                    }
+                ]
+            }
+        ],
+        "refresh": "10s",
+        "schemaVersion": 39,
+        "tags": [
+            "multigres",
+            "cluster",
+            "kubernetes"
+        ],
+        "templating": {
+            "list": []
+        },
+        "time": {
+            "from": "now-1h",
+            "to": "now"
+        },
+        "timepicker": {},
+        "timezone": "browser",
+        "title": "Multigres Cluster Health",
+        "uid": "multigres-cluster-health",
+        "version": 1
+    }
+  data-plane.json: |
+    {
+      "annotations": {
+        "list": []
+      },
+      "editable": true,
+      "fiscalYearStartMonth": 0,
+      "graphTooltip": 1,
+      "id": null,
+      "links": [
+        {
+          "asDropdown": false,
+          "icon": "external link",
+          "tags": [],
+          "title": "Operator Overview",
+          "type": "link",
+          "url": "/d/multigres-operator-overview"
+        },
+        {
+          "asDropdown": false,
+          "icon": "external link",
+          "tags": [],
+          "title": "Cluster Health",
+          "type": "link",
+          "url": "/d/multigres-cluster-health"
+        }
+      ],
+      "panels": [
+        {
+          "collapsed": false,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          },
+          "id": 500,
+          "panels": [],
+          "title": "SQL Queries - Multigateway and Lite (Minigres)",
+          "type": "row"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "SQL queries per second handled by the gateway, by cluster, component, database and status. Covers multigateway in distributed clusters and Minigres in Lite clusters, which runs queries in-process, so its query traffic produces no gRPC metrics. Built from mg.gateway.query.duration exported as an exponential histogram. The cluster comes from target_info, reduced to one series per pod so a pod replaced during an upgrade does not break the join.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "reqps"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 1
+          },
+          "id": 23,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "sum by (multigres_cluster, job, db_namespace, status) (sum by (job, instance, db_namespace, status) (histogram_count(rate(mg_gateway_query_duration_seconds{job=~\"multigateway|minigres\"}[$__rate_interval]))) * on (job, instance) group_left (multigres_cluster) max by (job, instance, multigres_cluster) (target_info{job=~\"multigateway|minigres\"}))",
+              "legendFormat": "{{multigres_cluster}} {{job}} {{db_namespace}} [{{status}}]",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "SQL Query Rate",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "SQL query latency percentiles measured by the gateway, by cluster, component and database. Covers multigateway in distributed clusters and Minigres in Lite clusters. The histogram is in seconds.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 1
+          },
+          "id": 24,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.95, sum by (multigres_cluster, job, db_namespace) (sum by (job, instance, db_namespace) (rate(mg_gateway_query_duration_seconds{job=~\"multigateway|minigres\"}[$__rate_interval])) * on (job, instance) group_left (multigres_cluster) max by (job, instance, multigres_cluster) (target_info{job=~\"multigateway|minigres\"})))",
+              "legendFormat": "p95 - {{multigres_cluster}} {{job}} {{db_namespace}}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.50, sum by (multigres_cluster, job, db_namespace) (sum by (job, instance, db_namespace) (rate(mg_gateway_query_duration_seconds{job=~\"multigateway|minigres\"}[$__rate_interval])) * on (job, instance) group_left (multigres_cluster) max by (job, instance, multigres_cluster) (target_info{job=~\"multigateway|minigres\"})))",
+              "legendFormat": "p50 - {{multigres_cluster}} {{job}} {{db_namespace}}",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "SQL Query Latency",
+          "type": "timeseries"
+        },
+        {
+          "collapsed": false,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 10
+          },
+          "id": 100,
+          "panels": [],
+          "title": "Multigateway - Client Gateway",
+          "type": "row"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "HTTP response status codes over time. Click on data points to view traces in Tempo.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "reqps"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 11
+          },
+          "id": 1,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "sum by (http_response_status_code, http_request_method) (histogram_count(rate(http_server_request_duration_seconds{job=~\"multigateway|multiadmin\"}[$__rate_interval])))",
+              "legendFormat": "{{http_request_method}} [{{http_response_status_code}}]",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "HTTP Response Codes",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "HTTP request latency percentiles. Click on data points to view traces in Tempo.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 11
+          },
+          "id": 2,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.95, sum by (http_request_method) (rate(http_server_request_duration_seconds{job=~\"multigateway|multiadmin\"}[$__rate_interval])))",
+              "legendFormat": "p95 - {{http_request_method}}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.50, sum by (http_request_method) (rate(http_server_request_duration_seconds{job=~\"multigateway|multiadmin\"}[$__rate_interval])))",
+              "legendFormat": "p50 - {{http_request_method}}",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "HTTP Latency",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Outgoing gRPC calls from multigateway to multipooler. Status code 0 = OK. Click on data points to view traces in Tempo. Multigateway calls come from distributed clusters only; multiadmin calls appear for Lite clusters too. Lite (Minigres) query traffic does not go over gRPC; see the SQL Queries row.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "reqps"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 20
+          },
+          "id": 3,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "sum by (rpc_service, rpc_method, rpc_grpc_status_code) (histogram_count(rate(rpc_client_duration_milliseconds{job=~\"multigateway|multiadmin\"}[$__rate_interval])))",
+              "legendFormat": "{{rpc_service}}.{{rpc_method}} [{{rpc_grpc_status_code}}]",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "gRPC Client Response Codes",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Latency for multigateway -> multipooler gRPC calls. Click on data points to view traces in Tempo. Multigateway calls come from distributed clusters only; multiadmin calls appear for Lite clusters too. Lite (Minigres) query traffic does not go over gRPC; see the SQL Queries row.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 20
+          },
+          "id": 4,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.95, sum by (rpc_service, rpc_method) (rate(rpc_client_duration_milliseconds{job=~\"multigateway|multiadmin\"}[$__rate_interval]))) / 1000",
+              "legendFormat": "p95 - {{rpc_service}}.{{rpc_method}}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.50, sum by (rpc_service, rpc_method) (rate(rpc_client_duration_milliseconds{job=~\"multigateway|multiadmin\"}[$__rate_interval]))) / 1000",
+              "legendFormat": "p50 - {{rpc_service}}.{{rpc_method}}",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "gRPC Client Latency",
+          "type": "timeseries"
+        },
+        {
+          "collapsed": false,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 29
+          },
+          "id": 200,
+          "panels": [],
+          "title": "Multipooler - Connection Pooling",
+          "type": "row"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Incoming gRPC requests to multipooler. Status code 0 = OK. Click on data points to view traces in Tempo. Distributed clusters only: Lite (Minigres) serves queries in-process, so its query traffic does not appear here; see the SQL Queries row.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "reqps"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 30
+          },
+          "id": 5,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "sum by (rpc_method, rpc_grpc_status_code) (histogram_count(rate(rpc_server_duration_milliseconds{job=\"multipooler\"}[$__rate_interval])))",
+              "legendFormat": "{{rpc_method}} [{{rpc_grpc_status_code}}]",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "gRPC Server Response Codes (distributed)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Latency for incoming multipooler gRPC requests. Click on data points to view traces in Tempo. Distributed clusters only: Lite (Minigres) serves queries in-process, so its query traffic does not appear here; see the SQL Queries row.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 30
+          },
+          "id": 6,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.95, sum by (rpc_method) (rate(rpc_server_duration_milliseconds{job=\"multipooler\"}[$__rate_interval]))) / 1000",
+              "legendFormat": "p95 - {{rpc_method}}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.50, sum by (rpc_method) (rate(rpc_server_duration_milliseconds{job=\"multipooler\"}[$__rate_interval]))) / 1000",
+              "legendFormat": "p50 - {{rpc_method}}",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "gRPC Server Latency (distributed)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Outgoing gRPC calls from multipooler to pgctld. Status code 0 = OK. Click on data points to view traces in Tempo. Selects job multipooler only, so Lite (Minigres) pods do not appear here.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "reqps"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 39
+          },
+          "id": 7,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "sum by (rpc_service, rpc_method, rpc_grpc_status_code) (histogram_count(rate(rpc_client_duration_milliseconds{job=\"multipooler\"}[$__rate_interval])))",
+              "legendFormat": "{{rpc_service}}.{{rpc_method}} [{{rpc_grpc_status_code}}]",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "gRPC Client Response Codes (to pgctld, distributed)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Latency for multipooler -> pgctld gRPC calls. Click on data points to view traces in Tempo. Selects job multipooler only, so Lite (Minigres) pods do not appear here.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 39
+          },
+          "id": 8,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.95, sum by (rpc_service, rpc_method) (rate(rpc_client_duration_milliseconds{job=\"multipooler\"}[$__rate_interval]))) / 1000",
+              "legendFormat": "p95 - {{rpc_service}}.{{rpc_method}}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.50, sum by (rpc_service, rpc_method) (rate(rpc_client_duration_milliseconds{job=\"multipooler\"}[$__rate_interval]))) / 1000",
+              "legendFormat": "p50 - {{rpc_service}}.{{rpc_method}}",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "gRPC Client Latency (to pgctld, distributed)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "PostgreSQL connection states by pool. Idle = available connections, Used = active connections. Stacked to show total pool size. Will appear once db.client.connection.count is wired up. Selects job multipooler only, so Lite (Minigres) pods do not appear here.",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "fillOpacity": 10,
+                "stacking": {
+                  "mode": "normal"
+                }
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 48
+          },
+          "id": 9,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "db_client_connection_count{job=\"multipooler\"}",
+              "legendFormat": "{{db_client_connection_pool_name}} - {{db_client_connection_state}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "PostgreSQL Connection Pool States (distributed)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Cached gRPC connections to downstream services (pgctld).",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 48
+          },
+          "id": 10,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "expr": "rpcclient_connection_cache_size",
+              "legendFormat": "Cache size",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "gRPC Connection Cache Size",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "gRPC connection pool efficiency. High reuse rate is good. High create rate may indicate connection churn.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "ops"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 57
+          },
+          "id": 11,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "expr": "rate(rpcclient_connection_reuses_total[$__rate_interval])",
+              "legendFormat": "Reuses/s",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "expr": "rate(rpcclient_connection_creates_total[$__rate_interval])",
+              "legendFormat": "Creates/s",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "gRPC Connection Pool Operations",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Time to establish gRPC connections by dial path. Click on data points to view traces in Tempo.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 57
+          },
+          "id": 12,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.95, sum by (path) (rate(rpcclient_connection_dial_duration_seconds[$__rate_interval])))",
+              "legendFormat": "p95 - {{path}}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.50, sum by (path) (rate(rpcclient_connection_dial_duration_seconds[$__rate_interval])))",
+              "legendFormat": "p50 - {{path}}",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "gRPC Connection Dial Duration",
+          "type": "timeseries"
+        },
+        {
+          "collapsed": false,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 66
+          },
+          "id": 300,
+          "panels": [],
+          "title": "Multiorch - Orchestration & Recovery",
+          "type": "row"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Outgoing gRPC calls from multiorch to multipooler. Status code 0 = OK. Click on data points to view traces in Tempo.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "reqps"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 67
+          },
+          "id": 13,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "sum by (rpc_service, rpc_method, rpc_grpc_status_code) (histogram_count(rate(rpc_client_duration_milliseconds{job=\"multiorch\"}[$__rate_interval])))",
+              "legendFormat": "{{rpc_service}}.{{rpc_method}} [{{rpc_grpc_status_code}}]",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "gRPC Client Response Codes (to multipooler)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Latency for multiorch -> multipooler gRPC calls. Click on data points to view traces in Tempo.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 67
+          },
+          "id": 14,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.95, sum by (rpc_service, rpc_method) (rate(rpc_client_duration_milliseconds{job=\"multiorch\"}[$__rate_interval]))) / 1000",
+              "legendFormat": "p95 - {{rpc_service}}.{{rpc_method}}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.50, sum by (rpc_service, rpc_method) (rate(rpc_client_duration_milliseconds{job=\"multiorch\"}[$__rate_interval]))) / 1000",
+              "legendFormat": "p50 - {{rpc_service}}.{{rpc_method}}",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "gRPC Client Latency (to multipooler)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Recovery actions executed by the multiorch recovery engine. Click on data points to view traces in Tempo.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 76
+          },
+          "id": 15,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "sum by (action, status) (histogram_count(rate(multiorch_recovery_action_duration_milliseconds{job=\"multiorch\"}[$__rate_interval])))",
+              "legendFormat": "{{action}} [{{status}}]",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Recovery Actions",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Recovery action duration percentiles by action type. Click on data points to view traces in Tempo.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 76
+          },
+          "id": 16,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.95, sum by (action) (rate(multiorch_recovery_action_duration_milliseconds{job=\"multiorch\"}[$__rate_interval])))",
+              "legendFormat": "p95 - {{action}}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.50, sum by (action) (rate(multiorch_recovery_action_duration_milliseconds{job=\"multiorch\"}[$__rate_interval])))",
+              "legendFormat": "p50 - {{action}}",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "Recovery Action Duration",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Active problems detected by recovery analyzer. Value of 1 indicates problem is present. Empty when no problems detected.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 85
+          },
+          "id": 17,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "expr": "multiorch_recovery_detected_problems{job=\"multiorch\"}",
+              "legendFormat": "{{analysis_type}} - {{db_namespace}}/{{shard}} [{{pooler_id}}]",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Detected Problems",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Time to poll individual pooler instances for health. Click on data points to view traces in Tempo.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 85
+          },
+          "id": 18,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.95, sum by (db_namespace, status) (rate(multiorch_recovery_pooler_poll_duration_seconds{job=\"multiorch\"}[$__rate_interval])))",
+              "legendFormat": "p95 - {{db_namespace}} [{{status}}]",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.50, sum by (db_namespace, status) (rate(multiorch_recovery_pooler_poll_duration_seconds{job=\"multiorch\"}[$__rate_interval])))",
+              "legendFormat": "p50 - {{db_namespace}} [{{status}}]",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "Pooler Health Check Duration",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Number of poolers tracked by recovery engine.",
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 6,
+            "x": 0,
+            "y": 94
+          },
+          "id": 19,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "10.0.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "expr": "multiorch_recovery_pooler_store_size{job=\"multiorch\"}",
+              "legendFormat": "Poolers",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Pooler Store Size",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Time to refresh cluster metadata from topology. Click on data points to view traces in Tempo.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 18,
+            "x": 6,
+            "y": 94
+          },
+          "id": 20,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.95, sum(rate(multiorch_recovery_cluster_metadata_refresh_duration_seconds{job=\"multiorch\"}[$__rate_interval])))",
+              "legendFormat": "p95",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.50, sum(rate(multiorch_recovery_cluster_metadata_refresh_duration_seconds{job=\"multiorch\"}[$__rate_interval])))",
+              "legendFormat": "p50",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "Cluster Metadata Refresh Duration",
+          "type": "timeseries"
+        },
+        {
+          "collapsed": false,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 103
+          },
+          "id": 400,
+          "panels": [],
+          "title": "Topology & Consensus",
+          "type": "row"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Topology lock operations by type and result. Click on data points to view traces in Tempo.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "ops"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 104
+          },
+          "id": 21,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "sum by (operation, result, resource_type) (histogram_count(rate(topoclient_lock_duration_seconds[$__rate_interval])))",
+              "legendFormat": "{{operation}} on {{resource_type}} [{{result}}]",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Topology Lock Operations",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Time to acquire/release topology locks. High duration indicates contention or etcd issues. Click on data points to view traces in Tempo.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 1
+                  },
+                  {
+                    "color": "red",
+                    "value": 5
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 104
+          },
+          "id": 22,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.95, sum by (operation, resource_type) (rate(topoclient_lock_duration_seconds[$__rate_interval])))",
+              "legendFormat": "p95 - {{operation}} on {{resource_type}}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "editorMode": "code",
+              "exemplar": true,
+              "expr": "histogram_quantile(0.50, sum by (operation, resource_type) (rate(topoclient_lock_duration_seconds[$__rate_interval])))",
+              "legendFormat": "p50 - {{operation}} on {{resource_type}}",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "Topology Lock Duration",
+          "type": "timeseries"
+        }
+      ],
+      "refresh": "5s",
+      "schemaVersion": 39,
+      "tags": [
+        "multigres",
+        "data-plane",
+        "kubernetes"
+      ],
+      "templating": {
+        "list": []
+      },
+      "time": {
+        "from": "now-15m",
+        "to": "now"
+      },
+      "timepicker": {},
+      "timezone": "browser",
+      "title": "Multigres Data Plane",
+      "uid": "multigres-data-plane",
+      "version": 0,
+      "weekStart": "",
+      "description": "Data plane telemetry: Multigateway HTTP/gRPC, Multipooler connection pooling, Multiorch recovery, and Topology consensus"
+    }
+  operator-overview.json: |
+    {
+      "annotations": {
+        "list": []
+      },
+      "description": "Operational health of the multigres-operator controller manager",
+      "editable": true,
+      "fiscalYearStartMonth": 0,
+      "graphTooltip": 1,
+      "links": [
+        {
+          "asDropdown": false,
+          "icon": "external link",
+          "tags": [],
+          "title": "Cluster Health",
+          "type": "link",
+          "url": "/d/multigres-cluster-health"
+        },
+        {
+          "asDropdown": false,
+          "icon": "external link",
+          "tags": [],
+          "title": "Data Plane",
+          "type": "link",
+          "url": "/d/multigres-data-plane"
+        }
+      ],
+      "panels": [
+        {
+          "collapsed": false,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          },
+          "id": 50,
+          "title": "At a Glance",
+          "type": "row"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Current aggregate reconcile error rate across all controllers.",
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [],
+              "noValue": "0",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.01
+                  }
+                ]
+              },
+              "unit": "ops"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 0,
+            "y": 1
+          },
+          "id": 51,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "expr": "sum(rate(controller_runtime_reconcile_errors_total[5m])) or vector(0)",
+              "legendFormat": "errors/s"
+            }
+          ],
+          "title": "Reconcile Error Rate",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Total items across all controller work queues waiting to be processed.",
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [],
+              "noValue": "0",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 20
+                  },
+                  {
+                    "color": "red",
+                    "value": 50
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 6,
+            "y": 1
+          },
+          "id": 52,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "expr": "sum(workqueue_depth) or vector(0)",
+              "legendFormat": "items"
+            }
+          ],
+          "title": "Queue Depth",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "99th percentile reconcile latency across all controllers.",
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 10
+                  },
+                  {
+                    "color": "red",
+                    "value": 30
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 12,
+            "y": 1
+          },
+          "id": 53,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "expr": "histogram_quantile(0.99, sum by (le) (rate(controller_runtime_reconcile_time_seconds_bucket[5m])))",
+              "legendFormat": "p99"
+            }
+          ],
+          "title": "p99 Reconcile Latency",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "description": "Current webhook admission error rate.",
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [],
+              "noValue": "0",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.01
+                  }
+                ]
+              },
+              "unit": "ops"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 18,
+            "y": 1
+          },
+          "id": 54,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "expr": "sum(rate(multigres_operator_webhook_request_total{result=\"error\"}[5m])) or vector(0)",
+              "legendFormat": "errors/s"
+            }
+          ],
+          "title": "Webhook Error Rate",
+          "type": "stat"
+        },
+        {
+          "collapsed": false,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 5
+          },
+          "id": 100,
+          "title": "Reconciliation",
+          "type": "row"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisLabel": "ops/s",
+                "drawStyle": "line",
+                "fillOpacity": 15,
+                "gradientMode": "opacity",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "none"
+                }
+              },
+              "unit": "ops"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": ".*error.*"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "red",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 6
+          },
+          "id": 1,
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "title": "Reconcile Rate by Controller",
+          "type": "timeseries",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "expr": "sum by (controller, result) (rate(controller_runtime_reconcile_total[5m]))",
+              "legendFormat": "{{controller}} / {{result}}"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisLabel": "errors/s",
+                "drawStyle": "line",
+                "fillOpacity": 25,
+                "gradientMode": "opacity",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "normal"
+                },
+                "thresholdsStyle": {
+                  "mode": "line"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.01
+                  }
+                ]
+              },
+              "unit": "ops"
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 6
+          },
+          "id": 2,
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "title": "Reconcile Errors by Controller",
+          "type": "timeseries",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "expr": "sum by (controller) (rate(controller_runtime_reconcile_errors_total[5m]))",
+              "legendFormat": "{{controller}}"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisLabel": "seconds",
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "opacity",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "line"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 10
+                  },
+                  {
+                    "color": "red",
+                    "value": 30
+                  }
+                ]
+              },
+              "unit": "s"
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 14
+          },
+          "id": 3,
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "max",
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "title": "Reconcile Duration (p50 / p99)",
+          "type": "timeseries",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "expr": "histogram_quantile(0.50, sum by (controller, le) (rate(controller_runtime_reconcile_time_seconds_bucket[5m])))",
+              "legendFormat": "{{controller}} p50"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "expr": "histogram_quantile(0.99, sum by (controller, le) (rate(controller_runtime_reconcile_time_seconds_bucket[5m])))",
+              "legendFormat": "{{controller}} p99"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisLabel": "items",
+                "drawStyle": "line",
+                "fillOpacity": 15,
+                "gradientMode": "opacity",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "line"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 20
+                  },
+                  {
+                    "color": "red",
+                    "value": 50
+                  }
+                ]
+              },
+              "unit": "short"
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 14
+          },
+          "id": 4,
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "max",
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "title": "Work Queue Depth",
+          "type": "timeseries",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "expr": "workqueue_depth",
+              "legendFormat": "{{name}}"
+            }
+          ]
+        },
+        {
+          "collapsed": false,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 22
+          },
+          "id": 101,
+          "title": "Webhooks",
+          "type": "row"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisLabel": "req/s",
+                "drawStyle": "bars",
+                "fillOpacity": 60,
+                "gradientMode": "opacity",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "normal"
+                }
+              },
+              "unit": "reqps"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": ".*error.*"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "red",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 23
+          },
+          "id": 5,
+          "options": {
+            "legend": {
+              "calcs": [
+                "sum"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "title": "Webhook Request Rate",
+          "type": "timeseries",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "expr": "sum by (operation, result) (rate(multigres_operator_webhook_request_total[5m]))",
+              "legendFormat": "{{operation}} / {{result}}"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisLabel": "seconds",
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "opacity",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "none"
+                }
+              },
+              "unit": "s"
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 23
+          },
+          "id": 6,
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "title": "Webhook Latency (p50 / p99)",
+          "type": "timeseries",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "expr": "histogram_quantile(0.50, sum by (operation, le) (rate(multigres_operator_webhook_request_duration_seconds_bucket[5m])))",
+              "legendFormat": "{{operation}} p50"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "expr": "histogram_quantile(0.99, sum by (operation, le) (rate(multigres_operator_webhook_request_duration_seconds_bucket[5m])))",
+              "legendFormat": "{{operation}} p99"
+            }
+          ]
+        },
+        {
+          "collapsed": false,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 31
+          },
+          "id": 102,
+          "title": "Go Runtime",
+          "type": "row"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "drawStyle": "line",
+                "fillOpacity": 15,
+                "gradientMode": "opacity",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "none"
+                }
+              },
+              "unit": "short"
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 32
+          },
+          "id": 7,
+          "options": {
+            "legend": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "title": "Goroutines",
+          "type": "timeseries",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "expr": "go_goroutines{job=~\".*multigres.*\"}",
+              "legendFormat": "goroutines"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "drawStyle": "line",
+                "fillOpacity": 15,
+                "gradientMode": "opacity",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "none"
+                }
+              },
+              "unit": "bytes"
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 8,
+            "y": 32
+          },
+          "id": 8,
+          "options": {
+            "legend": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "title": "Memory",
+          "type": "timeseries",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "expr": "process_resident_memory_bytes{job=~\".*multigres.*\"}",
+              "legendFormat": "RSS"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "expr": "go_memstats_heap_alloc_bytes{job=~\".*multigres.*\"}",
+              "legendFormat": "Heap Alloc"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus-uid"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "drawStyle": "line",
+                "fillOpacity": 15,
+                "gradientMode": "opacity",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "none"
+                }
+              },
+              "unit": "s"
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 16,
+            "y": 32
+          },
+          "id": 9,
+          "options": {
+            "legend": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "title": "GC Pause Duration",
+          "type": "timeseries",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus-uid"
+              },
+              "expr": "rate(go_gc_duration_seconds_sum{job=~\".*multigres.*\"}[5m])",
+              "legendFormat": "GC time/s"
+            }
+          ]
+        }
+      ],
+      "refresh": "10s",
+      "schemaVersion": 39,
+      "tags": [
+        "multigres",
+        "operator",
+        "kubernetes"
+      ],
+      "templating": {
+        "list": []
+      },
+      "time": {
+        "from": "now-1h",
+        "to": "now"
+      },
+      "timepicker": {},
+      "timezone": "browser",
+      "title": "Multigres Operator Overview",
+      "uid": "multigres-operator-overview",
+      "version": 1
+    }
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-multigres
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    app.kubernetes.io/component: monitoring
+    app.kubernetes.io/name: multigres-operator
+  name: multigres-operator-alerts
+spec:
+  groups:
+  - name: multigres-operator.rules
+    rules:
+    - alert: MultigresClusterReconcileErrors
+      annotations:
+        description: 'Controller {{ $labels.controller }} has had a non-zero reconcile
+          error rate for {{ $labels.namespace }}/{{ $labels.name }} over the last
+          5 minutes (current: {{ $value | humanize }}/s).'
+        runbook_url: https://github.com/multigres/multigres-operator/blob/main/docs/monitoring/runbooks/MultigresClusterReconcileErrors.md
+        summary: MultigresCluster controller is failing reconciles
+      expr: rate(multigres_operator_reconcile_errors_total[5m]) > 0
+      for: 5m
+      labels:
+        severity: warning
+    - alert: MultigresClusterDegraded
+      annotations:
+        description: Cluster {{ $labels.name }} in namespace {{ $labels.namespace
+          }} has been in phase "{{ $labels.phase }}" for more than 10 minutes.
+        runbook_url: https://github.com/multigres/multigres-operator/blob/main/docs/monitoring/runbooks/MultigresClusterDegraded.md
+        summary: MultigresCluster {{ $labels.name }} is degraded
+      expr: multigres_operator_cluster_info{phase!="Healthy"} == 1
+      for: 10m
+      labels:
+        severity: warning
+    - alert: MultigresCellGatewayUnavailable
+      annotations:
+        description: Cell {{ $labels.cell }} in namespace {{ $labels.namespace }}
+          has had zero ready MultiGateway replicas for 5 minutes. Traffic cannot be
+          routed to this cell.
+        runbook_url: https://github.com/multigres/multigres-operator/blob/main/docs/monitoring/runbooks/MultigresCellGatewayUnavailable.md
+        summary: Cell {{ $labels.cell }} has zero ready gateway replicas
+      expr: multigres_operator_cell_gateway_replicas{state="ready"} == 0
+      for: 5m
+      labels:
+        severity: critical
+    - alert: MultigresShardPoolDegraded
+      annotations:
+        description: Pool {{ $labels.pool }} of shard {{ $labels.shard }} in namespace
+          {{ $labels.namespace }} has had fewer ready replicas than desired for more
+          than 10 minutes.
+        runbook_url: https://github.com/multigres/multigres-operator/blob/main/docs/monitoring/runbooks/MultigresShardPoolDegraded.md
+        summary: Shard {{ $labels.shard }} pool {{ $labels.pool }} has fewer ready
+          replicas than desired
+      expr: multigres_operator_shard_pool_replicas{state="ready"} < multigres_operator_shard_pool_replicas{state="desired"}
+      for: 10m
+      labels:
+        severity: warning
+    - alert: MultigresWebhookErrors
+      annotations:
+        description: 'The {{ $labels.operation }} webhook for {{ $labels.resource
+          }} has had a non-zero error rate for the last 5 minutes (current: {{ $value
+          | humanize }}/s).'
+        runbook_url: https://github.com/multigres/multigres-operator/blob/main/docs/monitoring/runbooks/MultigresWebhookErrors.md
+        summary: Multigres admission webhook is returning errors
+      expr: rate(multigres_operator_webhook_request_total{result="error"}[5m]) > 0
+      for: 5m
+      labels:
+        severity: warning
+    - alert: MultigresBackupStale
+      annotations:
+        description: The most recent backup for shard {{ $labels.shard }} in cluster
+          {{ $labels.cluster }} (namespace {{ $labels.namespace }}) is {{ $value |
+          humanizeDuration }} old. Check backup job health.
+        runbook_url: https://github.com/multigres/multigres-operator/blob/main/docs/monitoring/runbooks/MultigresBackupStale.md
+        summary: Shard {{ $labels.shard }} backup is older than 24 hours
+      expr: multigres_operator_last_backup_age_seconds > 86400
+      for: 30m
+      labels:
+        severity: warning
+    - alert: MultigresRollingUpdateStuck
+      annotations:
+        description: Pool {{ $labels.pool }} of shard {{ $labels.shard }} in cell
+          {{ $labels.cell }} (namespace {{ $labels.namespace }}) has been performing
+          a rolling update for more than 30 minutes. Check for pods stuck in pending
+          or crash-looping state.
+        runbook_url: https://github.com/multigres/multigres-operator/blob/main/docs/monitoring/runbooks/MultigresRollingUpdateStuck.md
+        summary: Rolling update stuck for {{ $labels.shard }}/{{ $labels.pool }}
+      expr: multigres_operator_rolling_update_in_progress == 1
+      for: 30m
+      labels:
+        severity: warning
+    - alert: MultigresPoolPodsStuck
+      annotations:
+        description: Pool {{ $labels.pool }} of shard {{ $labels.shard }} in cell
+          {{ $labels.cell }} (namespace {{ $labels.namespace }}) has pods that are
+          not Ready for more than 15 minutes while the cell has Ready, schedulable
+          nodes matching their node selector and required node affinity.
+        runbook_url: https://github.com/multigres/multigres-operator/blob/main/docs/monitoring/runbooks/MultigresPoolPodsStuck.md
+        summary: Pool pods stuck for {{ $labels.shard }}/{{ $labels.pool }}
+      expr: multigres_operator_pool_pods_stuck > 0
+      for: 15m
+      labels:
+        severity: warning
+    - alert: MultigresDrainTimeout
+      annotations:
+        description: Shard {{ $labels.shard }} in cluster {{ $labels.cluster }} has
+          had drain timeouts for the last 10 minutes. Pods may be stuck in a drain
+          state. Check pod logs and topology server connectivity.
+        runbook_url: https://github.com/multigres/multigres-operator/blob/main/docs/monitoring/runbooks/MultigresDrainTimeout.md
+        summary: Drain operations are timing out for {{ $labels.shard }}
+      expr: rate(multigres_operator_drain_operations_total{result="timeout"}[5m])
+        > 0
+      for: 10m
+      labels:
+        severity: warning
+    - alert: MultigresReconcileSlow
+      annotations:
+        description: 'Controller {{ $labels.controller }} p99 reconcile duration has
+          exceeded 30 seconds for the last 5 minutes (current: {{ $value | humanize
+          }}s).'
+        runbook_url: https://github.com/multigres/multigres-operator/blob/main/docs/monitoring/runbooks/MultigresReconcileSlow.md
+        summary: Reconcile p99 latency exceeds 30 seconds
+      expr: histogram_quantile(0.99, rate(controller_runtime_reconcile_time_seconds_bucket[5m]))
+        > 30
+      for: 5m
+      labels:
+        severity: warning
+    - alert: MultigresControllerSaturated
+      annotations:
+        description: The {{ $labels.name }} controller work queue has been deeper
+          than 50 items for more than 10 minutes. The operator cannot keep up with
+          incoming events. Consider increasing MaxConcurrentReconciles.
+        runbook_url: https://github.com/multigres/multigres-operator/blob/main/docs/monitoring/runbooks/MultigresControllerSaturated.md
+        summary: Controller work queue is consistently deep
+      expr: workqueue_depth{name=~"multigrescluster|tablegroup|shard|cell|toposerver"}
+        > 50
+      for: 10m
+      labels:
+        severity: warning
+---
+---
+# ConfigMap: OTel Collector configuration
+# Routes incoming OTLP signals: traces → Tempo, metrics → Prometheus.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: otel-collector-config
+data:
+  config.yaml: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+
+    exporters:
+      otlp/tempo:
+        endpoint: tempo:4317
+        tls:
+          insecure: true
+        retry_on_failure:
+          enabled: true
+          initial_interval: 5s
+      otlphttp/prometheus:
+        endpoint: http://prometheus:9090/api/v1/otlp
+        tls:
+          insecure: true
+        retry_on_failure:
+          enabled: true
+          initial_interval: 5s
+
+    extensions:
+      health_check:
+        endpoint: 0.0.0.0:13133
+
+    service:
+      extensions: [health_check]
+      telemetry:
+        logs:
+          level: warn
+      pipelines:
+        traces:
+          receivers: [otlp]
+          exporters: [otlp/tempo]
+        metrics:
+          receivers: [otlp]
+          exporters: [otlphttp/prometheus]
+---
+# Deployment: OTel Collector
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-collector
+  labels:
+    app: otel-collector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: otel-collector
+  template:
+    metadata:
+      labels:
+        app: otel-collector
+    spec:
+      containers:
+        - name: otel-collector
+          image: otel/opentelemetry-collector-contrib:0.120.0
+          imagePullPolicy: IfNotPresent
+          args: ["--config=/etc/otel/config.yaml"]
+          ports:
+            - containerPort: 4318
+              name: otlp-http
+            - containerPort: 4317
+              name: otlp-grpc
+          startupProbe:
+            httpGet:
+              path: /
+              port: 13133
+            failureThreshold: 30
+            periodSeconds: 2
+          volumeMounts:
+            - name: config
+              mountPath: /etc/otel
+      volumes:
+        - name: config
+          configMap:
+            name: otel-collector-config
+---
+# Service: OTel Collector
+apiVersion: v1
+kind: Service
+metadata:
+  name: otel-collector
+spec:
+  selector:
+    app: otel-collector
+  ports:
+    - port: 4318
+      targetPort: 4318
+      name: otlp-http
+    - port: 4317
+      targetPort: 4317
+      name: otlp-grpc
+  type: ClusterIP
+---
+---
+# ConfigMap: Tempo configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tempo-config
+data:
+  tempo.yaml: |
+    server:
+      http_listen_port: 3200
+
+    distributor:
+      receivers:
+        otlp:
+          protocols:
+            http:
+              endpoint: 0.0.0.0:4328
+            grpc:
+              endpoint: 0.0.0.0:4317
+
+    metrics_generator:
+      registry:
+        external_labels:
+          source: tempo
+      storage:
+        path: /tmp/tempo/generator/wal
+        remote_write:
+          - url: http://prometheus:9090/api/v1/write
+            send_exemplars: true
+      processor:
+        service_graphs:
+          wait: 10s
+        span_metrics:
+          dimensions: []
+
+    storage:
+      trace:
+        backend: local
+        local:
+          path: /tmp/tempo/blocks
+        wal:
+          path: /tmp/tempo/wal
+---
+# Deployment: Tempo
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tempo
+  labels:
+    app: tempo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tempo
+  template:
+    metadata:
+      labels:
+        app: tempo
+    spec:
+      containers:
+        - name: tempo
+          image: grafana/tempo:2.7.2
+          imagePullPolicy: IfNotPresent
+          args:
+            - "-config.file=/etc/tempo/tempo.yaml"
+          ports:
+            - containerPort: 3200
+              name: tempo-http
+            - containerPort: 4317
+              name: otlp-grpc
+          startupProbe:
+            httpGet:
+              path: /ready
+              port: 3200
+            failureThreshold: 30
+            periodSeconds: 2
+          volumeMounts:
+            - name: config
+              mountPath: /etc/tempo
+      volumes:
+        - name: config
+          configMap:
+            name: tempo-config
+---
+# Service: Tempo
+apiVersion: v1
+kind: Service
+metadata:
+  name: tempo
+spec:
+  selector:
+    app: tempo
+  ports:
+    - port: 3200
+      targetPort: 3200
+      name: tempo-http
+    - port: 4317
+      targetPort: 4317
+      name: otlp-grpc
+  type: ClusterIP
+---
+---
+# ConfigMap: Grafana datasources (pre-configured with cross-linking)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+data:
+  datasources.yml: |
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        uid: prometheus-uid
+        access: proxy
+        url: http://prometheus:9090
+        isDefault: true
+        editable: false
+        jsonData:
+          timeInterval: "60s"
+          exemplarTraceIdDestinations:
+            - name: trace_id
+              datasourceUid: tempo-uid
+      - name: Tempo
+        type: tempo
+        uid: tempo-uid
+        access: proxy
+        url: http://tempo:3200
+        editable: false
+        jsonData:
+          tracesToMetrics:
+            datasourceUid: prometheus-uid
+          serviceMap:
+            datasourceUid: prometheus-uid
+          nodeGraph:
+            enabled: true
+---
+# ConfigMap: Grafana dashboard provisioning
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards-config
+data:
+  dashboards.yml: |
+    apiVersion: 1
+    providers:
+      - name: "default"
+        orgId: 1
+        folder: ""
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards
+---
+# Deployment: Grafana
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana:11.4.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+              name: http
+          startupProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            failureThreshold: 30
+            periodSeconds: 2
+          env:
+            - name: GF_AUTH_ANONYMOUS_ENABLED
+              value: "true"
+            - name: GF_AUTH_ANONYMOUS_ORG_ROLE
+              value: "Admin"
+            - name: GF_AUTH_DISABLE_LOGIN_FORM
+              value: "true"
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: "admin"
+            - name: GF_FEATURE_TOGGLES_ENABLE
+              value: "traceqlEditor,traceQLStreaming,correlations"
+          volumeMounts:
+            - name: grafana-datasources
+              mountPath: /etc/grafana/provisioning/datasources
+            - name: grafana-dashboards-config
+              mountPath: /etc/grafana/provisioning/dashboards
+            - name: grafana-dashboard-multigres
+              mountPath: /var/lib/grafana/dashboards
+      volumes:
+        - name: grafana-datasources
+          configMap:
+            name: grafana-datasources
+        - name: grafana-dashboards-config
+          configMap:
+            name: grafana-dashboards-config
+        - name: grafana-dashboard-multigres
+          configMap:
+            name: grafana-dashboard-multigres
+---
+# Service: Grafana
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+spec:
+  selector:
+    app: grafana
+  ports:
+    - port: 3000
+      targetPort: 3000
+      name: http
+  type: ClusterIP
+---
+---
+# ServiceAccount for the Prometheus instance managed by the Prometheus Operator.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus
+---
+# ClusterRole: Allow Prometheus to discover scrape targets via ServiceMonitors.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: prometheus
+rules:
+  - apiGroups: [""]
+    resources: [nodes, nodes/metrics, services, endpoints, pods]
+    verbs: [get, list, watch]
+  - apiGroups: [networking.k8s.io]
+    resources: [ingresses]
+    verbs: [get, list, watch]
+  - nonResourceURLs: [/metrics]
+    verbs: [get]
+---
+# ClusterRoleBinding: Bind prometheus SA to discovery role.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: prometheus
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus
+subjects:
+  - kind: ServiceAccount
+    name: prometheus
+    namespace: multigres-operator
+---
+# ClusterRoleBinding: Allow prometheus SA to read the operator's /metrics endpoint.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: multigres-operator-metrics-reader-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: multigres-operator-metrics-reader
+subjects:
+  - kind: ServiceAccount
+    name: prometheus
+    namespace: multigres-operator
+---
+# Prometheus: Managed instance — the Prometheus Operator creates a StatefulSet from this.
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: multigres
+spec:
+  serviceAccountName: prometheus
+  replicas: 1
+  enableFeatures:
+    - exemplar-storage
+    - native-histograms
+  enableOTLPReceiver: true
+  serviceMonitorSelector:
+    matchLabels:
+      app.kubernetes.io/name: multigres-operator
+  ruleSelector:
+    matchLabels:
+      app.kubernetes.io/name: multigres-operator
+  resources:
+    requests:
+      memory: 200Mi
+      cpu: 100m
+  retention: 12h
+---
+# ServiceMonitor: Tell Prometheus to scrape the operator's metrics endpoint.
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: multigres-operator
+  labels:
+    app.kubernetes.io/name: multigres-operator
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: multigres-operator
+  endpoints:
+    - port: https
+      scheme: https
+      tlsConfig:
+        insecureSkipVerify: true
+      bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+---
+# ServiceMonitor: Scrape postgres_exporter metrics from shard pool headless Services.
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: shard-pool-postgres-exporter
+  labels:
+    app.kubernetes.io/name: multigres-operator
+spec:
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: multigres
+      app.kubernetes.io/component: shard-pool
+  endpoints:
+    - port: metrics
+      scheme: http
+      path: /metrics
+---
+# Service: ClusterIP service for the managed Prometheus pods.
+# The operator creates a headless "prometheus-operated" service; this provides
+# a stable ClusterIP for port-forwarding and inter-service communication.
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+spec:
+  selector:
+    app.kubernetes.io/name: prometheus
+    prometheus: multigres
+  ports:
+    - port: 9090
+      targetPort: 9090
+      name: http
+  type: ClusterIP

@@ -1,0 +1,27 @@
+{
+  "run": "node-terminate-1",
+  "attempts": 143189,
+  "acked": 143181,
+  "failed": 3,
+  "ambiguous": 5,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 0,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "14:24:51.530",
+  "last_event": "14:30:51.504",
+  "outages": null,
+  "error_kinds": {
+    "connection refused": 3,
+    "unexpected EOF": 5
+  },
+  "ok_latency_ms": {
+    "p100": 1982,
+    "p50": 5,
+    "p95": 6,
+    "p99": 9
+  }
+}

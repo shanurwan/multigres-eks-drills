@@ -3,3 +3,4 @@
 2026-11-26T13:18:29.876Z waiting for the writer to finish
 2026-11-26T13:23:30.044Z writer finished; waiting for the shard to be Healthy (up to 15 min)
 2026-11-26T13:23:33.761Z shard Healthy
+2026-11-26T13:26:38.673Z done: /c/Users/user/Documents/Shafiqah/job hunting/project/multigres-eks-drills/failure-drill/results/pod-kill-2

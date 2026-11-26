@@ -1,0 +1,3 @@
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-7-161.ap-southeast-2.compute.internal primary
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-33-80.ap-southeast-2.compute.internal standby
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-17-60.ap-southeast-2.compute.internal standby

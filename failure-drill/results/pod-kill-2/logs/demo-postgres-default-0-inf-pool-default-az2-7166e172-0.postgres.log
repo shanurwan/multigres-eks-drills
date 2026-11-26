@@ -1,0 +1,1 @@
+{"time":"2026-11-26T13:18:48.681514475Z","level":"INFO","msg":"gRPC StopRestoreCommand request","pidfile":"/var/lib/pooler/restore_command.pid","trace_id":"b56854eb42136b57cbd0947c7777425c","span_id":"9c28cdc8b87310e2"}

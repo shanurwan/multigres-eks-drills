@@ -1,2 +1,10 @@
-drill,run,target_zone,writer_zone,primary_before_zone,primary_after_zone,acked,failed,ambiguous,lost_acked,outages,longest_outage_s,total_outage_s,writes_back_after_fault_s,zone_empty_after_fault_s,zone_restore_after_fault_s,shard_not_healthy_s,shard_healthy_after_fault_s,errors,p50_ms,p99_ms,max_ms
-pod-kill,1,apse2-az1,apse2-az1,apse2-az1,apse2-az3,136206,64,8,0,1,19.5,19.5,23.1,,,52.0,59.2,context deadline exceeded=64;timeout: context deadline exceeded=8,5,7,1467
+drill,run,target_zone,writer_zone,primary_before_zone,primary_after_zone,acked,failed,ambiguous,lost_acked,outages,longest_outage_s,max_ack_gap_s,total_outage_s,writes_back_after_fault_s,zone_empty_after_fault_s,zone_restore_after_fault_s,shard_not_healthy_s,shard_healthy_after_fault_s,errors,p50_ms,p99_ms,max_ms
+az-down,1,apse2-az1,apse2-az2,apse2-az2,apse2-az2,143975,0,0,0,0,0.0,0.05,0,0.0,160.2,403.8,459.3,542.5,,5,10,45
+node-drain,1,apse2-az3,apse2-az1,apse2-az3,apse2-az2,143189,0,3,0,1,1.9,1.93,1.9,9.1,,,680.5,698.9,unexpected EOF=3,5,9,1946
+node-drain,2,apse2-az2,apse2-az1,apse2-az2,apse2-az3,143204,0,0,0,1,2.0,1.95,2.0,8.6,,,33.6,43.4,,5,9,1950
+node-drain,3,apse2-az3,apse2-az1,apse2-az3,apse2-az2,143198,0,3,0,1,1.9,1.9,1.9,8.7,,,688.5,706.7,unexpected EOF=3,5,12,1926
+node-terminate,1,apse2-az2,apse2-az1,apse2-az2,apse2-az1,143181,3,5,0,1,1.9,1.95,1.9,7.2,,,98.6,116.4,connection refused=3;unexpected EOF=5,5,9,1982
+node-terminate,2,apse2-az1,apse2-az2,apse2-az1,apse2-az2,143052,4,8,0,1,2.2,2.21,2.2,8.1,,,169.3,185.9,connection refused=4;timeout: context deadline exceeded=8,5,11,291
+pod-kill,1,apse2-az1,apse2-az1,apse2-az1,apse2-az3,136206,64,8,0,1,19.5,19.48,19.5,23.1,,,52.0,59.2,context deadline exceeded=64;timeout: context deadline exceeded=8,5,7,1467
+pod-kill,2,apse2-az3,apse2-az1,apse2-az3,apse2-az2,136308,64,8,0,1,19.2,19.17,19.2,22.7,,,60.5,67.7,context deadline exceeded=64;timeout: context deadline exceeded=8,5,8,1207
+pod-kill,3,apse2-az2,apse2-az1,apse2-az2,apse2-az3,143465,0,0,0,1,1.3,1.34,1.3,4.9,,,59.2,66.9,,5,8,1373

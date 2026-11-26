@@ -1,0 +1,7 @@
+2026-11-26T14:36:39.915Z writer start (6m)
+2026-11-26T14:37:46.757Z fault: terminate instance i-01759e3b57cf6a673 (ip-10-42-7-161.ap-southeast-2.compute.internal)
+2026-11-26T14:38:25.253Z instance i-01759e3b57cf6a673 terminated
+2026-11-26T14:38:29.223Z waiting for the writer to finish
+2026-11-26T14:42:45.461Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+2026-11-26T14:42:48.964Z shard Healthy
+2026-11-26T14:45:49.587Z done: /c/Users/user/Documents/Shafiqah/job hunting/project/multigres-eks-drills/failure-drill/results/node-terminate-2

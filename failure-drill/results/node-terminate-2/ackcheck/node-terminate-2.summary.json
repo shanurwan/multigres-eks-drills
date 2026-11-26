@@ -1,0 +1,35 @@
+{
+  "run": "node-terminate-2",
+  "attempts": 143064,
+  "acked": 143052,
+  "failed": 4,
+  "ambiguous": 8,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 8,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "14:36:44.303",
+  "last_event": "14:42:44.274",
+  "outages": [
+    {
+      "from": "14:37:52.639",
+      "to": "14:37:54.844",
+      "seconds": 2.205136,
+      "errors_in_window": 11,
+      "first_error": "timeout: context deadline exceeded"
+    }
+  ],
+  "error_kinds": {
+    "connection refused": 4,
+    "timeout: context deadline exceeded": 8
+  },
+  "ok_latency_ms": {
+    "p100": 291,
+    "p50": 5,
+    "p95": 7,
+    "p99": 11
+  }
+}

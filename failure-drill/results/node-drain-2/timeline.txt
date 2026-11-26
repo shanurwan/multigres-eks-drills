@@ -1,0 +1,7 @@
+2026-11-26T13:56:19.907Z writer start (6m)
+2026-11-26T13:57:23.603Z fault: drain ip-10-42-38-108.ap-southeast-2.compute.internal
+2026-11-26T13:57:38.443Z drain returned; uncordon
+2026-11-26T13:57:41.860Z waiting for the writer to finish
+2026-11-26T14:02:29.358Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+2026-11-26T14:02:32.929Z shard Healthy
+2026-11-26T14:05:34.307Z done: /c/Users/user/Documents/Shafiqah/job hunting/project/multigres-eks-drills/failure-drill/results/node-drain-2

@@ -1,0 +1,26 @@
+{
+  "run": "node-drain-1",
+  "attempts": 143192,
+  "acked": 143189,
+  "failed": 0,
+  "ambiguous": 3,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 3,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "13:39:05.324",
+  "last_event": "13:45:05.300",
+  "outages": null,
+  "error_kinds": {
+    "unexpected EOF": 3
+  },
+  "ok_latency_ms": {
+    "p100": 1946,
+    "p50": 5,
+    "p95": 6,
+    "p99": 9
+  }
+}

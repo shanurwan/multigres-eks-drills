@@ -1,0 +1,2 @@
+shutting-down
+instance=i-05911639236e2735c state=terminated

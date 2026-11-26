@@ -1,0 +1,24 @@
+{
+  "run": "pod-kill-3",
+  "attempts": 143465,
+  "acked": 143465,
+  "failed": 0,
+  "ambiguous": 0,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 0,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "13:28:15.026",
+  "last_event": "13:34:15.002",
+  "outages": null,
+  "error_kinds": {},
+  "ok_latency_ms": {
+    "p100": 1373,
+    "p50": 5,
+    "p95": 6,
+    "p99": 8
+  }
+}

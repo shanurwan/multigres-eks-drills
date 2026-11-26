@@ -1,0 +1,254 @@
+node/ip-10-42-17-60.ap-southeast-2.compute.internal cordoned
+Warning: ignoring DaemonSet-managed Pods: kube-system/aws-node-4f6k5, kube-system/ebs-csi-node-tpf9l, kube-system/eks-pod-identity-agent-c78fj, kube-system/kube-proxy-pml2r
+evicting pod multigres-operator/multigres-operator-controller-manager-5948ff8f8-nbnx5
+evicting pod multigres-demo/demo-global-topo-2
+evicting pod kube-system/ebs-csi-controller-86974df58f-chxmz
+evicting pod multigres-demo/demo-global-topo-0
+evicting pod multigres-demo/demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-7cb5bfd4z5vn
+evicting pod multigres-demo/demo-multiadmin-web-7f6585b866-6nlrt
+evicting pod multigres-demo/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0
+evicting pod multigres-demo/demo-az3-multigateway-9d51cd81-558656fd-hcdql
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+pod/demo-multiadmin-web-7f6585b866-6nlrt evicted
+pod/multigres-operator-controller-manager-5948ff8f8-nbnx5 evicted
+pod/demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-7cb5bfd4z5vn evicted
+pod/ebs-csi-controller-86974df58f-chxmz evicted
+pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 evicted
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+pod/demo-global-topo-2 evicted
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+pod/demo-az3-multigateway-9d51cd81-558656fd-hcdql evicted
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+evicting pod multigres-demo/demo-global-topo-0
+There are pending pods in node "ip-10-42-17-60.ap-southeast-2.compute.internal" when an error occurred: error when evicting pods/"demo-global-topo-0" -n "multigres-demo": global timeout reached: 10m0s
+pod/demo-global-topo-0
+error: unable to drain node "ip-10-42-17-60.ap-southeast-2.compute.internal" due to error: error when evicting pods/"demo-global-topo-0" -n "multigres-demo": global timeout reached: 10m0s, continuing command...
+There are pending nodes to be drained:
+ ip-10-42-17-60.ap-southeast-2.compute.internal
+error when evicting pods/"demo-global-topo-0" -n "multigres-demo": global timeout reached: 10m0s
+node/ip-10-42-17-60.ap-southeast-2.compute.internal uncordoned
