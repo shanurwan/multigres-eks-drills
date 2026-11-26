@@ -1,0 +1,9 @@
+.terraform/
+*.tfstate*
+*.tfvars
+!*.tfvars.example
+tfplan
+/tools/ackcheck/ackcheck
+/ackcheck
+kubeconfig*
+.env

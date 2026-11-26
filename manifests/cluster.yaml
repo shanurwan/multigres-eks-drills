@@ -1,0 +1,75 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: multigres-gp3
+provisioner: ebs.csi.aws.com
+parameters:
+  type: gp3
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: multigres-demo
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: multigres-backup
+  namespace: multigres-demo
+  annotations:
+    eks.amazonaws.com/role-arn: BACKUP_ROLE_ARN
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: multigres-admin-password
+  namespace: multigres-demo
+stringData:
+  password: CHANGE_ME
+---
+apiVersion: multigres.com/v1alpha1
+kind: MultigresCluster
+metadata:
+  name: demo
+  namespace: multigres-demo
+spec:
+  postgresPasswordSecretRef:
+    name: multigres-admin-password
+    key: password
+  pvcDeletionPolicy:
+    whenDeleted: Delete
+    whenScaled: Delete
+  durabilityPolicy: MULTI_CELL_AT_LEAST_2
+  cells:
+    - name: az1
+      zoneId: ZONE_ID_1
+    - name: az2
+      zoneId: ZONE_ID_2
+    - name: az3
+      zoneId: ZONE_ID_3
+  databases:
+    - name: postgres
+      default: true
+      backup:
+        type: s3
+        s3:
+          bucket: BACKUP_BUCKET
+          region: AWS_REGION
+          keyPrefix: multigres-demo
+          serviceAccountName: multigres-backup
+      tablegroups:
+        - name: default
+          default: true
+          shards:
+            - name: "0-inf"
+              spec:
+                pools:
+                  default:
+                    type: readWrite
+                    cells: [az1, az2, az3]
+                    replicasPerCell: 1
+                    storage:
+                      size: 10Gi
+                      class: multigres-gp3
