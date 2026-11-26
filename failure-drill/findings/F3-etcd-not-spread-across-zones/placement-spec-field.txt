@@ -1,0 +1,26 @@
+GROUP:      multigres.com
+KIND:       MultigresCluster
+VERSION:    v1alpha1
+
+FIELD: placement <Object>
+
+
+DESCRIPTION:
+    Placement defines optional scheduling settings for the global topo server
+    pods.
+    
+FIELDS:
+  affinity	<Object>
+    Affinity defines pod affinity and anti-affinity constraints.
+
+  nodeSelector	<map[string]string>
+    NodeSelector constrains pods to nodes with the specified labels.
+
+  tolerations	<[]Object>
+    Tolerations defines the pod tolerations for scheduling onto tainted nodes.
+
+  topologySpreadConstraints	<[]Object>
+    TopologySpreadConstraints controls how pods are spread across topology
+    domains.
+
+

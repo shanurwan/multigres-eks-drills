@@ -3,10 +3,11 @@
 # Fills manifests/cluster.yaml from the Terraform outputs, creates the admin
 # password Secret once (random, never printed or written to disk) and applies.
 set -euo pipefail
+export MSYS_NO_PATHCONV=1   # Git Bash on Windows: do not rewrite /paths passed to kubectl
 
 here="$(cd "$(dirname "$0")/.." && pwd)"
-tf() { terraform -chdir="$here/terraform" output -raw "$1"; }
-list() { terraform -chdir="$here/terraform" output -json "$1" | tr -d '[]" \r\n' | tr ',' '\n'; }
+tf() { terraform -chdir="$here/../terraform" output -raw "$1"; }
+list() { terraform -chdir="$here/../terraform" output -json "$1" | tr -d '[]" \r\n' | tr ',' '\n'; }
 
 for bin in terraform kubectl openssl; do
   command -v "$bin" >/dev/null || { echo "missing: $bin" >&2; exit 1; }

@@ -1,0 +1,6 @@
+2026-11-26T13:05:47.115Z writer start (6m)
+2026-11-26T13:06:53.912Z fault: force-delete primary pod demo-postgres-default-0-inf-pool-default-az1-4b646709-0 (uid fafc2e95-7a88-417f-8bc3-6228dee54d80)
+2026-11-26T13:06:57.150Z waiting for the writer to finish
+2026-11-26T13:11:55.078Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+2026-11-26T13:11:58.711Z shard Healthy
+2026-11-26T13:15:03.146Z done: /c/Users/user/Documents/Shafiqah/job hunting/project/multigres-eks-drills/results/pod-kill-1

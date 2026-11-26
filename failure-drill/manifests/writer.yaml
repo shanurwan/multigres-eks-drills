@@ -1,0 +1,23 @@
+# The write checker's pod. It runs in WRITER_ZONE, a zone the drill does not break,
+# and reads the admin password from the cluster's Secret, so it never appears in a command.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ackcheck
+  namespace: multigres-demo
+spec:
+  nodeSelector:
+    topology.k8s.aws/zone-id: WRITER_ZONE
+  restartPolicy: Never
+  containers:
+    - name: ackcheck
+      image: alpine:3.20
+      command: ["sleep", "86400"]
+      env:
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: multigres-admin-password
+              key: password
+        - name: DATABASE_URL
+          value: "postgres://postgres:$(PGPASSWORD)@demo-multigateway:5432/postgres?sslmode=disable"
