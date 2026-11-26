@@ -1,0 +1,10 @@
+2026-11-26T12:56:07Z
+demo-global-topo-0 apse2-az3
+demo-global-topo-1 apse2-az2
+demo-global-topo-2 apse2-az3
+pvc zones:
+data-demo-global-topo-0 ap-southeast-2b
+data-demo-global-topo-1 ap-southeast-2c
+data-demo-global-topo-2 ap-southeast-2b
+statefulset affinity: []
+statefulset topologySpreadConstraints: []

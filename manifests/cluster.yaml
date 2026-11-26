@@ -2,6 +2,9 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: multigres-gp3
+  annotations:
+    # EKS 1.30+ has no default StorageClass; the global etcd PVC needs one.
+    storageclass.kubernetes.io/is-default-class: "true"
 provisioner: ebs.csi.aws.com
 parameters:
   type: gp3
@@ -70,6 +73,9 @@ spec:
                     type: readWrite
                     cells: [az1, az2, az3]
                     replicasPerCell: 1
+                    # Unset by default. Without it the pool's containers (uid/gid 999)
+                    # cannot write to a new EBS volume, which is owned by root.
+                    fsGroup: 999
                     storage:
                       size: 10Gi
                       class: multigres-gp3

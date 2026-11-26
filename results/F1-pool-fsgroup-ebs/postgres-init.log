@@ -1,0 +1,5 @@
+{"time":"2026-11-26T12:34:41.702087281Z","level":"INFO","msg":"logging initialized","level":"info","format":"json","output":"stdout"}
+{"time":"2026-11-26T12:34:41.70310609Z","level":"INFO","msg":"replaced default pg_hba.conf template","path":"/etc/pgctld/pg_hba_template.conf"}
+{"time":"2026-11-26T12:34:41.703292159Z","level":"INFO","msg":"using fully qualified hostname for service URL","hostname":"demo-postgres-default-0-inf-pool-default-az1-4b646709-0.demo-postgres-default-0-inf-pool-default-az1-headless-4416b9be.multigres-demo.svc.cluster.local"}
+Error: failed to create pgbackrest directory: mkdir /var/lib/pooler/pgbackrest: permission denied
+{"time":"2026-11-26T12:34:41.703397015Z","level":"ERROR","msg":"command execution failed","error":"failed to create pgbackrest directory: mkdir /var/lib/pooler/pgbackrest: permission denied"}

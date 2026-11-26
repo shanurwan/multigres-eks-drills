@@ -1,0 +1,40 @@
+GROUP:      multigres.com
+KIND:       MultigresCluster
+VERSION:    v1alpha1
+
+FIELD: etcd <Object>
+
+
+DESCRIPTION:
+    Etcd defines an inline managed Etcd cluster.
+    
+FIELDS:
+  image	<string>
+    Image is the Etcd container image.
+
+  maintenance	<Object>
+    Maintenance configures MVCC history retention, backend quota, and optional
+    defragmentation. Applies only to operator-managed etcd. Omitted fields use
+    the defaults documented on EtcdMaintenanceConfig.
+
+  pvcDeletionPolicy	<Object>
+    PVCDeletionPolicy controls PVC lifecycle for etcd volumes.
+    Overrides GlobalTopoServerSpec and MultigresCluster settings.
+
+  replicas	<integer>
+    Replicas is the desired number of etcd members.
+    Immutable after cluster creation — etcd does not support dynamic member
+    addition
+    with static bootstrap. Must be an odd number for proper quorum fault
+    tolerance.
+
+  resources	<Object>
+    Resources defines the compute resource requirements.
+
+  rootPath	<string>
+    RootPath is the etcd prefix for this cluster.
+
+  storage	<Object>
+    Storage configuration for Etcd data.
+
+

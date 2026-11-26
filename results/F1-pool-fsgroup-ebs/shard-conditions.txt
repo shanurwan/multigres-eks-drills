@@ -1,0 +1,4 @@
+119:    conditions:
+120-    - lastTransitionTime: "2026-11-26T12:28:44Z"
+121-      message: No shard pod mounts a PVC that is being deleted
+122-      observedGeneration: 1

@@ -27,8 +27,8 @@ variable "kubernetes_version" {
 
 variable "instance_type" {
   type        = string
-  description = "One node per AZ. m6i.large = 2 vCPU / 8 GiB"
-  default     = "m6i.large"
+  description = "One node per AZ. m7i-flex.large = 2 vCPU / 8 GiB, and is allowed on AWS free-plan accounts (m6i.large is not)"
+  default     = "m7i-flex.large"
 }
 
 variable "admin_cidrs" {
