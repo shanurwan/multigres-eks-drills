@@ -1,0 +1,4 @@
+BACKUP ID                          DATABASE  TYPE  STATUS    POOLER ID   ROLE     SIZE
+------------------------------------------------------------------------------------------
+20261126-124931F_20261127-052224I  postgres  incr  complete  p-69f9c303  replica  708.8 MB
+20261126-124931F                   postgres  full  complete  p-3c7ba9d3  replica  55.0 MB

@@ -34,6 +34,8 @@ Multigres has `multigres cluster verify-backups`, which runs `pgbackrest verify`
 
 On a busy database segments fill in seconds, and the gap is small. The risk is the quiet one, such as overnight, a staging project, or a small tenant. There, losing the cluster and restoring from S3 would lose hours of acknowledged writes, and nothing reports it. `pg_stat_archiver` shows no failure, because nothing failed.
 
+**A backup closes the gap, so scheduled backups bound it.** `scripts/backup-wal-switch.sh` committed another marker on the quiet cluster at 05:20:14 and confirmed that its segment was still unarchived 2 minutes later. It then ran `multigres cluster backup --type incremental`, which Multigres took from a replica. About 9 s into the backup, the primary switched WAL and archived the marker's segment. A restore afterwards had the marker ([`backup-wal-switch-1/`](results/backup-wal-switch-1/)). So backups on a schedule (#811) also cap how far a quiet database's backup can fall behind, at the schedule interval. Between backups, a "last successful backup" metric looks healthy while the newest restorable write can be hours older.
+
 The fix is one setting, for example `archive_timeout = 60s`. That caps the gap at about a minute for the cost of mostly empty segments on idle databases, which compress to almost nothing with `compress-type=zst`, already set here. Archiving health is open work in [#654](https://github.com/multigres/multigres/issues/654).
 
 ## What it means for running Multigres
@@ -71,6 +73,7 @@ With the cluster from `../failure-drill` and the `loadgen` pod from `../producti
 restore-check/scripts/restore.sh latest-1
 restore-check/scripts/restore.sh pitr-1 "2026-11-27 02:40:00+00"    # any time inside your WAL range
 restore-check/scripts/rpo-marker.sh 1                               # 15 min hold, then a restore
+restore-check/scripts/backup-wal-switch.sh 1                        # marker, wait, one backup, restore
 ```
 
 `rpo-marker.sh` also writes `results/rpo-marker-<n>/` (`marker.txt`, `archiver.txt`, `marker-in-restore.txt`) and its restore as `results/rpo-marker-<n>-restore/`.

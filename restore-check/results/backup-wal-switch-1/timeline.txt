@@ -1,0 +1,5 @@
+2026-11-27T05:20:16.909Z marker 1001 committed at 2026-11-27 05:20:14.50336+00, in WAL segment 000000170000000000000093; primary demo-postgres-default-0-inf-pool-default-az1-4b646709-0
+2026-11-27T05:22:22.401Z waited 120s; triggering a incremental backup through multiadmin (demo-multiadmin-6b85487468-p844f)
+2026-11-27T05:23:06.665Z backup command returned
+2026-11-27T05:24:24.502Z segment 000000170000000000000093 archived (last archived 000000170000000000000094.00000028.backup)
+2026-11-27T05:25:55.552Z marker 1001 IS in the restored copy

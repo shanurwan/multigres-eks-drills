@@ -1,0 +1,46 @@
+2026-11-27 05:25:31.777 GMT [44] LOG:  skipping missing configuration file "/etc/pgctld/postgres-config/postgresql.conf"
+2026-11-27 05:25:31.777 GMT [44] LOG:  skipping missing configuration file "/etc/pgctld/postgres-config/postgresql.conf"
+ 2026-11-27 05:25:31.788 UTC [44] LOG:  starting PostgreSQL 17.7 (Debian 17.7-3.pgdg13+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+ 2026-11-27 05:25:31.791 UTC [44] LOG:  listening on Unix socket "/restore/.s.PGSQL.5432"
+ 2026-11-27 05:25:31.802 UTC [47] LOG:  database system was interrupted; last known up at 2026-11-27 05:22:24 UTC
+2026-11-27 05:25:31.818 P00   INFO: archive-get command begin 2.60.1: [00000018.history, pg_wal/RECOVERYHISTORY] --config=/restore/pgbackrest.conf --exec-id=49-62973feb --lock-path=/restore/lock --log-level-console=info --log-path=/restore/log --pg1-path=/restore/pg_data --process-max=4 --repo1-path=/multigres-demo/multigres --repo1-s3-bucket=multigres-lab-backups-<account-id> --repo1-s3-endpoint=s3.dualstack.ap-southeast-2.amazonaws.com --repo1-s3-key-type=web-id --repo1-s3-region=ap-southeast-2 --repo1-s3-sts-host=sts.ap-southeast-2.api.aws --repo1-s3-uri-style=host --repo1-storage-upload-chunk-size=10MiB --repo1-type=s3 --stanza=multigres
+2026-11-27 05:25:31.913 P00   INFO: unable to find 00000018.history in the archive
+2026-11-27 05:25:31.913 P00   INFO: archive-get command end: completed successfully (97ms)
+ 2026-11-27 05:25:31.914 UTC [47] LOG:  starting backup recovery with redo LSN 0/94000028, checkpoint LSN 0/94000080, on timeline ID 23
+2026-11-27 05:25:31.919 P00   INFO: archive-get command begin 2.60.1: [00000017.history, pg_wal/RECOVERYHISTORY] --config=/restore/pgbackrest.conf --exec-id=51-8d2fd066 --lock-path=/restore/lock --log-level-console=info --log-path=/restore/log --pg1-path=/restore/pg_data --process-max=4 --repo1-path=/multigres-demo/multigres --repo1-s3-bucket=multigres-lab-backups-<account-id> --repo1-s3-endpoint=s3.dualstack.ap-southeast-2.amazonaws.com --repo1-s3-key-type=web-id --repo1-s3-region=ap-southeast-2 --repo1-s3-sts-host=sts.ap-southeast-2.api.aws --repo1-s3-uri-style=host --repo1-storage-upload-chunk-size=10MiB --repo1-type=s3 --stanza=multigres
+2026-11-27 05:25:32.039 P00   INFO: found 00000017.history in the repo1: 17-1 archive
+2026-11-27 05:25:32.039 P00   INFO: archive-get command end: completed successfully (121ms)
+ 2026-11-27 05:25:32.041 UTC [47] LOG:  restored log file "00000017.history" from archive
+2026-11-27 05:25:32.053 P00   INFO: archive-get command begin 2.60.1: [000000170000000000000094, pg_wal/RECOVERYXLOG] --config=/restore/pgbackrest.conf --exec-id=53-08c4ae78 --lock-path=/restore/lock --log-level-console=info --log-path=/restore/log --pg1-path=/restore/pg_data --process-max=4 --repo1-path=/multigres-demo/multigres --repo1-s3-bucket=multigres-lab-backups-<account-id> --repo1-s3-endpoint=s3.dualstack.ap-southeast-2.amazonaws.com --repo1-s3-key-type=web-id --repo1-s3-region=ap-southeast-2 --repo1-s3-sts-host=sts.ap-southeast-2.api.aws --repo1-s3-uri-style=host --repo1-storage-upload-chunk-size=10MiB --repo1-type=s3 --stanza=multigres
+2026-11-27 05:25:32.183 P00   INFO: found 000000170000000000000094 in the repo1: 17-1 archive
+2026-11-27 05:25:32.183 P00   INFO: archive-get command end: completed successfully (133ms)
+ 2026-11-27 05:25:32.185 UTC [47] LOG:  restored log file "000000170000000000000094" from archive
+ 2026-11-27 05:25:32.212 UTC [47] LOG:  starting archive recovery
+ 2026-11-27 05:25:32.215 UTC [47] LOG:  redo starts at 0/94000028
+2026-11-27 05:25:32.221 P00   INFO: archive-get command begin 2.60.1: [000000170000000000000095, pg_wal/RECOVERYXLOG] --config=/restore/pgbackrest.conf --exec-id=55-2968ac32 --lock-path=/restore/lock --log-level-console=info --log-path=/restore/log --pg1-path=/restore/pg_data --process-max=4 --repo1-path=/multigres-demo/multigres --repo1-s3-bucket=multigres-lab-backups-<account-id> --repo1-s3-endpoint=s3.dualstack.ap-southeast-2.amazonaws.com --repo1-s3-key-type=web-id --repo1-s3-region=ap-southeast-2 --repo1-s3-sts-host=sts.ap-southeast-2.api.aws --repo1-s3-uri-style=host --repo1-storage-upload-chunk-size=10MiB --repo1-type=s3 --stanza=multigres
+2026-11-27 05:25:32.321 P00   INFO: unable to find 000000170000000000000095 in the archive
+2026-11-27 05:25:32.321 P00   INFO: archive-get command end: completed successfully (102ms)
+ 2026-11-27 05:25:32.324 UTC [47] LOG:  completed backup recovery with redo LSN 0/94000028 and end LSN 0/94001868
+ 2026-11-27 05:25:32.324 UTC [47] LOG:  consistent recovery state reached at 0/94001868
+ 2026-11-27 05:25:32.324 UTC [44] LOG:  database system is ready to accept read-only connections
+2026-11-27 05:25:32.329 P00   INFO: archive-get command begin 2.60.1: [000000170000000000000095, pg_wal/RECOVERYXLOG] --config=/restore/pgbackrest.conf --exec-id=57-817f66fa --lock-path=/restore/lock --log-level-console=info --log-path=/restore/log --pg1-path=/restore/pg_data --process-max=4 --repo1-path=/multigres-demo/multigres --repo1-s3-bucket=multigres-lab-backups-<account-id> --repo1-s3-endpoint=s3.dualstack.ap-southeast-2.amazonaws.com --repo1-s3-key-type=web-id --repo1-s3-region=ap-southeast-2 --repo1-s3-sts-host=sts.ap-southeast-2.api.aws --repo1-s3-uri-style=host --repo1-storage-upload-chunk-size=10MiB --repo1-type=s3 --stanza=multigres
+2026-11-27 05:25:32.426 P00   INFO: unable to find 000000170000000000000095 in the archive
+2026-11-27 05:25:32.426 P00   INFO: archive-get command end: completed successfully (98ms)
+ 2026-11-27 05:25:32.427 UTC [47] LOG:  redo done at 0/94001868 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.21 s
+ 2026-11-27 05:25:32.427 UTC [47] LOG:  last completed transaction was at log time 2026-11-27 05:22:32.5679+00
+2026-11-27 05:25:32.432 P00   INFO: archive-get command begin 2.60.1: [000000170000000000000094, pg_wal/RECOVERYXLOG] --config=/restore/pgbackrest.conf --exec-id=59-50f105fc --lock-path=/restore/lock --log-level-console=info --log-path=/restore/log --pg1-path=/restore/pg_data --process-max=4 --repo1-path=/multigres-demo/multigres --repo1-s3-bucket=multigres-lab-backups-<account-id> --repo1-s3-endpoint=s3.dualstack.ap-southeast-2.amazonaws.com --repo1-s3-key-type=web-id --repo1-s3-region=ap-southeast-2 --repo1-s3-sts-host=sts.ap-southeast-2.api.aws --repo1-s3-uri-style=host --repo1-storage-upload-chunk-size=10MiB --repo1-type=s3 --stanza=multigres
+2026-11-27 05:25:32.559 P00   INFO: found 000000170000000000000094 in the repo1: 17-1 archive
+2026-11-27 05:25:32.559 P00   INFO: archive-get command end: completed successfully (128ms)
+ 2026-11-27 05:25:32.560 UTC [47] LOG:  restored log file "000000170000000000000094" from archive
+2026-11-27 05:25:32.599 P00   INFO: archive-get command begin 2.60.1: [00000018.history, pg_wal/RECOVERYHISTORY] --config=/restore/pgbackrest.conf --exec-id=61-eb32d2b3 --lock-path=/restore/lock --log-level-console=info --log-path=/restore/log --pg1-path=/restore/pg_data --process-max=4 --repo1-path=/multigres-demo/multigres --repo1-s3-bucket=multigres-lab-backups-<account-id> --repo1-s3-endpoint=s3.dualstack.ap-southeast-2.amazonaws.com --repo1-s3-key-type=web-id --repo1-s3-region=ap-southeast-2 --repo1-s3-sts-host=sts.ap-southeast-2.api.aws --repo1-s3-uri-style=host --repo1-storage-upload-chunk-size=10MiB --repo1-type=s3 --stanza=multigres
+2026-11-27 05:25:32.692 P00   INFO: unable to find 00000018.history in the archive
+2026-11-27 05:25:32.692 P00   INFO: archive-get command end: completed successfully (95ms)
+ 2026-11-27 05:25:32.693 UTC [47] LOG:  selected new timeline ID: 24
+2026-11-27 05:25:32.731 P00   INFO: archive-get command begin 2.60.1: [00000017.history, pg_wal/RECOVERYHISTORY] --config=/restore/pgbackrest.conf --exec-id=63-b6eb8e8c --lock-path=/restore/lock --log-level-console=info --log-path=/restore/log --pg1-path=/restore/pg_data --process-max=4 --repo1-path=/multigres-demo/multigres --repo1-s3-bucket=multigres-lab-backups-<account-id> --repo1-s3-endpoint=s3.dualstack.ap-southeast-2.amazonaws.com --repo1-s3-key-type=web-id --repo1-s3-region=ap-southeast-2 --repo1-s3-sts-host=sts.ap-southeast-2.api.aws --repo1-s3-uri-style=host --repo1-storage-upload-chunk-size=10MiB --repo1-type=s3 --stanza=multigres
+2026-11-27 05:25:32.861 P00   INFO: found 00000017.history in the repo1: 17-1 archive
+2026-11-27 05:25:32.861 P00   INFO: archive-get command end: completed successfully (132ms)
+ 2026-11-27 05:25:32.862 UTC [47] LOG:  restored log file "00000017.history" from archive
+ 2026-11-27 05:25:32.866 UTC [47] LOG:  archive recovery complete
+ 2026-11-27 05:25:32.868 UTC [45] LOG:  checkpoint starting: end-of-recovery immediate wait
+ 2026-11-27 05:25:32.877 UTC [45] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.002 s, total=0.011 s; sync files=3, longest=0.001 s, average=0.001 s; distance=16384 kB, estimate=16384 kB; lsn=0/95000028, redo lsn=0/95000028
+ 2026-11-27 05:25:32.880 UTC [44] LOG:  database system is ready to accept connections
