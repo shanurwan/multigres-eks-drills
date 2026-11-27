@@ -1,0 +1,6 @@
+2026-11-27T04:38:44.833Z writer start (6m)
+2026-11-27T04:39:50.483Z fault: force-delete primary pod demo-postgres-default-0-inf-pool-default-az2-7166e172-0 (uid 76e47166-30e0-48e8-8605-beff26411874)
+2026-11-27T04:39:52.617Z waiting for the writer to finish
+2026-11-27T04:44:53.030Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+2026-11-27T04:44:55.372Z shard Healthy
+2026-11-27T04:47:20.497Z done: /home/wan/up/mgrun/production-scenario/results/storm-pod-kill-c500-buf30-3

@@ -1,0 +1,3 @@
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "demo-postgres-default-0-inf-pool-default-az3-97695bdb-0" force deleted from multigres-demo namespace
+deleted uid=2acc90f6-f323-4126-bc80-39af53e1f7d9

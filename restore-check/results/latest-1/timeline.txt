@@ -1,0 +1,9 @@
+2026-11-27T03:33:31.667Z primary demo-postgres-default-0-inf-pool-default-az1-4b646709-0; image ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647; target end of archive
+2026-11-27T03:33:46.565Z restore pod ready on ip-10-42-18-161.ap-southeast-2.compute.internal
+2026-11-27T03:33:52.598Z pgbackrest restore start
+2026-11-27T03:34:07.474Z pgbackrest restore done
+2026-11-27T03:34:10.033Z postgres started (recovery)
+2026-11-27T03:34:51.904Z recovery done, promoted
+2026-11-27T03:34:54.888Z newest restored write 2026-11-27 03:03:53.455015+00; comparing at 2026-11-27 03:03:53.455015+00
+2026-11-27T03:35:05.182Z snapshots taken
+2026-11-27T03:35:12.803Z done: /home/wan/up/mgrun/restore-check/results/latest-1

@@ -1,0 +1,18 @@
+runs_compared                            25
+rows_expected                            3033361
+rows_restored                            3033361
+runs_mismatched                          []
+runs_missing                             []
+rows_after_target_plus_1s_in_restore     0
+newest_restored_write                    2026-11-27 03:03:53.455015+00
+newest_live_write                        2026-11-27 03:03:53.455015+00
+supafirehose_users                       [['597641', '597700'], ['597641', '597700']]
+auth_users                               [['200'], ['200']]
+auth_sessions_upto_target                ['9073', '9073']
+database_size_mib                        543
+copy_backup_s                            14.4
+replay_and_promote_s                     52.6
+wal_segments_replayed                    117
+timelines_crossed                        19
+live_archiver                            {'checked_at': '2026-11-27 04:14:00.291233+00', 'current_wal': '000000130000000000000075', 'last_archived_wal': '000000130000000000000074', 'last_archived_at': '2026-11-27 03:35:05.983096+00', 'failed': '0', 'archive_timeout': '0'}
+verdict                                  PASS

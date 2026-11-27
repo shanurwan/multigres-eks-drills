@@ -1,0 +1,12 @@
+stanza: multigres
+    status: ok
+    cipher: none
+
+    db (current)
+        wal archive min/max (17): 000000010000000000000001/000000130000000000000072
+
+        full backup: 20261126-124931F
+            timestamp start/stop: 2026-11-26 12:49:31+00 / 2026-11-26 12:49:33+00
+            wal start/stop: 000000010000000000000002 / 000000010000000000000003
+            database size: 55MB, database backup size: 55MB
+            repo1: backup size: 2.7MB

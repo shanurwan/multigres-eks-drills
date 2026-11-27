@@ -8,6 +8,8 @@ This is an independent test lab, not an official Multigres or Supabase project, 
 
 **What a Supabase-style app sees** during a failover, with Multigres's own load tool and Supabase Auth: [`production-scenario/scenario.md`](production-scenario/scenario.md).
 
+**Do the backups restore, completely?** [`restore-check/`](restore-check/README.md).
+
 **To run it yourself**, you need only an AWS free-plan account. Follow [`terraform/aws-setup.md`](terraform/aws-setup.md) to get a cluster, then [`failure-drill/reproduce.md`](failure-drill/reproduce.md) for the drills.
 
 ## Layout
@@ -31,3 +33,4 @@ This is an independent test lab, not an official Multigres or Supabase project, 
 | `failure-drill/results/` | one folder per run, `runs.csv`, per-second series, charts, tested versions |
 | [`production-scenario/scenario.md`](production-scenario/scenario.md) | reconnect storm (supafirehose, 500 and 2,000 connections) and Supabase Auth logins through a primary pod kill: results, findings P1–P4 |
 | [`production-scenario/`](production-scenario/README.md) | how those runs work, what is measured, validation, reproduce |
+| [`restore-check/`](restore-check/README.md) | restores the pgBackRest backup from S3 and checks every acknowledged write against live; point-in-time restore; how far behind a quiet database's backup can be |

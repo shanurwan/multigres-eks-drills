@@ -1,0 +1,2 @@
+     1  connect (1 in 100 logged): failed to connect to `user=postgres database=postgres`: <addr> (demo-multigateway): server error: FATAL: database is temporarily unavailable; please retry (SQLSTATE 57P03)
+     1  sampled error (supafirehose keeps 1 per 10 s): read: ERROR: database is temporarily unavailable; please retry (SQLSTATE 57P03)

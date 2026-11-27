@@ -1,0 +1,35 @@
+# A throwaway pod that restores the shard's pgBackRest backup from S3 and starts the
+# copy with archiving switched off, so it can never write WAL back into the live
+# repository. It uses the pgctld image the cluster runs (Postgres 17 + pgBackRest) and the
+# multigres-backup ServiceAccount, whose IRSA role reads the backup bucket. Its gp3 volume
+# is created with the pod and deleted with it. RESTORE_NAME and IMAGE are set by restore.sh.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: RESTORE_NAME
+  namespace: multigres-demo
+  labels: {app: restore-check}
+spec:
+  serviceAccountName: multigres-backup
+  restartPolicy: Never
+  securityContext: {runAsUser: 999, runAsGroup: 999, fsGroup: 999, runAsNonRoot: true}
+  containers:
+    - name: restore
+      image: IMAGE
+      command: ["sleep", "infinity"]
+      resources:
+        requests: {cpu: 500m, memory: 512Mi}
+        limits: {memory: 2Gi}
+      env:
+        - name: PGPASSWORD
+          valueFrom: {secretKeyRef: {name: multigres-admin-password, key: password}}
+      volumeMounts:
+        - {name: restore, mountPath: /restore}
+  volumes:
+    - name: restore
+      ephemeral:
+        volumeClaimTemplate:
+          spec:
+            accessModes: [ReadWriteOnce]
+            storageClassName: multigres-gp3
+            resources: {requests: {storage: 20Gi}}

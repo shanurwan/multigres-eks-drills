@@ -1,0 +1,9 @@
+2026-11-27 04:14:36.029 P00   INFO: restore command begin 2.60.1: --archive-mode=off --config=/restore/pgbackrest.conf --exec-id=36-51afb153 --lock-path=/restore/lock --log-level-console=info --log-path=/restore/log --pg1-path=/restore/pg_data --process-max=4 --repo1-path=/multigres-demo/multigres --repo1-s3-bucket=multigres-lab-backups-<account-id> --repo1-s3-endpoint=s3.dualstack.ap-southeast-2.amazonaws.com --repo1-s3-key-type=web-id --repo1-s3-region=ap-southeast-2 --repo1-s3-sts-host=sts.ap-southeast-2.api.aws --repo1-s3-uri-style=host --repo1-storage-upload-chunk-size=10MiB --repo1-type=s3 --spool-path=/restore/spool --stanza=multigres
+2026-11-27 04:14:36.274 P00   INFO: repo1: restore backup set 20261126-124931F, recovery will start at 2026-11-26 12:49:31
+2026-11-27 04:14:36.274 P00   INFO: remap data directory to '/restore/pg_data'
+2026-11-27 04:14:36.274 P00   WARN: unknown user in backup manifest mapped to current user
+2026-11-27 04:14:36.274 P00   WARN: unknown group 'systemd-journal' in backup manifest mapped to current group
+2026-11-27 04:14:48.015 P00   INFO: write updated /restore/pg_data/postgresql.auto.conf
+2026-11-27 04:14:48.026 P00   INFO: restore global/pg_control (performed last to ensure aborted restores cannot be started)
+2026-11-27 04:14:48.028 P00   INFO: restore size = 55MB, file total = 1061
+2026-11-27 04:14:48.028 P00   INFO: restore command end: completed successfully (12000ms)

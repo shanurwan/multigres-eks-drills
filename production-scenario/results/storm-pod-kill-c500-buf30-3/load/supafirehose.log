@@ -1,0 +1,4 @@
+2026/11/27 04:37:32 Starting SupaFirehose on port 8080
+2026/11/27 04:37:32 Connected to database
+2026/11/27 04:37:32 Server listening on http://localhost:8080
+2026/11/27 04:39:52 Connection failed (total failures: 1): failed to connect to `user=postgres database=postgres`: 172.20.196.126:5432 (demo-multigateway): server error: FATAL: database is temporarily unavailable; please retry (SQLSTATE 57P03)

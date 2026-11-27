@@ -18,7 +18,7 @@ from collections import Counter, defaultdict
 from datetime import datetime, timezone
 
 RESULTS = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), "..", "results")
-RUN_DIR = re.compile(r"^(storm|auth)-([a-z-]+?)-(c\d+|r\d+)-(\d+)$")
+RUN_DIR = re.compile(r"^(storm|auth)-([a-z-]+?)-(c\d+|r\d+)(?:-([a-z0-9]+))?-(\d+)$")
 GAP = 1.0  # seconds without an acknowledged write (or a successful request) that count as an outage
 STAMP = re.compile(r"^(\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d+Z) (.*)$")
 
@@ -162,7 +162,7 @@ def main():
         load = os.path.join(d, "load", "metrics.jsonl" if m and m.group(1) == "storm" else "auth.jsonl")
         if not m or not os.path.exists(os.path.join(d, "verify.json")) or not os.path.exists(load):
             continue  # not a run, or still running
-        scenario, drill, level = m.group(1), m.group(2), m.group(3)
+        scenario, drill, level, tag = m.group(1), m.group(2), m.group(3), m.group(4) or ""
         v = json.load(open(os.path.join(d, "verify.json")))
         tl = timeline(os.path.join(d, "timeline.txt"))
         fault_t = next((t for t, text in tl if text.startswith("fault:")), None)
@@ -183,7 +183,7 @@ def main():
                 series[sec(t, fault_t)]["writer_err"] += 1
         w_out = gaps(acks, fault_t - 1)
         row = {
-            "run": name, "scenario": scenario, "drill": drill, "level": level,
+            "run": name, "scenario": scenario, "drill": drill, "level": level, "tag": tag,
             "writer_acked": v["acked"], "writer_lost_acked": v["lost_acked"],
             "writer_ambiguous": v["ambiguous"], "writer_ambiguous_present": v.get("ambiguous_present", 0),
             "writer_failed_present": v.get("failed_present", 0),

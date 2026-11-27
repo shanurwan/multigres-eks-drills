@@ -1,0 +1,35 @@
+{
+  "run": "storm-pod-kill-c2000-buf30-1",
+  "attempts": 134538,
+  "acked": 134458,
+  "failed": 72,
+  "ambiguous": 8,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 4,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "04:49:08.642",
+  "last_event": "04:55:08.617",
+  "outages": [
+    {
+      "from": "04:50:12.929",
+      "to": "04:50:33.003",
+      "seconds": 20.0742,
+      "errors_in_window": 80,
+      "first_error": "timeout: context deadline exceeded"
+    }
+  ],
+  "error_kinds": {
+    "context deadline exceeded": 72,
+    "timeout: context deadline exceeded": 8
+  },
+  "ok_latency_ms": {
+    "p100": 253,
+    "p50": 6,
+    "p95": 16,
+    "p99": 30
+  }
+}

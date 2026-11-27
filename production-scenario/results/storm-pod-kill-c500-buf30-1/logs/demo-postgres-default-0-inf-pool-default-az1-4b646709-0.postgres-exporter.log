@@ -1,0 +1,11 @@
+time=2026-11-27T04:19:12.333Z level=WARN source=main.go:81 msg="Error loading config" err="error opening config file \"postgres_exporter.yml\": open postgres_exporter.yml: no such file or directory"
+time=2026-11-27T04:19:12.333Z level=INFO source=main.go:91 msg="Excluded databases" databases=[]
+time=2026-11-27T04:19:12.333Z level=WARN source=main.go:94 msg="The extended queries.yaml config is DEPRECATED" file=/etc/postgres-exporter/queries.yml
+time=2026-11-27T04:19:12.335Z level=INFO source=tls_config.go:372 msg="Listening on" address=[::]:9187
+time=2026-11-27T04:19:12.335Z level=INFO source=tls_config.go:375 msg="TLS is disabled." http2=false address=[::]:9187
+time=2026-11-27T04:19:21.878Z level=INFO source=server.go:96 msg="Established new database connection" fingerprint=localhost:5432
+time=2026-11-27T04:19:21.883Z level=INFO source=postgres_exporter.go:537 msg="Semantic version changed" server=localhost:5432 from=0.0.0 to=17.7.0
+time=2026-11-27T04:19:51.880Z level=ERROR source=collector.go:191 msg="Error opening connection to database" err="error querying postgresql version: dial tcp [::1]:5432: connect: connection refused"
+time=2026-11-27T04:19:52.880Z level=ERROR source=postgres_exporter.go:606 msg="error scraping dsn" err="Error opening connection to database (postgresql://postgres:PASSWORD_REMOVED@localhost:5432/postgres?sslmode=disable&connect_timeout=5&options=-c%20statement_timeout%3D8s): driver: bad connection" dsn="postgresql://postgres:PASSWORD_REMOVED@localhost:5432/postgres?sslmode=disable&connect_timeout=5&options=-c%20statement_timeout%3D8s"
+time=2026-11-27T04:20:21.878Z level=INFO source=server.go:96 msg="Established new database connection" fingerprint=localhost:5432
+time=2026-11-27T04:20:21.884Z level=INFO source=postgres_exporter.go:537 msg="Semantic version changed" server=localhost:5432 from=0.0.0 to=17.7.0

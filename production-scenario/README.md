@@ -15,7 +15,7 @@ This builds on [`../failure-drill`](../failure-drill/failure-drill.md): same EKS
 | Supabase Auth (GoTrue) | `supabase/gotrue:v2.199.0` | `manifests/auth.yaml` |
 | EKS | 1.35, 3 zones, one `m7i-flex.large` (2 vCPU) per zone | `../terraform/` |
 
-Gateway buffer settings are the operator's defaults: buffering on, `--buffer-window 10s`, `--buffer-max-failover-duration 20s`, `--buffer-size 1000`, `--buffer-drain-concurrency 1`.
+Gateway buffer settings are the operator's defaults, except in runs tagged `buf30` (window 30 s, max failover 40 s): buffering on, `--buffer-window 10s`, `--buffer-max-failover-duration 20s`, `--buffer-size 1000`, `--buffer-drain-concurrency 1`.
 
 ## Workloads
 
@@ -95,6 +95,9 @@ WRITE_FOR=3m CONNS=500 scripts/scenario.sh storm 1 none   # baseline
 CONNS=500  scripts/scenario.sh storm 1                    # about 11 minutes each
 CONNS=2000 scripts/scenario.sh storm 1
 scripts/scenario.sh auth 1
+
+# The buffer fix: set multigateway.buffer.window: 30s and maxFailoverDuration: 40s on every cell, then
+TAG=buf30 CONNS=500 scripts/scenario.sh storm 1     # TAG is added to the run name
 
 python3 analysis/collect.py            # -> results/runs.csv, series/, errors/
 python3 analysis/plot.py               # -> results/charts/ (needs matplotlib)

@@ -8,7 +8,7 @@
 # The third argument is the drill (default pod-kill; anything drill.sh accepts, or "none").
 # resources.txt has "<unix time> <pod> <memory bytes> <cpu usage_usec>" from each pod's cgroup.
 # Environment: CONNS (default 500), READ_QPS (2000), WRITE_QPS (200), AUTH_RATE (20 ops/s),
-# WRITE_FOR (6m), FAULT_AT (60 s). Results land in results/<scenario>-<drill>-<conns|rate>-<n>/.
+# WRITE_FOR (6m), FAULT_AT (60 s), TAG (added to the run name, e.g. buf30 for a changed buffer). Results land in results/<scenario>-<drill>-<conns|rate>-<n>/.
 set -euo pipefail
 export MSYS_NO_PATHCONV=1
 here="$(cd "$(dirname "$0")/.." && pwd)"
@@ -23,8 +23,8 @@ auth_rate="${AUTH_RATE:-20}"
 export WRITE_FOR="${WRITE_FOR:-6m}" FAULT_AT="${FAULT_AT:-60}"
 secs=$(( ${WRITE_FOR%m} * 60 ))
 case "$scenario" in
-  storm) run="storm-$drill-c$conns-$n" ;;
-  auth)  run="auth-$drill-r$auth_rate-$n" ;;
+  storm) run="storm-$drill-c$conns${TAG:+-$TAG}-$n" ;;
+  auth)  run="auth-$drill-r$auth_rate${TAG:+-$TAG}-$n" ;;
   *) echo "unknown scenario $scenario" >&2; exit 2 ;;
 esac
 results="$here/results"

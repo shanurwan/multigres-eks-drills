@@ -47,13 +47,17 @@ def f(v):
     return float(v) if v not in ("", None) else None
 
 
+def window(r):
+    return 30 if r.get("tag") == "buf30" else WINDOW_S
+
+
 def marks(ax, r, y_text=True):
     """Fault at 0, buffering window, and the moment multiorch detected the dead primary."""
     ax.axvline(0, color=INK2, lw=1, ls=":")
     b0 = f(r.get("buffer_start_s"))
     det = f(r.get("detection_s"))
     if b0 is not None:
-        ax.axvspan(b0, b0 + WINDOW_S, color=SHADE, zorder=0)
+        ax.axvspan(b0, b0 + window(r), color=SHADE, zorder=0)
     if det is not None:
         ax.axvline(det, color=ORANGE if det > 10 else BLUE, lw=1.2)
     ax.grid(axis="y", color=GRID, lw=0.8)
@@ -66,7 +70,7 @@ def label_marks(ax, r):
     box = {"facecolor": "white", "edgecolor": "none", "alpha": 0.85, "pad": 1.5}
     ax.text(-0.6, 0.97, "pod killed", transform=tr, ha="right", va="top", color=INK2, fontsize=7.5, bbox=box)
     if b0 is not None:
-        ax.text(b0 + WINDOW_S / 2, 0.97, f"gateway holds\nqueries ({WINDOW_S} s)", transform=tr,
+        ax.text(b0 + min(window(r), 18) / 2, 0.97, f"gateway holds\nqueries (up to {window(r)} s)", transform=tr,
                 ha="center", va="top", color=INK2, fontsize=7.5)
     if det is not None:
         ax.text(det + 0.6, 0.45, f"multiorch detects\n{r['detection']}\nat {det:.1f} s", transform=tr,
@@ -84,8 +88,9 @@ def storm_panels(R, names, out, title):
         top.bar(x, [p.get("fh_errors", 0) for p in s], width=0.9, color=CRITICAL, label="errors / s")
         marks(top, r)
         label_marks(top, r)
-        top.set_title(f"{r['fh_connections']} connections, {'fast' if f(r['detection_s']) < 10 else 'slow'} detection"
-                      f", run {name.split('-')[-1]}", loc="left", pad=10)
+        buf = "buffer 30 s / 40 s" if r.get("tag") == "buf30" else "default buffer"
+        top.set_title(f"{r['fh_connections']} conns, {buf}, {'fast' if f(r['detection_s']) < 10 else 'slow'} detection",
+                      loc="left", pad=10, fontsize=10)
         top.set_ylabel("per second")
         conns = [p.get("fh_connections", 0) for p in s]
         bot.plot(x, conns, color=INK, lw=1.8)
@@ -100,7 +105,7 @@ def storm_panels(R, names, out, title):
     fig.legend(h, l, loc="upper right", ncol=2, frameon=False, fontsize=8.5)
     fig.suptitle(title, x=0.01, ha="left", fontsize=12, fontweight="bold", color=INK)
     fig.text(0.01, 0.005, "supafirehose (unmodified) through the gateway; 100 ms snapshots summed per second. "
-             "Shaded: the first 10 s of buffering. Defaults: --buffer-window 10s, --buffer-max-failover-duration 20s.",
+             "Shaded: up to the per-query buffer window (default 10 s).",
              fontsize=7.5, color=INK2)
     fig.tight_layout(rect=(0, 0.03, 1, 0.95))
     fig.savefig(os.path.join(CHARTS, out))
@@ -137,12 +142,14 @@ def auth_panels(R, names, out):
 
 
 def gap_by_run(R):
-    rows = [r for r in R.values() if r["drill"] != "none"]
-    rows.sort(key=lambda r: (r["scenario"], f(r["detection_s"]) or 0))
+    rows = [r for r in R.values() if r["drill"] != "none" and not r.get("tag")]
+    rows.sort(key=lambda r: (r.get("tag", ""), r["scenario"], f(r["detection_s"]) or 0))
     names, gaps, dets, cols = [], [], [], []
     for r in rows:
         gap = f(r.get("fh_longest_no_success_s")) if r["scenario"] == "storm" else f(r.get("auth_longest_no_success_s"))
         label = (f"storm {r['fh_connections']} conns" if r["scenario"] == "storm" else "Auth 20 req/s") + f", run {r['run'][-1]}"
+        if r.get("tag") == "buf30":
+            label = "buffer 30 s/40 s: " + label
         names.append(label)
         gaps.append(gap or 0)
         det = f(r["detection_s"])
@@ -184,6 +191,8 @@ def main():
     storm_panels(R, ["storm-pod-kill-c2000-1", "storm-pod-kill-c2000-2"], "storm-2000.png",
                  "2,000 client connections: every connection dropped and reopened")
     auth_panels(R, ["auth-pod-kill-r20-3", "auth-pod-kill-r20-1"], "auth-fast-vs-slow.png")
+    storm_panels(R, ["storm-pod-kill-c2000-1", "storm-pod-kill-c2000-buf30-1"], "buffer-default-vs-30s.png",
+                 "Slow detection, 2,000 connections: default buffer vs window 30 s / max 40 s")
     gap_by_run(R)
     print("charts ->", CHARTS)
 

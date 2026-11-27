@@ -11,13 +11,14 @@ In each run the primary's pod is killed 60 seconds in, while the drill writer fr
 
 | Measure | Result |
 |---|---|
-| **Acknowledged writes lost** | **0** of 1,174,791 across 10 runs (7 with a fault, 3 baselines) |
+| **Acknowledged writes lost** | **0** of 1,714,155 across 14 runs (11 with a fault, 3 baselines) |
 | **Supabase Auth through the gateway** | works unmodified: all 78 of its migrations ran, 200 users signed up, 0 errors without a fault |
-| **Clients, when multiorch detects the dead primary fast** (2 of 7 runs, 3.7–4.4 s) | **0 errors**. The gateway held queries and replayed them. Longest gap 1.6 s (storm), 2.4 s (Auth) |
-| **Clients, when detection takes the slow path** (5 of 7 runs, 19.4–21.8 s) | **16–25 s with no successful request**. Every held query failed after 10 s, and nearly every client connection dropped and reconnected at once |
+| **Clients, when multiorch detects the dead primary fast** (default buffer, 2 of 7 runs, 3.7–4.4 s) | **0 errors**. The gateway held queries and replayed them. Longest gap 1.6 s (storm), 2.4 s (Auth) |
+| **Clients, when detection takes the slow path** (default buffer, 5 of 7 runs, 19.4–21.8 s) | **16–25 s with no successful request**. Every held query failed after 10 s, and nearly every client connection dropped and reconnected at once |
 | **Supabase Auth during a slow failover** | about 20 s of HTTP 500 ("Database error querying schema") and requests hanging until the client's 10 s timeout |
 | **Valid users told "wrong password"** | **0**. Every credential lookup that failed during failover was answered "temporarily unavailable, retry" (SQLSTATE 57P03) |
 | **Gateway under 2,000 reconnecting clients** | stayed up. Peak 127 MiB of its 256 MiB limit, 0.37 CPU cores, no restarts |
+| **The fix, verified: buffer window 30 s, max failover 40 s** (4 more runs, all on the slow path) | held queries replayed, **0 buffer timeouts**. Client errors fell from 500–6,533 per run to **2–11** in 3 of 4 runs. Connections stayed open (1,998 of 2,000, against 18–24 before). Clients still wait about 20 s for the new primary |
 
 ![Longest time with no successful client request after the kill, per run, by detection path](results/charts/client-gap-by-run.png)
 
@@ -27,7 +28,7 @@ In each run the primary's pod is killed 60 seconds in, while the drill writer fr
 
 | | Finding | Impact |
 |---|---|---|
-| **P1** | The gateway's default buffer limits (10 s per request, 20 s per failover) are shorter than multiorch's slow detection path (19.4–21.8 s here) | a failover clients would not have noticed becomes 16–25 s of errors for every client |
+| **P1** | The gateway's default buffer limits (10 s per request, 20 s per failover) are shorter than multiorch's slow detection path (18.6–22.4 s here) | a failover clients would not have noticed becomes 16–25 s of errors for every client. Raising the limits to 30 s / 40 s fixes it (verified) |
 | **P2** | When the held queries time out, every client drops its connection at once and reconnects (500 of 500; 1,982 and 1,976 of 2,000) | a reconnect storm against the gateway exactly while there is no primary |
 | **P3** | During the slow path Supabase Auth returns HTTP 500, or hangs until the client gives up | sign-in, token refresh and `GET /user` fail for about 20 s. The errors are generic 500s, not "retry later" |
 | **P4** | During a slow failover the gateway logs every failed query. That rotated away the start of the failover in its container log in 2 of 7 runs | the evidence needed to debug a failover is gone unless gateway logs are shipped off the node |
@@ -54,14 +55,36 @@ The gateway holds a query while a failover is in progress and replays it on the 
 
 On the slow path, two things happen:
 - **At 10 s** every held query fails with `failover buffer timeout (SQLSTATE MTB02)`. That's the error spike at about 14 s in run 2 above.
-- **At 20 s** the gateway stops buffering altogether. In two runs that was 0.1–0.6 s before multiorch even detected the failure. The queries it then released met no primary yet, which is the second error spike in the 2,000-connection chart.
+- **At 20 s** the gateway stops buffering altogether. In two runs that was 0.1–0.6 s after multiorch detected the failure, before the new primary was serving. The queries it then released met no primary yet, which is the second error spike in the 2,000-connection chart.
 
-Across these 7 runs and the 3 pod-kill runs in `failure-drill/`, the slow path fired in 7 of 10. These runs do not show what selects the path.
+Across the 11 pod kills here and the 3 in `failure-drill/`, the slow path fired in 11 of 14. These runs do not show what selects the path.
 
-**What would fix it**, in order of how much it changes:
-- Set `multigateway.buffer.window` and `maxFailoverDuration` above the worst detection plus promotion time, for example 30 s and 40 s, so a slow failover still ends in a replay rather than errors. That's a cluster setting today. **Not yet measured here; it's the next run.**
-- Raise the defaults the operator writes, or document them for unplanned failover.
-- Make the slow detection path faster in multiorch.
+#### The fix, measured: window 30 s, max failover 40 s
+
+The same pod kill, run 4 more times with `multigateway.buffer.window: 30s` and `maxFailoverDuration: 40s` set on all three cells. Nothing else changed. Every one of the 4 took the slow path (18.6–22.4 s), so each is a direct comparison.
+
+![Slow detection at 2,000 connections, default buffer against 30 s / 40 s](results/charts/buffer-default-vs-30s.png)
+
+| | Default buffer (10 s / 20 s), slow path | Buffer 30 s / 40 s, slow path |
+|---|---|---|
+| Runs | 3 storm (500, 2,000, 2,000) | 4 storm (500 ×3, 2,000) |
+| Detection | 19.4–21.8 s | 18.6–22.4 s |
+| Buffering ended | new primary, or **max failover duration exceeded** | **new primary**, every run |
+| Held queries that timed out (MTB02) | 510 and 1,998, in the runs where the log has it | **0** |
+| Client errors per run | 500, 2,000, 6,533 | **2, 6, 11**, and 267 in one run (below) |
+| Lowest open connections | 0 of 500; 18 and 24 of 2,000 | 500, 495, 318 of 500; **1,998 of 2,000** |
+| Longest time with no successful request | 16.3–24.9 s | 19.5–21.1 s |
+| Back to full query rate | 20–28 s | 22–23 s |
+| Gateway peak memory | 55–127 MiB | 43–115 MiB |
+
+The gap stays about 20 s, because the new primary still takes that long. What changes is what clients see during it: **they wait instead of failing**, then every held query (579 to 2,065 per run) runs on the new primary.
+
+In the one run with 267 errors, all of them came in the first 2 seconds after the kill, before buffering had started: queries already running on the dying primary, failing with `57P03` or `statement timed out before backend cleanup could be confirmed`. That's a separate, smaller effect, not the buffer giving up. Those 182 clients reconnected, and their new connections were held until the new primary arrived.
+
+**What this means**, in order of how much it changes:
+- **Today:** set `multigateway.buffer.window` and `maxFailoverDuration` above the worst detection plus promotion time. 30 s and 40 s worked here.
+- **In the operator:** raise the defaults it writes, or document them for unplanned failover.
+- **In multiorch:** make the slow detection path faster. That's the only way to shorten the 20 s itself.
 
 ### P2. Every client reconnects at the same moment
 
@@ -104,7 +127,8 @@ During a slow failover each gateway logs every failed query and every failed con
 
 | Runs | Acknowledged writes | Lost | Ambiguous (error after sending) | of those, committed |
 |---|---|---|---|---|
-| 7 with a pod kill | 959,472 | **0** | 51 | 11 |
+| 7 with a pod kill, default buffer | 959,472 | **0** | 51 | 11 |
+| 4 with a pod kill, buffer 30 s / 40 s | 539,364 | **0** | 28 | 19 |
 | 3 baselines | 215,319 | **0** | 0 | 0 |
 
 The drill writer is the same checker as in `failure-drill/`. It sends 8 connections × 50 inserts a second through the gateway, and afterwards checks every acknowledged key. "Ambiguous" writes got an error after the statement was sent, so the client can't know whether they committed. Some did, which is why applications need idempotent retries. No write that failed before sending was ever committed.
@@ -112,18 +136,18 @@ The drill writer is the same checker as in `failure-drill/`. It sends 8 connecti
 ## What to check before running Multigres behind Supabase-style clients
 
 - **Measure your failover detection time, not only the promotion time.** Here the same fault took 3.7 s or 21.8 s to detect.
-- **Set the gateway buffer above that worst case** (`multigateway.buffer.window` and `maxFailoverDuration`). Otherwise the buffer turns a slow failover into an error storm.
+- **Set the gateway buffer above that worst case** (`multigateway.buffer.window` and `maxFailoverDuration`; 30 s and 40 s worked here). Otherwise the buffer turns a slow failover into an error storm.
 - **Give clients backoff with jitter on reconnect.** A pool that reconnects after a fixed 100 ms sends every connection back at the same moment.
-- **Treat SQLSTATE 57P03 and MTB02 as retryable** in drivers and pools, and keep retries idempotent: 11 writes that errored had in fact committed.
+- **Treat SQLSTATE 57P03 and MTB02 as retryable** in drivers and pools, and keep retries idempotent: 30 writes that errored had in fact committed.
 - **Ship gateway logs off the node** before you need them (P4).
 - **Size gateway memory from connections.** It was 45 MiB at 500 idle connections, 81 MiB at 2,000, and 127 MiB during a 2,000-client reconnect storm.
 
 ## Limits
 
-- **Small sample:** 7 fault runs, all of the same kind (primary pod kill). Enough to show that both behaviours exist and what each costs, not how often each happens.
+- **Small sample:** 11 fault runs, all of the same kind (primary pod kill). Enough to show that both behaviours exist, what each costs and that the buffer change fixes the error storm, not how often each path happens.
 - **Small nodes and one client pod:** nodes have 2 vCPU. All load came from one client pod in `apse2-az1` (peak 0.65 cores), so client CPU didn't limit the results. Auth ran as one replica.
 - **The client decides much of the storm:** supafirehose's fixed 100 ms reconnect makes the storm as sharp as it can be. Clients with backoff would spread it out, but would still see the same 16–25 s with no primary.
-- **The buffer fix is not yet verified.** The recommended buffer values are reasoned from the measurements, not measured.
+- **The buffer fix was measured on the storm only,** not on Auth, and only on the slow path. A longer window also means a client waits longer before getting an error when a failover really does fail. A larger window doesn't help an application with its own shorter timeout.
 - **Logs:** in two runs the start of buffering was rotated out of the gateway logs (P4). Those cells are marked "not in log". Every other number comes from client-side events, which are complete.
 
 ## Files

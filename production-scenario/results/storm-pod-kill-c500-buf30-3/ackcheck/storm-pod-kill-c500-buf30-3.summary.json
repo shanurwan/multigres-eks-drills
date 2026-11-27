@@ -1,0 +1,36 @@
+{
+  "run": "storm-pod-kill-c500-buf30-3",
+  "attempts": 135075,
+  "acked": 134948,
+  "failed": 123,
+  "ambiguous": 4,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 3,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "04:38:47.843",
+  "last_event": "04:44:47.810",
+  "outages": [
+    {
+      "from": "04:39:52.369",
+      "to": "04:40:14.387",
+      "seconds": 22.01799,
+      "errors_in_window": 123,
+      "first_error": "57P03 database is temporarily unavailable; please retry"
+    }
+  ],
+  "error_kinds": {
+    "57P03 database is temporarily unavailable; please retry": 43,
+    "context deadline exceeded": 80,
+    "timeout: context deadline exceeded": 4
+  },
+  "ok_latency_ms": {
+    "p100": 1932,
+    "p50": 5,
+    "p95": 10,
+    "p99": 16
+  }
+}

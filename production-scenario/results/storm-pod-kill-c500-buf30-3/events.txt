@@ -1,0 +1,118 @@
+LAST SEEN   TYPE      REASON                   OBJECT                                                        MESSAGE
+31m         Normal    WaitForPodScheduled      persistentvolumeclaim/restore-rpo-marker-1-restore-restore    waiting for pod restore-rpo-marker-1-restore to be scheduled
+31m         Warning   FailedScheduling         pod/restore-rpo-marker-1-restore                              0/3 nodes are available: waiting for ephemeral volume controller to create the persistentvolumeclaim "restore-rpo-marker-1-restore-restore". not found
+31m         Normal    Provisioning             persistentvolumeclaim/restore-rpo-marker-1-restore-restore    External provisioner is provisioning volume for claim "multigres-demo/restore-rpo-marker-1-restore-restore"
+31m         Normal    ExternalProvisioning     persistentvolumeclaim/restore-rpo-marker-1-restore-restore    Waiting for a volume to be created either by the external provisioner 'ebs.csi.aws.com' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+31m         Normal    ProvisioningSucceeded    persistentvolumeclaim/restore-rpo-marker-1-restore-restore    Successfully provisioned volume pvc-34cf8ed2-b34e-4b29-9011-bd817a27592b
+31m         Normal    Scheduled                pod/restore-rpo-marker-1-restore                              Successfully assigned multigres-demo/restore-rpo-marker-1-restore to ip-10-42-18-161.ap-southeast-2.compute.internal
+31m         Normal    SuccessfulAttachVolume   pod/restore-rpo-marker-1-restore                              AttachVolume.Attach succeeded for volume "pvc-34cf8ed2-b34e-4b29-9011-bd817a27592b"
+31m         Normal    Pulled                   pod/restore-rpo-marker-1-restore                              Container image "ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647" already present on machine and can be accessed by the pod
+31m         Normal    Created                  pod/restore-rpo-marker-1-restore                              Container created
+31m         Normal    Started                  pod/restore-rpo-marker-1-restore                              Container started
+29m         Normal    Killing                  pod/restore-rpo-marker-1-restore                              Stopping container restore
+29m         Normal    Synced                   cell/demo-az2-c7223123                                        Successfully reconciled Cell spec
+29m         Normal    PhaseChange              cell/demo-az1-551ac1e8                                        Transitioned from 'Healthy' to 'Progressing'
+29m         Normal    Synced                   multigrescluster/demo                                         Successfully reconciled MultigresCluster
+29m         Normal    SuccessfulCreate         replicaset/demo-az3-multigateway-9d51cd81-84dd69d5c5          Created pod: demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl
+29m         Normal    ImplicitDefault          multigrescluster/demo                                         Implicitly injected default 'readWrite' pool configuration using the 'default' ShardTemplate
+29m         Normal    Applied                  multigrescluster/demo                                         Applied Cell demo-az3-a11fb6ba
+29m         Normal    Scheduled                pod/demo-az2-multigateway-225ffbee-9598cfcd9-7pskr            Successfully assigned multigres-demo/demo-az2-multigateway-225ffbee-9598cfcd9-7pskr to ip-10-42-33-80.ap-southeast-2.compute.internal
+29m         Normal    ScalingReplicaSet        deployment/demo-az1-multigateway-8d59bb63                     Scaled up replica set demo-az1-multigateway-8d59bb63-59744f8b75 from 0 to 1
+29m         Normal    Applied                  multigrescluster/demo                                         Applied Cell demo-az2-c7223123
+29m         Normal    PhaseChange              cell/demo-az2-c7223123                                        Transitioned from 'Healthy' to 'Progressing'
+29m         Normal    SuccessfulCreate         replicaset/demo-az2-multigateway-225ffbee-9598cfcd9           Created pod: demo-az2-multigateway-225ffbee-9598cfcd9-7pskr
+29m         Normal    ScalingReplicaSet        deployment/demo-az2-multigateway-225ffbee                     Scaled up replica set demo-az2-multigateway-225ffbee-9598cfcd9 from 0 to 1
+29m         Normal    SuccessfulCreate         replicaset/demo-az1-multigateway-8d59bb63-59744f8b75          Created pod: demo-az1-multigateway-8d59bb63-59744f8b75-2b76l
+29m         Normal    Scheduled                pod/demo-az1-multigateway-8d59bb63-59744f8b75-2b76l           Successfully assigned multigres-demo/demo-az1-multigateway-8d59bb63-59744f8b75-2b76l to ip-10-42-2-70.ap-southeast-2.compute.internal
+29m         Normal    Synced                   cell/demo-az3-a11fb6ba                                        Successfully reconciled Cell spec
+29m         Normal    PhaseChange              cell/demo-az3-a11fb6ba                                        Transitioned from 'Healthy' to 'Progressing'
+29m         Normal    Synced                   cell/demo-az1-551ac1e8                                        Successfully reconciled Cell spec
+29m         Normal    Applied                  multigrescluster/demo                                         Applied Cell demo-az1-551ac1e8
+29m         Normal    Scheduled                pod/demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl           Successfully assigned multigres-demo/demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl to ip-10-42-18-161.ap-southeast-2.compute.internal
+29m         Normal    ScalingReplicaSet        deployment/demo-az3-multigateway-9d51cd81                     Scaled up replica set demo-az3-multigateway-9d51cd81-84dd69d5c5 from 0 to 1
+29m         Normal    Started                  pod/demo-az2-multigateway-225ffbee-9598cfcd9-7pskr            Container started
+29m         Normal    Started                  pod/demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl           Container started
+29m         Normal    Created                  pod/demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl           Container created
+29m         Normal    Pulled                   pod/demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl           Container image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363" already present on machine and can be accessed by the pod
+29m         Normal    Created                  pod/demo-az2-multigateway-225ffbee-9598cfcd9-7pskr            Container created
+29m         Normal    Pulled                   pod/demo-az2-multigateway-225ffbee-9598cfcd9-7pskr            Container image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363" already present on machine and can be accessed by the pod
+29m         Normal    Started                  pod/demo-az1-multigateway-8d59bb63-59744f8b75-2b76l           Container started
+29m         Normal    Created                  pod/demo-az1-multigateway-8d59bb63-59744f8b75-2b76l           Container created
+29m         Normal    Pulled                   pod/demo-az1-multigateway-8d59bb63-59744f8b75-2b76l           Container image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363" already present on machine and can be accessed by the pod
+29m         Normal    Killing                  pod/demo-az2-multigateway-225ffbee-7dd74c5c8d-wtrxb           Stopping container multigateway
+29m         Normal    PhaseChange              cell/demo-az2-c7223123                                        Transitioned from 'Progressing' to 'Healthy'
+29m         Normal    SuccessfulDelete         replicaset/demo-az3-multigateway-9d51cd81-77c59b8496          Deleted pod: demo-az3-multigateway-9d51cd81-77c59b8496-kvn88
+29m         Normal    Killing                  pod/demo-az3-multigateway-9d51cd81-77c59b8496-kvn88           Stopping container multigateway
+29m         Normal    PhaseChange              cell/demo-az1-551ac1e8                                        Transitioned from 'Progressing' to 'Healthy'
+29m         Normal    Killing                  pod/demo-az1-multigateway-8d59bb63-6f79d89f84-9vjps           Stopping container multigateway
+29m         Normal    PhaseChange              cell/demo-az3-a11fb6ba                                        Transitioned from 'Progressing' to 'Healthy'
+29m         Normal    ScalingReplicaSet        deployment/demo-az2-multigateway-225ffbee                     Scaled down replica set demo-az2-multigateway-225ffbee-7dd74c5c8d from 1 to 0
+29m         Normal    SuccessfulDelete         replicaset/demo-az1-multigateway-8d59bb63-6f79d89f84          Deleted pod: demo-az1-multigateway-8d59bb63-6f79d89f84-9vjps
+29m         Normal    ScalingReplicaSet        deployment/demo-az1-multigateway-8d59bb63                     Scaled down replica set demo-az1-multigateway-8d59bb63-6f79d89f84 from 1 to 0
+29m         Normal    ScalingReplicaSet        deployment/demo-az3-multigateway-9d51cd81                     Scaled down replica set demo-az3-multigateway-9d51cd81-77c59b8496 from 1 to 0
+29m         Normal    SuccessfulDelete         replicaset/demo-az2-multigateway-225ffbee-7dd74c5c8d          Deleted pod: demo-az2-multigateway-225ffbee-7dd74c5c8d-wtrxb
+26m         Normal    Pulled                   pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container image "ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647" already present on machine and can be accessed by the pod
+26m         Normal    Created                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container created
+26m         Normal    Scheduled                pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Successfully assigned multigres-demo/demo-postgres-default-0-inf-pool-default-az1-4b646709-0 to ip-10-42-2-70.ap-southeast-2.compute.internal
+26m         Normal    Killing                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Stopping container multipooler
+26m         Normal    Killing                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Stopping container postgres-exporter
+26m         Normal    Killing                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Stopping container postgres
+26m         Normal    PodCreated               shard/demo-postgres-default-0-inf-bedd096a                    Created pod demo-postgres-default-0-inf-pool-default-az1-4b646709-0 for pool default
+26m         Normal    Started                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container started
+26m         Warning   BackupCheckFailed        shard/demo-postgres-default-0-inf-bedd096a                    Failed to check backup health: querying backups from primary multipooler-az1-p-3c7ba9d3: rpc error: code = Unavailable desc = name resolver error: produced zero addresses
+26m         Normal    Pulled                   pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container image "quay.io/prometheuscommunity/postgres-exporter:v0.20.1" already present on machine and can be accessed by the pod
+26m         Normal    Pulled                   pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363" already present on machine and can be accessed by the pod
+26m         Normal    Started                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container started
+26m         Normal    Created                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container created
+26m         Warning   PoolEmpty                shard/demo-postgres-default-0-inf-bedd096a                    Pool default in cell az1 has 0 ready replicas
+26m         Normal    Started                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container started
+26m         Normal    Created                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container created
+26m         Normal    PhaseChange              tablegroup/demo-postgres-default-c91a52d0                     Transitioned from 'Progressing' to 'Degraded'
+26m         Normal    PhaseChange              shard/demo-postgres-default-0-inf-bedd096a                    Transitioned from 'Progressing' to 'Degraded'
+26m         Normal    PhaseChange              multigrescluster/demo                                         Transitioned from 'Progressing' to 'Degraded'
+25m         Normal    PhaseChange              tablegroup/demo-postgres-default-c91a52d0                     Transitioned from 'Degraded' to 'Progressing'
+25m         Normal    PhaseChange              shard/demo-postgres-default-0-inf-bedd096a                    Transitioned from 'Degraded' to 'Progressing'
+25m         Normal    PhaseChange              multigrescluster/demo                                         Transitioned from 'Degraded' to 'Progressing'
+25m         Warning   Unhealthy                pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Readiness probe failed: /var/lib/pooler/pg_sockets:5432 - no response
+25m         Warning   Unhealthy                pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Readiness probe failed: /var/lib/pooler/pg_sockets:5432 - rejecting connections
+16m         Normal    Killing                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0   Stopping container multipooler
+16m         Warning   PoolEmpty                shard/demo-postgres-default-0-inf-bedd096a                    Pool default in cell az3 has 0 ready replicas
+16m         Normal    Killing                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0   Stopping container postgres
+16m         Normal    Killing                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0   Stopping container postgres-exporter
+16m         Normal    PodCreated               shard/demo-postgres-default-0-inf-bedd096a                    Created pod demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 for pool default
+16m         Normal    Scheduled                pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0   Successfully assigned multigres-demo/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 to ip-10-42-18-161.ap-southeast-2.compute.internal
+16m         Normal    Started                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0   Container started
+16m         Normal    Pulled                   pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0   Container image "ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647" already present on machine and can be accessed by the pod
+16m         Normal    Created                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0   Container created
+16m         Normal    Started                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0   Container started
+16m         Normal    Started                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0   Container started
+16m         Normal    Created                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0   Container created
+16m         Normal    Pulled                   pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0   Container image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363" already present on machine and can be accessed by the pod
+16m         Normal    Pulled                   pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0   Container image "quay.io/prometheuscommunity/postgres-exporter:v0.20.1" already present on machine and can be accessed by the pod
+16m         Normal    Created                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0   Container created
+16m         Warning   Unhealthy                pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0   Readiness probe failed: /var/lib/pooler/pg_sockets:5432 - no response
+5m43s       Normal    Scheduled                pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Successfully assigned multigres-demo/demo-postgres-default-0-inf-pool-default-az2-7166e172-0 to ip-10-42-33-80.ap-southeast-2.compute.internal
+5m43s       Normal    PhaseChange              tablegroup/demo-postgres-default-c91a52d0                     Transitioned from 'Healthy' to 'Progressing'
+5m43s       Normal    Killing                  pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Stopping container postgres
+5m43s       Normal    PhaseChange              shard/demo-postgres-default-0-inf-bedd096a                    Transitioned from 'Healthy' to 'Progressing'
+5m43s       Normal    Killing                  pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Stopping container postgres-exporter
+5m43s       Normal    PhaseChange              multigrescluster/demo                                         Transitioned from 'Healthy' to 'Progressing'
+5m43s       Warning   PoolEmpty                shard/demo-postgres-default-0-inf-bedd096a                    Pool default in cell az2 has 0 ready replicas
+5m43s       Normal    PodCreated               shard/demo-postgres-default-0-inf-bedd096a                    Created pod demo-postgres-default-0-inf-pool-default-az2-7166e172-0 for pool default
+5m43s       Normal    Killing                  pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Stopping container multipooler
+5m43s       Warning   Unhealthy                pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Readiness probe failed: HTTP probe failed with statuscode: 503
+5m42s       Normal    Created                  pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Container created
+5m42s       Normal    Pulled                   pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Container image "ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647" already present on machine and can be accessed by the pod
+5m42s       Normal    Started                  pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Container started
+5m37s       Normal    Started                  pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Container started
+5m37s       Normal    Created                  pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Container created
+5m37s       Normal    Pulled                   pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Container image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363" already present on machine and can be accessed by the pod
+5m37s       Normal    Pulled                   pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Container image "quay.io/prometheuscommunity/postgres-exporter:v0.20.1" already present on machine and can be accessed by the pod
+5m37s       Normal    Created                  pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Container created
+5m37s       Normal    Started                  pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Container started
+5m16s       Normal    BackupHealthy            shard/demo-postgres-default-0-inf-bedd096a                    Last full backup completed at 2026-11-26T12:49:33Z
+4m25s       Warning   Unhealthy                pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Readiness probe failed: /var/lib/pooler/pg_sockets:5432 - no response
+4m20s       Warning   Unhealthy                pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Readiness probe failed: /var/lib/pooler/pg_sockets:5432 - rejecting connections
+4m16s       Normal    PhaseChange              shard/demo-postgres-default-0-inf-bedd096a                    Transitioned from 'Progressing' to 'Healthy'
+4m16s       Normal    PhaseChange              tablegroup/demo-postgres-default-c91a52d0                     Transitioned from 'Progressing' to 'Healthy'
+4m15s       Normal    PhaseChange              multigrescluster/demo                                         Transitioned from 'Progressing' to 'Healthy'

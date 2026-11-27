@@ -1,0 +1,139 @@
+LAST SEEN   TYPE      REASON                   OBJECT                                                        MESSAGE
+56m         Normal    WaitForPodScheduled      persistentvolumeclaim/restore-latest-1-restore                waiting for pod restore-latest-1 to be scheduled
+56m         Normal    Provisioning             persistentvolumeclaim/restore-latest-1-restore                External provisioner is provisioning volume for claim "multigres-demo/restore-latest-1-restore"
+56m         Normal    ExternalProvisioning     persistentvolumeclaim/restore-latest-1-restore                Waiting for a volume to be created either by the external provisioner 'ebs.csi.aws.com' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+56m         Warning   FailedScheduling         pod/restore-latest-1                                          0/3 nodes are available: waiting for ephemeral volume controller to create the persistentvolumeclaim "restore-latest-1-restore". not found
+56m         Normal    ProvisioningSucceeded    persistentvolumeclaim/restore-latest-1-restore                Successfully provisioned volume pvc-134e0442-5f92-4069-8b71-57f706bcc716
+56m         Normal    Scheduled                pod/restore-latest-1                                          Successfully assigned multigres-demo/restore-latest-1 to ip-10-42-18-161.ap-southeast-2.compute.internal
+56m         Normal    SuccessfulAttachVolume   pod/restore-latest-1                                          AttachVolume.Attach succeeded for volume "pvc-134e0442-5f92-4069-8b71-57f706bcc716"
+56m         Normal    Pulled                   pod/restore-latest-1                                          Container image "ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647" already present on machine and can be accessed by the pod
+56m         Normal    Created                  pod/restore-latest-1                                          Container created
+56m         Normal    Started                  pod/restore-latest-1                                          Container started
+55m         Normal    ExternalProvisioning     persistentvolumeclaim/restore-pitr-1-restore                  Waiting for a volume to be created either by the external provisioner 'ebs.csi.aws.com' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+55m         Normal    WaitForPodScheduled      persistentvolumeclaim/restore-pitr-1-restore                  waiting for pod restore-pitr-1 to be scheduled
+55m         Normal    Provisioning             persistentvolumeclaim/restore-pitr-1-restore                  External provisioner is provisioning volume for claim "multigres-demo/restore-pitr-1-restore"
+55m         Warning   FailedScheduling         pod/restore-pitr-1                                            0/3 nodes are available: waiting for ephemeral volume controller to create the persistentvolumeclaim "restore-pitr-1-restore". not found
+55m         Normal    ProvisioningSucceeded    persistentvolumeclaim/restore-pitr-1-restore                  Successfully provisioned volume pvc-e775115f-713d-48a4-80cd-abfcea2953d4
+55m         Normal    Scheduled                pod/restore-pitr-1                                            Successfully assigned multigres-demo/restore-pitr-1 to ip-10-42-33-80.ap-southeast-2.compute.internal
+55m         Normal    SuccessfulAttachVolume   pod/restore-pitr-1                                            AttachVolume.Attach succeeded for volume "pvc-e775115f-713d-48a4-80cd-abfcea2953d4"
+55m         Normal    Started                  pod/restore-pitr-1                                            Container started
+55m         Normal    Pulled                   pod/restore-pitr-1                                            Container image "ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647" already present on machine and can be accessed by the pod
+55m         Normal    Created                  pod/restore-pitr-1                                            Container created
+55m         Normal    Killing                  pod/restore-latest-1                                          Stopping container restore
+55m         Normal    Killing                  pod/restore-pitr-1                                            Stopping container restore
+54m         Normal    ExternalProvisioning     persistentvolumeclaim/restore-latest-1-restore                Waiting for a volume to be created either by the external provisioner 'ebs.csi.aws.com' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+54m         Normal    WaitForPodScheduled      persistentvolumeclaim/restore-latest-1-restore                waiting for pod restore-latest-1 to be scheduled
+54m         Warning   FailedScheduling         pod/restore-latest-1                                          0/3 nodes are available: waiting for ephemeral volume controller to create the persistentvolumeclaim "restore-latest-1-restore". not found
+54m         Normal    Provisioning             persistentvolumeclaim/restore-latest-1-restore                External provisioner is provisioning volume for claim "multigres-demo/restore-latest-1-restore"
+54m         Normal    ProvisioningSucceeded    persistentvolumeclaim/restore-latest-1-restore                Successfully provisioned volume pvc-c8e424fd-94bd-44f0-8400-abc793a44790
+53m         Normal    Scheduled                pod/restore-latest-1                                          Successfully assigned multigres-demo/restore-latest-1 to ip-10-42-18-161.ap-southeast-2.compute.internal
+53m         Normal    SuccessfulAttachVolume   pod/restore-latest-1                                          AttachVolume.Attach succeeded for volume "pvc-c8e424fd-94bd-44f0-8400-abc793a44790"
+53m         Normal    Created                  pod/restore-latest-1                                          Container created
+53m         Normal    Pulled                   pod/restore-latest-1                                          Container image "ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647" already present on machine and can be accessed by the pod
+53m         Normal    Started                  pod/restore-latest-1                                          Container started
+52m         Normal    Killing                  pod/restore-latest-1                                          Stopping container restore
+51m         Normal    Provisioning             persistentvolumeclaim/restore-latest-1-restore                External provisioner is provisioning volume for claim "multigres-demo/restore-latest-1-restore"
+51m         Normal    ExternalProvisioning     persistentvolumeclaim/restore-latest-1-restore                Waiting for a volume to be created either by the external provisioner 'ebs.csi.aws.com' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+51m         Normal    WaitForPodScheduled      persistentvolumeclaim/restore-latest-1-restore                waiting for pod restore-latest-1 to be scheduled
+51m         Warning   FailedScheduling         pod/restore-latest-1                                          0/3 nodes are available: waiting for ephemeral volume controller to create the persistentvolumeclaim "restore-latest-1-restore". not found
+51m         Normal    ProvisioningSucceeded    persistentvolumeclaim/restore-latest-1-restore                Successfully provisioned volume pvc-712c0e9c-ef2a-4003-8f61-86d523a5891b
+51m         Normal    Scheduled                pod/restore-latest-1                                          Successfully assigned multigres-demo/restore-latest-1 to ip-10-42-18-161.ap-southeast-2.compute.internal
+51m         Normal    SuccessfulAttachVolume   pod/restore-latest-1                                          AttachVolume.Attach succeeded for volume "pvc-712c0e9c-ef2a-4003-8f61-86d523a5891b"
+50m         Normal    Pulled                   pod/restore-latest-1                                          Container image "ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647" already present on machine and can be accessed by the pod
+50m         Normal    Started                  pod/restore-latest-1                                          Container started
+50m         Normal    Created                  pod/restore-latest-1                                          Container created
+49m         Normal    Killing                  pod/restore-latest-1                                          Stopping container restore
+48m         Warning   FailedScheduling         pod/restore-pitr-1                                            0/3 nodes are available: waiting for ephemeral volume controller to create the persistentvolumeclaim "restore-pitr-1-restore". not found
+48m         Normal    WaitForPodScheduled      persistentvolumeclaim/restore-pitr-1-restore                  waiting for pod restore-pitr-1 to be scheduled
+48m         Normal    Provisioning             persistentvolumeclaim/restore-pitr-1-restore                  External provisioner is provisioning volume for claim "multigres-demo/restore-pitr-1-restore"
+48m         Normal    ExternalProvisioning     persistentvolumeclaim/restore-pitr-1-restore                  Waiting for a volume to be created either by the external provisioner 'ebs.csi.aws.com' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+48m         Normal    ProvisioningSucceeded    persistentvolumeclaim/restore-pitr-1-restore                  Successfully provisioned volume pvc-d63f20d7-4509-4e8c-aab6-f391d4dc2a75
+48m         Normal    Scheduled                pod/restore-pitr-1                                            Successfully assigned multigres-demo/restore-pitr-1 to ip-10-42-18-161.ap-southeast-2.compute.internal
+48m         Normal    SuccessfulAttachVolume   pod/restore-pitr-1                                            AttachVolume.Attach succeeded for volume "pvc-d63f20d7-4509-4e8c-aab6-f391d4dc2a75"
+48m         Normal    Started                  pod/restore-pitr-1                                            Container started
+48m         Normal    Pulled                   pod/restore-pitr-1                                            Container image "ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647" already present on machine and can be accessed by the pod
+48m         Normal    Created                  pod/restore-pitr-1                                            Container created
+47m         Normal    Killing                  pod/restore-pitr-1                                            Stopping container restore
+10m         Warning   FailedScheduling         pod/restore-rpo-marker-1-restore                              0/3 nodes are available: waiting for ephemeral volume controller to create the persistentvolumeclaim "restore-rpo-marker-1-restore-restore". not found
+10m         Normal    Provisioning             persistentvolumeclaim/restore-rpo-marker-1-restore-restore    External provisioner is provisioning volume for claim "multigres-demo/restore-rpo-marker-1-restore-restore"
+10m         Normal    ExternalProvisioning     persistentvolumeclaim/restore-rpo-marker-1-restore-restore    Waiting for a volume to be created either by the external provisioner 'ebs.csi.aws.com' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+10m         Normal    WaitForPodScheduled      persistentvolumeclaim/restore-rpo-marker-1-restore-restore    waiting for pod restore-rpo-marker-1-restore to be scheduled
+10m         Normal    ProvisioningSucceeded    persistentvolumeclaim/restore-rpo-marker-1-restore-restore    Successfully provisioned volume pvc-34cf8ed2-b34e-4b29-9011-bd817a27592b
+10m         Normal    Scheduled                pod/restore-rpo-marker-1-restore                              Successfully assigned multigres-demo/restore-rpo-marker-1-restore to ip-10-42-18-161.ap-southeast-2.compute.internal
+10m         Normal    SuccessfulAttachVolume   pod/restore-rpo-marker-1-restore                              AttachVolume.Attach succeeded for volume "pvc-34cf8ed2-b34e-4b29-9011-bd817a27592b"
+10m         Normal    Pulled                   pod/restore-rpo-marker-1-restore                              Container image "ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647" already present on machine and can be accessed by the pod
+10m         Normal    Created                  pod/restore-rpo-marker-1-restore                              Container created
+10m         Normal    Started                  pod/restore-rpo-marker-1-restore                              Container started
+8m40s       Normal    Killing                  pod/restore-rpo-marker-1-restore                              Stopping container restore
+8m38s       Normal    ScalingReplicaSet        deployment/demo-az3-multigateway-9d51cd81                     Scaled up replica set demo-az3-multigateway-9d51cd81-84dd69d5c5 from 0 to 1
+8m38s       Normal    SuccessfulCreate         replicaset/demo-az2-multigateway-225ffbee-9598cfcd9           Created pod: demo-az2-multigateway-225ffbee-9598cfcd9-7pskr
+8m38s       Normal    Applied                  multigrescluster/demo                                         Applied Cell demo-az1-551ac1e8
+8m38s       Normal    Applied                  multigrescluster/demo                                         Applied Cell demo-az2-c7223123
+8m38s       Normal    Applied                  multigrescluster/demo                                         Applied Cell demo-az3-a11fb6ba
+8m38s       Normal    Synced                   multigrescluster/demo                                         Successfully reconciled MultigresCluster
+8m38s       Normal    Scheduled                pod/demo-az2-multigateway-225ffbee-9598cfcd9-7pskr            Successfully assigned multigres-demo/demo-az2-multigateway-225ffbee-9598cfcd9-7pskr to ip-10-42-33-80.ap-southeast-2.compute.internal
+8m38s       Normal    Synced                   cell/demo-az1-551ac1e8                                        Successfully reconciled Cell spec
+8m38s       Normal    Scheduled                pod/demo-az1-multigateway-8d59bb63-59744f8b75-2b76l           Successfully assigned multigres-demo/demo-az1-multigateway-8d59bb63-59744f8b75-2b76l to ip-10-42-2-70.ap-southeast-2.compute.internal
+8m38s       Normal    PhaseChange              cell/demo-az2-c7223123                                        Transitioned from 'Healthy' to 'Progressing'
+8m38s       Normal    PhaseChange              cell/demo-az1-551ac1e8                                        Transitioned from 'Healthy' to 'Progressing'
+8m38s       Normal    SuccessfulCreate         replicaset/demo-az3-multigateway-9d51cd81-84dd69d5c5          Created pod: demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl
+8m38s       Normal    Scheduled                pod/demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl           Successfully assigned multigres-demo/demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl to ip-10-42-18-161.ap-southeast-2.compute.internal
+8m38s       Normal    ScalingReplicaSet        deployment/demo-az2-multigateway-225ffbee                     Scaled up replica set demo-az2-multigateway-225ffbee-9598cfcd9 from 0 to 1
+8m38s       Normal    SuccessfulCreate         replicaset/demo-az1-multigateway-8d59bb63-59744f8b75          Created pod: demo-az1-multigateway-8d59bb63-59744f8b75-2b76l
+8m38s       Normal    Synced                   cell/demo-az2-c7223123                                        Successfully reconciled Cell spec
+8m38s       Normal    Synced                   cell/demo-az3-a11fb6ba                                        Successfully reconciled Cell spec
+8m38s       Normal    ScalingReplicaSet        deployment/demo-az1-multigateway-8d59bb63                     Scaled up replica set demo-az1-multigateway-8d59bb63-59744f8b75 from 0 to 1
+8m38s       Normal    ImplicitDefault          multigrescluster/demo                                         Implicitly injected default 'readWrite' pool configuration using the 'default' ShardTemplate
+8m38s       Normal    PhaseChange              cell/demo-az3-a11fb6ba                                        Transitioned from 'Healthy' to 'Progressing'
+8m37s       Normal    Created                  pod/demo-az2-multigateway-225ffbee-9598cfcd9-7pskr            Container created
+8m37s       Normal    Started                  pod/demo-az1-multigateway-8d59bb63-59744f8b75-2b76l           Container started
+8m37s       Normal    Pulled                   pod/demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl           Container image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363" already present on machine and can be accessed by the pod
+8m37s       Normal    Created                  pod/demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl           Container created
+8m37s       Normal    Started                  pod/demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl           Container started
+8m37s       Normal    Created                  pod/demo-az1-multigateway-8d59bb63-59744f8b75-2b76l           Container created
+8m37s       Normal    Pulled                   pod/demo-az1-multigateway-8d59bb63-59744f8b75-2b76l           Container image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363" already present on machine and can be accessed by the pod
+8m37s       Normal    Pulled                   pod/demo-az2-multigateway-225ffbee-9598cfcd9-7pskr            Container image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363" already present on machine and can be accessed by the pod
+8m37s       Normal    Started                  pod/demo-az2-multigateway-225ffbee-9598cfcd9-7pskr            Container started
+8m32s       Normal    Killing                  pod/demo-az1-multigateway-8d59bb63-6f79d89f84-9vjps           Stopping container multigateway
+8m32s       Normal    PhaseChange              cell/demo-az2-c7223123                                        Transitioned from 'Progressing' to 'Healthy'
+8m32s       Normal    PhaseChange              cell/demo-az1-551ac1e8                                        Transitioned from 'Progressing' to 'Healthy'
+8m32s       Normal    ScalingReplicaSet        deployment/demo-az2-multigateway-225ffbee                     Scaled down replica set demo-az2-multigateway-225ffbee-7dd74c5c8d from 1 to 0
+8m32s       Normal    SuccessfulDelete         replicaset/demo-az2-multigateway-225ffbee-7dd74c5c8d          Deleted pod: demo-az2-multigateway-225ffbee-7dd74c5c8d-wtrxb
+8m32s       Normal    PhaseChange              cell/demo-az3-a11fb6ba                                        Transitioned from 'Progressing' to 'Healthy'
+8m32s       Normal    Killing                  pod/demo-az2-multigateway-225ffbee-7dd74c5c8d-wtrxb           Stopping container multigateway
+8m32s       Normal    SuccessfulDelete         replicaset/demo-az1-multigateway-8d59bb63-6f79d89f84          Deleted pod: demo-az1-multigateway-8d59bb63-6f79d89f84-9vjps
+8m32s       Normal    ScalingReplicaSet        deployment/demo-az3-multigateway-9d51cd81                     Scaled down replica set demo-az3-multigateway-9d51cd81-77c59b8496 from 1 to 0
+8m32s       Normal    ScalingReplicaSet        deployment/demo-az1-multigateway-8d59bb63                     Scaled down replica set demo-az1-multigateway-8d59bb63-6f79d89f84 from 1 to 0
+8m32s       Normal    Killing                  pod/demo-az3-multigateway-9d51cd81-77c59b8496-kvn88           Stopping container multigateway
+8m32s       Normal    SuccessfulDelete         replicaset/demo-az3-multigateway-9d51cd81-77c59b8496          Deleted pod: demo-az3-multigateway-9d51cd81-77c59b8496-kvn88
+5m37s       Normal    Killing                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Stopping container postgres-exporter
+5m37s       Normal    Created                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container created
+5m37s       Normal    Pulled                   pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container image "ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647" already present on machine and can be accessed by the pod
+5m37s       Normal    Scheduled                pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Successfully assigned multigres-demo/demo-postgres-default-0-inf-pool-default-az1-4b646709-0 to ip-10-42-2-70.ap-southeast-2.compute.internal
+5m37s       Normal    Killing                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Stopping container multipooler
+5m37s       Normal    PhaseChange              shard/demo-postgres-default-0-inf-bedd096a                    Transitioned from 'Healthy' to 'Progressing'
+5m37s       Normal    Killing                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Stopping container postgres
+5m37s       Normal    PodCreated               shard/demo-postgres-default-0-inf-bedd096a                    Created pod demo-postgres-default-0-inf-pool-default-az1-4b646709-0 for pool default
+5m37s       Normal    PhaseChange              tablegroup/demo-postgres-default-c91a52d0                     Transitioned from 'Healthy' to 'Progressing'
+5m37s       Normal    PhaseChange              multigrescluster/demo                                         Transitioned from 'Healthy' to 'Progressing'
+5m36s       Normal    Started                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container started
+5m32s       Warning   BackupCheckFailed        shard/demo-postgres-default-0-inf-bedd096a                    Failed to check backup health: querying backups from primary multipooler-az1-p-3c7ba9d3: rpc error: code = Unavailable desc = name resolver error: produced zero addresses
+5m31s       Normal    Started                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container started
+5m31s       Normal    Created                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container created
+5m31s       Warning   PoolEmpty                shard/demo-postgres-default-0-inf-bedd096a                    Pool default in cell az1 has 0 ready replicas
+5m31s       Normal    Pulled                   pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363" already present on machine and can be accessed by the pod
+5m31s       Normal    Created                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container created
+5m31s       Normal    Started                  pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container started
+5m31s       Normal    Pulled                   pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Container image "quay.io/prometheuscommunity/postgres-exporter:v0.20.1" already present on machine and can be accessed by the pod
+5m23s       Normal    PhaseChange              multigrescluster/demo                                         Transitioned from 'Progressing' to 'Degraded'
+5m23s       Normal    PhaseChange              shard/demo-postgres-default-0-inf-bedd096a                    Transitioned from 'Progressing' to 'Degraded'
+5m23s       Normal    PhaseChange              tablegroup/demo-postgres-default-c91a52d0                     Transitioned from 'Progressing' to 'Degraded'
+4m55s       Normal    PhaseChange              shard/demo-postgres-default-0-inf-bedd096a                    Transitioned from 'Degraded' to 'Progressing'
+4m55s       Normal    PhaseChange              tablegroup/demo-postgres-default-c91a52d0                     Transitioned from 'Degraded' to 'Progressing'
+4m55s       Normal    BackupHealthy            shard/demo-postgres-default-0-inf-bedd096a                    Last full backup completed at 2026-11-26T12:49:33Z
+4m55s       Normal    PhaseChange              multigrescluster/demo                                         Transitioned from 'Degraded' to 'Progressing'
+4m39s       Warning   Unhealthy                pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Readiness probe failed: /var/lib/pooler/pg_sockets:5432 - no response
+4m34s       Warning   Unhealthy                pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0   Readiness probe failed: /var/lib/pooler/pg_sockets:5432 - rejecting connections
+4m27s       Normal    PhaseChange              tablegroup/demo-postgres-default-c91a52d0                     Transitioned from 'Progressing' to 'Healthy'
+4m27s       Normal    PhaseChange              shard/demo-postgres-default-0-inf-bedd096a                    Transitioned from 'Progressing' to 'Healthy'
+4m27s       Normal    PhaseChange              multigrescluster/demo                                         Transitioned from 'Progressing' to 'Healthy'

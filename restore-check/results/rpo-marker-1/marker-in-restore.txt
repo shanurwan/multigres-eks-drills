@@ -1,0 +1,4 @@
+ERROR:  relation "rpo_marker" does not exist
+LINE 1: select id, at from rpo_marker order by id
+                           ^
+command terminated with exit code 1

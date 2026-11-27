@@ -1,0 +1,4 @@
+2026-11-27T03:58:26.615Z marker 1 committed at 2026-11-27 03:58:24.211911+00
+INSERT 0 1 (acknowledged through the gateway); primary demo-postgres-default-0-inf-pool-default-az1-4b646709-0 at WAL 000000130000000000000075 0/75405798
+2026-11-27T04:13:36.754Z held 15m; restoring the latest backup state
+2026-11-27T04:16:03.557Z marker 1 is NOT in the restored copy
