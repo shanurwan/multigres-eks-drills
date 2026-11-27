@@ -1,0 +1,18 @@
+NAME                                                              READY   STATUS    RESTARTS      AGE     IP             NODE                                              NOMINATED NODE   READINESS GATES
+ackcheck                                                          1/1     Running   0             11h     10.42.39.218   ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           <none>
+auth-6d66747ccc-7mbc6                                             1/1     Running   0             6h39m   10.42.1.75     ip-10-42-2-70.ap-southeast-2.compute.internal     <none>           <none>
+demo-az1-multigateway-8d59bb63-6f79d89f84-9vjps                   1/1     Running   0             11h     10.42.10.46    ip-10-42-2-70.ap-southeast-2.compute.internal     <none>           <none>
+demo-az2-multigateway-225ffbee-7dd74c5c8d-wtrxb                   1/1     Running   0             11h     10.42.38.8     ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           <none>
+demo-az3-multigateway-9d51cd81-77c59b8496-kvn88                   1/1     Running   2 (10h ago)   10h     10.42.23.41    ip-10-42-18-161.ap-southeast-2.compute.internal   <none>           <none>
+demo-global-topo-0                                                1/1     Running   0             10h     10.42.21.180   ip-10-42-18-161.ap-southeast-2.compute.internal   <none>           <none>
+demo-global-topo-1                                                1/1     Running   0             11h     10.42.32.10    ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           <none>
+demo-global-topo-2                                                1/1     Running   0             10h     10.42.17.38    ip-10-42-18-161.ap-southeast-2.compute.internal   <none>           <none>
+demo-multiadmin-6b85487468-p844f                                  1/1     Running   0             11h     10.42.32.65    ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           <none>
+demo-multiadmin-web-7f6585b866-v5cbc                              1/1     Running   0             11h     10.42.37.206   ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           <none>
+demo-postgres-default-0-inf-multiorch-az1-5175f405-6b9f4746v7gb   1/1     Running   0             11h     10.42.11.194   ip-10-42-2-70.ap-southeast-2.compute.internal     <none>           <none>
+demo-postgres-default-0-inf-multiorch-az2-77786e6e-754dd78dhf4r   1/1     Running   0             11h     10.42.40.248   ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           <none>
+demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-56bb955bvvpx   1/1     Running   0             10h     10.42.26.169   ip-10-42-18-161.ap-southeast-2.compute.internal   <none>           <none>
+demo-postgres-default-0-inf-pool-default-az1-4b646709-0           3/3     Running   0             6h7m    10.42.9.187    ip-10-42-2-70.ap-southeast-2.compute.internal     <none>           1/1
+demo-postgres-default-0-inf-pool-default-az2-7166e172-0           3/3     Running   0             6h24m   10.42.40.135   ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           1/1
+demo-postgres-default-0-inf-pool-default-az3-97695bdb-0           3/3     Running   0             9m23s   10.42.19.2     ip-10-42-18-161.ap-southeast-2.compute.internal   <none>           1/1
+loadgen                                                           1/1     Running   0             6h40m   10.42.1.112    ip-10-42-2-70.ap-southeast-2.compute.internal     <none>           <none>

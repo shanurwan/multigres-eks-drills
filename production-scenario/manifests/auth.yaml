@@ -1,0 +1,63 @@
+# Supabase Auth (GoTrue), configured like a self-hosted Supabase project, with its
+# database connection going through the Multigres gateway. Secrets come from
+# auth-secrets (created by scripts/setup.sh). AUTH_ZONE is set by setup.sh.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+  namespace: multigres-demo
+  labels: {app: auth}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: auth}
+  template:
+    metadata:
+      labels: {app: auth}
+    spec:
+      nodeSelector:
+        topology.k8s.aws/zone-id: AUTH_ZONE
+      containers:
+        - name: auth
+          image: supabase/gotrue:AUTH_VERSION
+          ports:
+            - {name: http, containerPort: 9999}
+          resources:
+            requests: {cpu: 250m, memory: 128Mi}
+            limits: {memory: 512Mi}
+          readinessProbe:
+            httpGet: {path: /health, port: 9999}
+            periodSeconds: 5
+          env:
+            - name: AUTH_DB_PASSWORD
+              valueFrom: {secretKeyRef: {name: auth-secrets, key: db-password}}
+            - name: GOTRUE_JWT_SECRET
+              valueFrom: {secretKeyRef: {name: auth-secrets, key: jwt-secret}}
+            - {name: GOTRUE_DB_DRIVER, value: postgres}
+            - name: GOTRUE_DB_DATABASE_URL
+              value: "postgres://supabase_auth_admin:$(AUTH_DB_PASSWORD)@demo-multigateway:5432/postgres?sslmode=disable"
+            - {name: GOTRUE_API_HOST, value: 0.0.0.0}
+            - {name: PORT, value: "9999"}
+            - {name: API_EXTERNAL_URL, value: "http://auth.multigres-demo.svc:9999"}
+            - {name: GOTRUE_SITE_URL, value: "http://localhost:3000"}
+            - {name: GOTRUE_JWT_EXP, value: "3600"}
+            - {name: GOTRUE_JWT_AUD, value: authenticated}
+            - {name: GOTRUE_JWT_ADMIN_ROLES, value: service_role}
+            - {name: GOTRUE_DISABLE_SIGNUP, value: "false"}
+            - {name: GOTRUE_EXTERNAL_EMAIL_ENABLED, value: "true"}
+            - {name: GOTRUE_MAILER_AUTOCONFIRM, value: "true"}
+            # One client stands in for many users, so raise the per-IP limits out of the way.
+            - {name: GOTRUE_RATE_LIMIT_TOKEN_REFRESH, value: "1000000"}
+            - {name: GOTRUE_RATE_LIMIT_VERIFY, value: "1000000"}
+            - {name: GOTRUE_RATE_LIMIT_SIGN_IN_SIGN_UPS, value: "1000000"}
+            - {name: GOTRUE_LOG_LEVEL, value: info}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth
+  namespace: multigres-demo
+spec:
+  selector: {app: auth}
+  ports:
+    - {name: http, port: 9999, targetPort: 9999}

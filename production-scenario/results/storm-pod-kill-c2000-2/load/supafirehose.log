@@ -1,0 +1,7 @@
+2026/11/27 02:22:12 Starting SupaFirehose on port 8080
+2026/11/27 02:22:12 Connected to database
+2026/11/27 02:22:12 Server listening on http://localhost:8080
+2026/11/27 02:22:17 Connections: active=1000, total_created=1000, total_failed=0
+2026/11/27 02:22:20 Connections: active=2000, total_created=2000, total_failed=0
+2026/11/27 02:24:50 Connections: active=1024, total_created=3000, total_failed=0
+2026/11/27 02:25:09 Connections: active=2000, total_created=4000, total_failed=0

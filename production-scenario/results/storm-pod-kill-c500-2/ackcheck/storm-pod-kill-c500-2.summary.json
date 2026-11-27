@@ -1,0 +1,35 @@
+{
+  "run": "storm-pod-kill-c500-2",
+  "attempts": 136889,
+  "acked": 136825,
+  "failed": 56,
+  "ambiguous": 8,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 0,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "20:15:03.783",
+  "last_event": "20:21:03.749",
+  "outages": [
+    {
+      "from": "20:16:10.657",
+      "to": "20:16:28.001",
+      "seconds": 17.344117,
+      "errors_in_window": 64,
+      "first_error": "timeout: context deadline exceeded"
+    }
+  ],
+  "error_kinds": {
+    "context deadline exceeded": 56,
+    "timeout: context deadline exceeded": 8
+  },
+  "ok_latency_ms": {
+    "p100": 1509,
+    "p50": 5,
+    "p95": 10,
+    "p99": 17
+  }
+}

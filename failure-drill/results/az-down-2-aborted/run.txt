@@ -6,3 +6,4 @@ postgres-exporter=quay.io/prometheuscommunity/postgres-exporter@sha256:ac5ec3431
 postgres=ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647
 kubernetes=v1.34.2
 write_for=6m fault_at=60s az_hold=240s
+operator_image_corrected=ghcr.io/multigres/multigres-operator@sha256:767d2dfa1894f4732b40ad8153ca3998707b6b8d7179b974a4a50418414d4142 (the operator_image line above is the first pod in the namespace, Grafana, recorded by a drill.sh bug fixed later; the operator itself was unchanged)

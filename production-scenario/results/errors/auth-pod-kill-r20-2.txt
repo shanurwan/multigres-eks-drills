@@ -1,0 +1,5 @@
+    12  login -> 0 : Post "http://auth:<n>/token?grant_type=password": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+     8  refresh -> 0 : Post "http://auth:<n>/token?grant_type=refresh_token": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+     6  user -> 0 : Get "http://auth:<n>/user": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+     1  login -> 500 unexpected_failure: Unexpected failure, please check server logs for more information
+     1  user -> 504 request_timeout: Processing this request timed out, please retry after a moment.

@@ -6,6 +6,8 @@ This is an independent test lab, not an official Multigres or Supabase project, 
 
 **Start with [`failure-drill/failure-drill.md`](failure-drill/failure-drill.md)**: the results, findings and what to check before running Multigres on EKS.
 
+**What a Supabase-style app sees** during a failover, with Multigres's own load tool and Supabase Auth: [`production-scenario/scenario.md`](production-scenario/scenario.md).
+
 **To run it yourself**, you need only an AWS free-plan account. Follow [`terraform/aws-setup.md`](terraform/aws-setup.md) to get a cluster, then [`failure-drill/reproduce.md`](failure-drill/reproduce.md) for the drills.
 
 ## Layout
@@ -27,3 +29,5 @@ This is an independent test lab, not an official Multigres or Supabase project, 
 | `failure-drill/tools/ackcheck/` | the write checker (Go): records every write, verifies every acknowledged write afterwards |
 | `failure-drill/analysis/` | raw runs to CSV (`collect.py`), CSV to charts (`plot.py`) |
 | `failure-drill/results/` | one folder per run, `runs.csv`, per-second series, charts, tested versions |
+| [`production-scenario/scenario.md`](production-scenario/scenario.md) | reconnect storm (supafirehose, 500 and 2,000 connections) and Supabase Auth logins through a primary pod kill: results, findings P1–P4 |
+| [`production-scenario/`](production-scenario/README.md) | how those runs work, what is measured, validation, reproduce |

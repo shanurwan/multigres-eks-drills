@@ -8,7 +8,8 @@
 #
 # The writer must already run in a zone the drill does not break (scripts/writer.sh).
 # Environment: WRITE_FOR (default 6m), FAULT_AT (default 60 s), AZ_HOLD (default 240 s),
-# AWS_PROFILE / AWS_REGION for the node and zone drills.
+# AWS_PROFILE / AWS_REGION for the node and zone drills, RESULTS_DIR (default results/;
+# ../production-scenario uses its own).
 set -euo pipefail
 export MSYS_NO_PATHCONV=1   # Git Bash on Windows: do not rewrite /paths passed to kubectl
 
@@ -17,8 +18,9 @@ drill="${1:?drill: pod-kill | node-drain | node-terminate | az-down | az-outage}
 n="${2:?run number}"
 target_zone="${3:-}"
 ns=multigres-demo
-run="$drill-$n"
-out="$here/results/$run"
+run="${RUN_NAME:-$drill-$n}"   # RUN_NAME: ../production-scenario names its own runs
+results_dir="${RESULTS_DIR:-$here/results}"
+out="$results_dir/$run"
 write_for="${WRITE_FOR:-6m}"
 fault_at="${FAULT_AT:-60}"
 az_hold="${AZ_HOLD:-240}"
@@ -47,7 +49,7 @@ kubectl -n $ns get pods -o wide > "$out/pods-before.txt"
 {
   echo "drill=$drill run=$n writer_zone=$writer_zone target_zone=$target_zone"
   echo "primary_before=$primary_pod zone=$primary_zone node=$primary_node"
-  echo "operator_image=$(kubectl -n multigres-operator get pods -o jsonpath='{.items[0].status.containerStatuses[0].imageID}')"
+  echo "operator_image=$(kubectl -n multigres-operator get pods -l control-plane=controller-manager -o jsonpath='{.items[0].status.containerStatuses[0].imageID}')"
   kubectl -n $ns get pod "$primary_pod" -o jsonpath='{range .status.containerStatuses[*]}{.name}={.imageID}{"\n"}{end}{range .status.initContainerStatuses[*]}{.name}={.imageID}{"\n"}{end}'
   echo "kubernetes=$(kubectl version -o json 2>/dev/null | grep -m1 gitVersion | tr -d ' ",' | cut -d: -f2)"
   echo "write_for=$write_for fault_at=${fault_at}s az_hold=${az_hold}s"
@@ -143,7 +145,8 @@ log "writer finished; waiting for the shard to be Healthy (up to 15 min)"
 kubectl -n $ns wait shard --all --for=jsonpath='{.status.phase}'=Healthy --timeout=15m >/dev/null 2>&1 \
   && log "shard Healthy" || log "shard NOT Healthy after 15 min"
 kubectl -n $ns exec ackcheck -- /ackcheck verify -run "$run" -out "/tmp/$run" > "$out/verify.json" 2> "$out/verify.err" || log "verify failed (see verify.err)"
-(cd "$here" && kubectl -n $ns cp "ackcheck:/tmp/$run" "results/$run/ackcheck" >/dev/null)
+# Relative path: kubectl cp reads "C:/..." as pod:path on Windows.
+(cd "$results_dir" && kubectl -n $ns cp "ackcheck:/tmp/$run" "$run/ackcheck" >/dev/null)
 "$here/scripts/primary.sh" > "$out/primary-after.txt" || true
 kubectl -n $ns get pods -o wide > "$out/pods-after.txt"
 kubectl -n $ns get events --sort-by=.lastTimestamp > "$out/events.txt" 2>&1 || true

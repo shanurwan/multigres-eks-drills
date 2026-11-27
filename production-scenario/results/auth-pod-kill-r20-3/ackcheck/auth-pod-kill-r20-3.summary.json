@@ -1,0 +1,26 @@
+{
+  "run": "auth-pod-kill-r20-3",
+  "attempts": 142971,
+  "acked": 142967,
+  "failed": 0,
+  "ambiguous": 4,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 4,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "02:57:53.484",
+  "last_event": "03:03:53.459",
+  "outages": null,
+  "error_kinds": {
+    "timeout: context deadline exceeded": 4
+  },
+  "ok_latency_ms": {
+    "p100": 1993,
+    "p50": 6,
+    "p95": 13,
+    "p99": 22
+  }
+}

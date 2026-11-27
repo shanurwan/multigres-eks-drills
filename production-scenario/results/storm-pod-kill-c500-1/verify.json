@@ -1,0 +1,24 @@
+{
+  "run": "storm-pod-kill-c500-1",
+  "attempts": 141746,
+  "acked": 141746,
+  "failed": 0,
+  "ambiguous": 0,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 0,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "19:57:38.930",
+  "last_event": "20:03:38.898",
+  "outages": null,
+  "error_kinds": {},
+  "ok_latency_ms": {
+    "p100": 1838,
+    "p50": 6,
+    "p95": 14,
+    "p99": 27
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "run": "storm-none-c500-1",
+  "attempts": 71348,
+  "acked": 71348,
+  "failed": 0,
+  "ambiguous": 0,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 0,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "20:09:24.866",
+  "last_event": "20:12:24.818",
+  "outages": null,
+  "error_kinds": {},
+  "ok_latency_ms": {
+    "p100": 126,
+    "p50": 6,
+    "p95": 17,
+    "p99": 31
+  }
+}

@@ -1,0 +1,4 @@
+    46  connect (1 in 100 logged): failed to connect to `user=postgres database=postgres`: <addr> (demo-multigateway): server error: FATAL: database is temporarily unavailable; please retry (SQLSTATE 57P03)
+     1  sampled error (supafirehose keeps 1 per 10 s): read: ERROR: failover buffer timeout (SQLSTATE MTB02)
+     1  sampled error (supafirehose keeps 1 per 10 s): read: failed to connect: failed to connect to `user=postgres database=postgres`: <addr> (demo-multigateway): server error: FATAL: database is temporarily unavailable; please retry (SQLSTATE 57P03)
+     1  sampled error (supafirehose keeps 1 per 10 s): read: FATAL: statement timed out before backend cleanup could be confirmed (SQLSTATE <n>)

@@ -1,0 +1,36 @@
+{
+  "run": "auth-pod-kill-r20-1",
+  "attempts": 135915,
+  "acked": 135748,
+  "failed": 159,
+  "ambiguous": 8,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 0,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "02:37:26.449",
+  "last_event": "02:43:26.426",
+  "outages": [
+    {
+      "from": "02:38:31.707",
+      "to": "02:38:51.619",
+      "seconds": 19.911299,
+      "errors_in_window": 167,
+      "first_error": "timeout: context deadline exceeded"
+    }
+  ],
+  "error_kinds": {
+    "57P03 database is temporarily unavailable; please retry": 95,
+    "context deadline exceeded": 64,
+    "timeout: context deadline exceeded": 8
+  },
+  "ok_latency_ms": {
+    "p100": 186,
+    "p50": 6,
+    "p95": 14,
+    "p99": 23
+  }
+}

@@ -1,0 +1,122 @@
+2026/11/26 15:32:50 ERROR connection error, will keep retrying error="context deadline exceeded"
+{"time":"2026-11-26T15:32:50.496026188Z","level":"INFO","msg":"logging initialized","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","level":"info","format":"json","output":"stdout"}
+{"time":"2026-11-26T15:32:50.497155823Z","level":"INFO","msg":"using fully qualified hostname for service URL","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","hostname":"demo-az3-multigateway-9d51cd81-77c59b8496-kvn88"}
+{"time":"2026-11-26T15:32:50.497373809Z","level":"INFO","msg":"failover buffering enabled","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed"}
+{"time":"2026-11-26T15:32:50.497413443Z","level":"WARN","msg":"multipooler gRPC TLS is not configured; using insecure transport","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","flag":"--multipooler-grpc-require-tls"}
+{"time":"2026-11-26T15:32:50.497523397Z","level":"INFO","msg":"pooler cache started","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","local_cell":"az3"}
+{"time":"2026-11-26T15:32:50.497576065Z","level":"INFO","msg":"watch reconnecting","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells"}
+{"time":"2026-11-26T15:32:50.497760741Z","level":"ERROR","msg":"failed to start recursive watch","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells","error":"no connection available"}
+{"time":"2026-11-26T15:32:50.520958325Z","level":"INFO","msg":"watch reconnecting","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells"}
+{"time":"2026-11-26T15:32:50.521006676Z","level":"ERROR","msg":"failed to start recursive watch","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells","error":"no connection available"}
+{"time":"2026-11-26T15:32:50.638536496Z","level":"INFO","msg":"watch reconnecting","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells"}
+{"time":"2026-11-26T15:32:50.638733098Z","level":"ERROR","msg":"failed to start recursive watch","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells","error":"no connection available"}
+{"time":"2026-11-26T15:32:50.697895065Z","level":"INFO","msg":"watch reconnecting","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells"}
+{"time":"2026-11-26T15:32:50.70001715Z","level":"ERROR","msg":"failed to start recursive watch","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells","error":"no connection available"}
+{"time":"2026-11-26T15:32:50.764844069Z","level":"INFO","msg":"watch reconnecting","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells"}
+{"time":"2026-11-26T15:32:50.764899162Z","level":"ERROR","msg":"failed to start recursive watch","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells","error":"no connection available"}
+{"time":"2026-11-26T15:32:51.542028864Z","level":"INFO","msg":"watch reconnecting","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells"}
+{"time":"2026-11-26T15:32:51.542194401Z","level":"ERROR","msg":"failed to start recursive watch","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells","error":"no connection available"}
+{"time":"2026-11-26T15:32:53.259515027Z","level":"INFO","msg":"watch reconnecting","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells"}
+{"time":"2026-11-26T15:32:53.259600763Z","level":"ERROR","msg":"failed to start recursive watch","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells","error":"no connection available"}
+{"time":"2026-11-26T15:32:58.129169457Z","level":"INFO","msg":"watch reconnecting","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells"}
+{"time":"2026-11-26T15:32:58.129260987Z","level":"ERROR","msg":"failed to start recursive watch","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells","error":"no connection available"}
+{"time":"2026-11-26T15:32:59.771148044Z","level":"INFO","msg":"watch reconnecting","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells"}
+{"time":"2026-11-26T15:32:59.771221751Z","level":"ERROR","msg":"failed to start recursive watch","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed","cell":"global","path":"cells","error":"no connection available"}
+Error: failed to register gateway: registration failed: context deadline exceeded
+{"time":"2026-11-26T15:33:00.49905205Z","level":"ERROR","msg":"failed to register gateway: registration failed: context deadline exceeded","service_instance_id":"az3-qttpb8bh","cloud_availability_zone":"az3","service_version":"8aea4eec923e4fe471fe120499f4983f50af2fed"}
+Usage:
+  multigateway [flags]
+
+Flags:
+      --authentication-timeout duration                                  Maximum time allowed to complete client authentication (SSL handshake, startup message, SCRAM). Negative disables; 0 uses the protocol default of 60s. (default 1m0s)
+      --bind-address string                                              Bind address for the server. If empty, the server will listen on all available unicast and anycast IP addresses of the local system.
+      --buffer-drain-concurrency int                                     Parallel requests retried during drain (default 1)
+      --buffer-enabled                                                   Enable failover buffering
+      --buffer-max-failover-duration duration                            Stop buffering if failover exceeds this (default 20s)
+      --buffer-min-time-between-failovers duration                       Min gap between failovers per shard (default 1m0s)
+      --buffer-size int                                                  Max total buffered requests (global) (default 1000)
+      --buffer-window duration                                           Max time a request stays buffered, or waits for routing past a fence (even with buffering disabled) (default 10s)
+      --cell string                                                      cell to use
+      --config-file string                                               Full path of the config file (with extension) to use. If set, --config-path, --config-type, and --config-name are ignored.
+      --config-file-not-found-handling ConfigFileNotFoundHandling        Behavior when a config file is not found. (Options: error, exit, ignore, warn) (default warn)
+      --config-name string                                               Name of the config file (without extension) to search for. (default "mtconfig")
+      --config-path strings                                              Paths to search for config files in. (default [/multigres/multigres_local])
+      --config-persistence-min-interval duration                         minimum interval between persisting dynamic config changes back to disk (if no change has occurred, nothing is done). (default 1s)
+      --config-type string                                               Config file type (omit to infer config type from file extension).
+      --enable-cluster-views                                             serve the read-only cluster views multigres.multigateways and multigres.multipoolers from this gateway. Default off; a reference to either name is then an unknown relation to the backend.
+      --enable-slot-based-replication                                    admit non-temporary logical replication slots registered for failover (slot-based replication). Default off.
+      --enable-tablegroup-ddl                                            execute CREATE TABLEGROUP and DROP TABLEGROUP from this gateway. Enable only where a provisioner creates tablegroups from the sharding catalog (the Kubernetes operator); without one a creation can never complete. Default off; the statements are then rejected as not supported.
+      --grpc-auth-jwt-allowed-subs sub                                   Authorized sub claim value (specify multiple times for multiple subjects). If unset, any subject is authorized. Note: JWT verification has no revocation mechanism beyond token expiry.
+      --grpc-auth-jwt-audience aud                                       Expected aud claim for JWT auth. If empty, audience is not checked.
+      --grpc-auth-jwt-issuer iss                                         Expected iss claim for JWT auth. Required when --grpc-auth-mode=jwt.
+      --grpc-auth-jwt-jwks-uri string                                    URI of the issuer's JWKS endpoint, used to verify JWT signatures. Required when --grpc-auth-mode=jwt.
+      --grpc-auth-mode string                                            gRPC auth plugin to use (e.g., 'mtls', 'jwt')
+      --grpc-auth-mtls-allowed-substrings string                         List of substrings of at least one of the client certificate names (separated by colon). Required when --grpc-auth-mode=mtls; must not contain empty entries.
+      --grpc-bind-address string                                         Bind address for gRPC calls. If empty, listen on all addresses.
+      --grpc-crl string                                                  path to a certificate revocation list in PEM format (not yet implemented; startup fails if set)
+      --grpc-enable-optional-tls                                         enable optional TLS mode for mixed TLS/plaintext on one port (not yet implemented; startup fails if enabled)
+      --grpc-max-connection-age duration                                 Maximum age of a client connection before GoAway is sent. (default 2562047h47m16.854775807s)
+      --grpc-max-connection-age-grace duration                           Additional grace period after grpc-max-connection-age, after which connections are forcibly closed. (default 2562047h47m16.854775807s)
+      --grpc-otel-instrumentation                                        Attach OpenTelemetry instrumentation (spans and rpc.* metrics) to this process's gRPC server and clients. It runs on every RPC; disable it where traces are not exported and the rpc.* metrics are not consumed (env: GRPC_OTEL_INSTRUMENTATION). (default true)
+      --grpc-port int                                                    Port to listen on for gRPC calls. If zero, do not listen.
+      --grpc-server-ca string                                            path to server CA in PEM format, which will be combine with server cert, return full certificate chain to clients
+      --grpc-server-initial-conn-window-size int                         gRPC server initial connection window size
+      --grpc-server-initial-window-size int                              gRPC server initial window size
+      --grpc-server-keepalive-enforcement-policy-min-time duration       gRPC server minimum keepalive time (default 10s)
+      --grpc-server-keepalive-enforcement-policy-permit-without-stream   gRPC server permit client keepalive pings even when there are no active streams (RPCs)
+      --grpc-server-keepalive-time duration                              After a duration of this time, if the server doesn't see any activity, it pings the client to see if the transport is still alive. (default 10s)
+      --grpc-server-keepalive-timeout duration                           After having pinged for keepalive check, the server waits for a duration of Timeout and if no activity is seen even after that the connection is closed. (default 10s)
+      --grpc-socket-file string                                          Local unix socket file to listen on
+      --grpc-stream-workers uint32                                       Reusable gRPC handler workers (0 disables reuse; busy workers fall back to new goroutines) (default 64)
+  -h, --help                                                             help for multigateway
+      --high-replication-lag-tolerance-ms int                            absolute max lag (milliseconds) for replicas; 0 means no upper bound
+      --hostname string                                                  Hostname to use for service registration. If not set, will auto-detect using FQDN or os.Hostname()
+      --http-auth-mtls-allowed-subjects stringArray                      Client certificate subject authorized on the HTTP listener, as a comma-separated list of ATTR=value pairs compared for exact equality (e.g. 'CN=ns-a,O=acme'). Specify multiple times for multiple subjects. Recognized attributes: CN, O, OU, C, L, ST, SERIALNUMBER. Required by services that opt into HTTP client-certificate auth. Separate from --grpc-auth-mtls-allowed-substrings, which is a substring match.
+      --http-port int                                                    HTTP port for the server
+      --keep-transaction-on-gateway-rejection                            leave an open explicit transaction in-block after a gateway policy rejection (feature_not_supported) instead of aborting it. Off by default so clients see PostgreSQL's contract that any wire error aborts the transaction; intended for pg_regress and compatibility test suites.
+      --lameduck-period duration                                         keep running at least this long after SIGTERM before stopping (default 50ms)
+      --lock-timeout duration                                            Maximum time to wait when attempting to acquire a lock from the topo server (default 45s)
+      --log-err-stacks                                                   log stack traces for errors
+      --log-format string                                                Log format (json, text) (default "json")
+      --log-level string                                                 Log level (debug, info, warn, error) (default "info")
+      --log-output string                                                Log output (stdout, stderr, or file path) (default "stdout")
+      --low-replication-lag-ms int                                       replicas at or below this lag (milliseconds) are preferred; 0 treats all replicas equally (default 30000)
+      --multipooler-grpc-ca string                                       CA certificate to validate multipooler server certificates (also used for gateway-to-gateway gRPC on multigateway)
+      --multipooler-grpc-cert string                                     client certificate for mTLS when connecting to multipooler (also used for gateway-to-gateway gRPC on multigateway)
+      --multipooler-grpc-crl string                                      certificate revocation list to validate multipooler server certificates (not yet implemented)
+      --multipooler-grpc-key string                                      client private key for mTLS when connecting to multipooler (also used for gateway-to-gateway gRPC on multigateway)
+      --multipooler-grpc-require-tls                                     require TLS for multipooler gRPC connections; fail startup if TLS is not configured (also applies to gateway-to-gateway gRPC on multigateway)
+      --multipooler-grpc-server-name string                              expected server name for multipooler certificate verification (also used for gateway-to-gateway gRPC on multigateway)
+      --onclose-timeout duration                                         wait no more than this for OnClose handlers before stopping (default 10s)
+      --onterm-timeout duration                                          wait no more than this for OnTermSync handlers before stopping (default 30s)
+      --pg-bind-address string                                           address to bind the PostgreSQL listener to (default "0.0.0.0")
+      --pg-port int                                                      PostgreSQL protocol listen port (default 5432)
+      --pg-replica-port int                                              optional port for replica-reads connections; 0 disables the replica listener
+      --pg-require-ssl                                                   require TLS for all client PostgreSQL connections; multigateway fails to start if no cert/key is configured. CancelRequest still permitted over plaintext.
+      --pg-tls-cert-file string                                          path to TLS certificate file for PostgreSQL SSL connections
+      --pg-tls-key-file string                                           path to TLS private key file for PostgreSQL SSL connections
+      --pg-tls-offload                                                   accept TLS without ALPN after a trusted PROXY v2 address header. Requires TLS; proxy CIDRs are optional.
+      --pg-trusted-proxy-cidrs strings                                   optional proxy CIDR restriction for PostgreSQL PROXY v2 headers; empty trusts any TCP peer
+      --pid-file string                                                  If set, the process will write its pid to the named file, and delete it on graceful shutdown.
+      --plan-cache-memory int                                            maximum memory in bytes for the query plan cache; 0 disables caching (default 4194304)
+      --pprof strings                                                    enable profiling
+      --pprof-http                                                       enable pprof http endpoints (default true)
+      --query-log-sample-rate uint                                       1/N sampling rate for normal-path per-query logs. Normal queries log at DEBUG, so visibility also requires --log-level=debug. 0 disables sampling (level alone governs); 1 emits every query; N>1 emits every Nth.
+      --query-metrics-memory int                                         memory budget (bytes) for per-query-shape metrics tracking; 0 disables per-query metrics and the registry RPC (default 8388608)
+      --query-metrics-sql-max-bytes int                                  maximum bytes of representative normalized SQL stored per tracked fingerprint (default 4096)
+      --remote-operation-timeout duration                                time to wait for a remote operation (default 15s)
+      --service-id string                                                optional service ID (if empty, a random ID will be generated)
+      --service-map strings                                              comma separated list of services to enable (or disable if prefixed with '-') Example: grpc-queryservice
+      --sharding-catalog-poll-interval duration                          how often to refetch each database's sharding catalog snapshot from the catalog primary when no newer version has been reported on its health stream. 0 disables the poll. (default 10s)
+      --statement-timeout duration                                       Default statement execution timeout. 0 disables. (default 30s)
+      --tls-ca string                                                    CA used to verify client certificates on the gRPC and HTTP listeners. On gRPC, its presence alone requires a client certificate; on HTTP, requiring one is a separate opt-in per service. Supersedes the deprecated --grpc-ca, which still configures gRPC alone (see GrpcServer.RegisterFlags)
+      --tls-cert string                                                  server certificate for the gRPC and HTTP listeners, requires tls-key, enables TLS on both. Supersedes the deprecated --grpc-cert, which still configures gRPC alone (see GrpcServer.RegisterFlags)
+      --tls-key string                                                   server private key for the gRPC and HTTP listeners, requires tls-cert, enables TLS on both. Supersedes the deprecated --grpc-key, which still configures gRPC alone (see GrpcServer.RegisterFlags)
+      --topo-etcd-lease-ttl int                                          Lease TTL for locks, leader election, and ephemeral component registrations. The client will use KeepAlive to keep the lease going; registrations of a dead process expire within this TTL. (default 30)
+      --topo-etcd-tls-ca string                                          path to the ca to use to validate the server cert when connecting to the etcd topo server
+      --topo-etcd-tls-cert string                                        path to the client cert to use to connect to the etcd topo server, requires topo-etcd-tls-key, enables TLS
+      --topo-etcd-tls-key string                                         path to the client key to use to connect to the etcd topo server, enables TLS
+      --topo-global-root string                                          the path of the global topology data in the global topology server
+      --topo-global-server-addresses strings                             the address of the global topology server
+      --topo-read-concurrency int                                        Maximum concurrency of topo reads per global or local cell. (default 32)
+

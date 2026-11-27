@@ -1,0 +1,35 @@
+# The client pod for both scenarios. It runs supafirehose, fhrec, authload and ackcheck
+# (copied in by scripts/setup.sh) and has psql for setup. It runs in LOADGEN_ZONE and
+# reads the admin password from the cluster's Secret, so it never appears in a command.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: loadgen
+  namespace: multigres-demo
+  labels: {app: loadgen}
+spec:
+  nodeSelector:
+    topology.k8s.aws/zone-id: LOADGEN_ZONE
+  restartPolicy: Never
+  containers:
+    - name: loadgen
+      image: postgres:17.6-alpine
+      command: ["sleep", "infinity"]
+      resources:
+        requests: {cpu: 300m, memory: 256Mi}
+        limits: {memory: 1Gi}
+      env:
+        - name: PGPASSWORD
+          valueFrom: {secretKeyRef: {name: multigres-admin-password, key: password}}
+        - name: AUTH_DB_PASSWORD
+          valueFrom: {secretKeyRef: {name: auth-secrets, key: db-password}}
+        - name: DATABASE_URL
+          value: "postgres://postgres:$(PGPASSWORD)@demo-multigateway:5432/postgres?sslmode=disable"
+        - name: PGHOST
+          value: demo-multigateway
+        - name: PGUSER
+          value: postgres
+        - name: PGDATABASE
+          value: postgres
+        - name: PGSSLMODE
+          value: disable

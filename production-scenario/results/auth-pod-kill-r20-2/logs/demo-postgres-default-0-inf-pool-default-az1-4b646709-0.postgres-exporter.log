@@ -1,0 +1,14 @@
+time=2026-11-27T02:48:55.451Z level=WARN source=main.go:81 msg="Error loading config" err="error opening config file \"postgres_exporter.yml\": open postgres_exporter.yml: no such file or directory"
+time=2026-11-27T02:48:55.451Z level=INFO source=main.go:91 msg="Excluded databases" databases=[]
+time=2026-11-27T02:48:55.451Z level=WARN source=main.go:94 msg="The extended queries.yaml config is DEPRECATED" file=/etc/postgres-exporter/queries.yml
+time=2026-11-27T02:48:55.452Z level=INFO source=tls_config.go:372 msg="Listening on" address=[::]:9187
+time=2026-11-27T02:48:55.452Z level=INFO source=tls_config.go:375 msg="TLS is disabled." http2=false address=[::]:9187
+time=2026-11-27T02:49:01.151Z level=INFO source=server.go:96 msg="Established new database connection" fingerprint=localhost:5432
+time=2026-11-27T02:49:01.160Z level=INFO source=postgres_exporter.go:537 msg="Semantic version changed" server=localhost:5432 from=0.0.0 to=17.7.0
+time=2026-11-27T02:49:31.148Z level=ERROR source=collector.go:191 msg="Error opening connection to database" err="error querying postgresql version: dial tcp [::1]:5432: connect: connection refused"
+time=2026-11-27T02:49:32.148Z level=ERROR source=postgres_exporter.go:606 msg="error scraping dsn" err="Error opening connection to database (postgresql://postgres:PASSWORD_REMOVED@localhost:5432/postgres?sslmode=disable&connect_timeout=5&options=-c%20statement_timeout%3D8s): driver: bad connection" dsn="postgresql://postgres:PASSWORD_REMOVED@localhost:5432/postgres?sslmode=disable&connect_timeout=5&options=-c%20statement_timeout%3D8s"
+time=2026-11-27T02:50:01.148Z level=INFO source=server.go:96 msg="Established new database connection" fingerprint=localhost:5432
+time=2026-11-27T02:50:01.149Z level=ERROR source=collector.go:191 msg="Error opening connection to database" err="error querying postgresql version: dial tcp [::1]:5432: connect: connection refused"
+time=2026-11-27T02:50:02.149Z level=ERROR source=postgres_exporter.go:606 msg="error scraping dsn" err="Error opening connection to database (postgresql://postgres:PASSWORD_REMOVED@localhost:5432/postgres?sslmode=disable&connect_timeout=5&options=-c%20statement_timeout%3D8s): dial tcp [::1]:5432: connect: connection refused" dsn="postgresql://postgres:PASSWORD_REMOVED@localhost:5432/postgres?sslmode=disable&connect_timeout=5&options=-c%20statement_timeout%3D8s"
+time=2026-11-27T02:50:31.151Z level=INFO source=server.go:96 msg="Established new database connection" fingerprint=localhost:5432
+time=2026-11-27T02:50:31.159Z level=INFO source=postgres_exporter.go:537 msg="Semantic version changed" server=localhost:5432 from=0.0.0 to=17.7.0
