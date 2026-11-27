@@ -1,115 +1,156 @@
-# AWS account, IAM and GitHub Actions for the EKS lab
+# From a new AWS account to a running EKS cluster
 
-Optional. The runbook applies `terraform/` from a laptop; this is the layout for running the same infrastructure from GitHub Actions instead, split into separate states, with no long-lived AWS keys.
+This guide takes you from no AWS account to three EKS nodes in three availability zones, ready for the Multigres drills. It follows what we did on a new free-plan account. Expect about 45 minutes, most of it waiting for EKS.
 
-Goal: all infrastructure is Terraform, split into several states, and only GitHub Actions applies it. No long-lived AWS keys anywhere.
+When `kubectl get nodes` shows three nodes, carry on with [step 4 of the reproduce guide](../failure-drill/reproduce.md#4-operator-about-1-minute).
 
-## 0. The account (do once, by hand)
+## Before you start: what it costs
 
-1. Turn on MFA for the root user. Never create root access keys. Do not use root after this step.
-2. Create one admin identity for yourself (IAM Identity Center user, or an IAM user with MFA). You need it only for the bootstrap in step 2 and for reading things in the console.
-3. Billing:
-   - set up AWS Budgets alerts at $20, $50 and $80 to your email
-   - turn on Cost Anomaly Detection
-   - check how much credit is left, and the plan's end date, on the Billing page
-4. Check what the free plan allows before relying on it. Credits run out faster than you expect with EKS, and a free-plan account may close at the end of the period unless upgraded. If EKS turns out to be blocked on the free plan, upgrading to the paid plan keeps the credits.
+- **EKS is not part of the free tier, but free-plan credits pay for it.** A new account gets promotional credits, and this lab spends them at about **USD 0.50 an hour** while the cluster exists. That covers the EKS control plane (USD 0.10), three `m7i-flex.large` nodes, public IPv4 addresses, small gp3 volumes and logs.
+- A full round (cluster up, every drill, teardown) takes about 4 hours, so about USD 2.
+- **Destroy the cluster at the end of every session** (step 8). A cluster you forget overnight costs more than the whole round.
+- Terraform also creates a monthly AWS Budget, in case you do forget. It emails you when actual spend passes 50% of `budget_usd` (default USD 40), and when the month's forecast passes 100%.
 
-**Rough cost:** EKS control plane about $0.10/hour, plus 3 nodes (one per AZ), plus small EBS and S3, plus public IPv4 addresses. Expect around $0.40–0.60/hour. **$100 is roughly 170–250 cluster-hours**, so destroy every evening (the nightly destroy workflow below does it for you).
+## 1. Create the account
 
-## 1. Repository layout (one repo, several states)
+1. Sign up at <https://aws.amazon.com/free/> and choose the **free plan**. A card is needed for verification. You are not charged while credits last.
+2. Wait for the email saying the account is ready. Some services stay blocked for a few minutes after sign-up.
+3. Sign in as the root user, open **IAM → Dashboard**, and **add MFA for the root user**.
+4. Open **Billing and Cost Management → Credits** and note how much credit you have and when it expires.
 
-```
-infra/
-  bootstrap/          # applied ONCE from your laptop with the admin identity
-  stacks/
-    10-network/       # VPC, 3 public subnets (one per AZ), no NAT
-    20-eks/           # EKS, one node group per AZ, EBS CSI (IRSA), gp3 StorageClass, access entries
-    30-backups/       # S3 bucket for backups + IRSA role for the backup service account
-    40-platform/      # optional: cert-manager, operators via helm/kubernetes providers
-.github/workflows/
-  plan.yml   apply.yml   destroy.yml
-```
+## 2. Create a user for Terraform
 
-- **Separate state for each stack,** all in one S3 bucket, key `stacks/<name>/terraform.tfstate`.
-- **Locking:** use S3 native locking (`use_lockfile = true`, Terraform 1.10+), so no DynamoDB table is needed.
-- **Passing values between stacks:** later stacks read earlier ones with `terraform_remote_state` (e.g. 20-eks reads the subnet IDs from 10-network).
-- **Destroy order:** the reverse of apply (40 → 30 → 20 → 10).
+You will not use root again. Create one IAM user that Terraform and kubectl run as.
 
-## 2. Bootstrap (the only local apply)
+1. **IAM → Users → Create user**. Name it `multigres-terraform`. Leave console access unticked.
+2. **Permissions:** choose *Attach policies directly* and tick **`AdministratorAccess`**.
 
-`infra/bootstrap` creates what GitHub Actions needs before it can do anything:
+   That's broad on purpose. EKS and its add-ons create IAM roles, and the narrower managed policies can't do that. Keep this account for the lab and nothing else.
+3. Open the new user, then **Security credentials → Create access key → Command Line Interface (CLI)**. Tick the confirmation and create it.
+4. Keep the page open, or download the CSV. You need both values once, in step 4, and AWS never shows the secret again.
 
-1. **The state bucket:** versioning on, default encryption, all public access blocked, and a bucket policy that denies non-TLS access. Keep this bucket out of any stack that gets destroyed.
-2. **The GitHub OIDC identity provider:** URL `https://token.actions.githubusercontent.com`, audience `sts.amazonaws.com`.
-3. **Two roles that GitHub Actions can assume:**
-   - **`gha-plan`**
-     - permissions: `ReadOnlyAccess`, plus read/write on the state bucket (the plan writes the lock file)
-     - trust: only pull requests from your repo
-   - **`gha-apply`**
-     - permissions: `AdministratorAccess` is the pragmatic choice for a dedicated lab account. EKS creates IAM roles, so `PowerUserAccess` is not enough. The account holds nothing else, and the trust policy plus a protected environment is the real gate.
-     - trust: only jobs running in the GitHub environment `aws-lab` of your repo
+Never paste the secret key into chat tools, issues, commits or scripts. You type it into `aws configure` and nowhere else.
 
-Trust policy condition for `gha-apply` (the shape):
+## 3. Install the tools
 
-```json
-"Condition": {
-  "StringEquals": {
-    "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
-    "token.actions.githubusercontent.com:sub": "repo:shanurwan/<repo>:environment:aws-lab"
-  }
-}
+| Tool | Version | macOS (Homebrew) | Linux | Windows |
+|---|---|---|---|---|
+| AWS CLI | v2 | `brew install awscli` | [installer](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) | [MSI installer](https://awscli.amazonaws.com/AWSCLIV2.msi) |
+| Terraform | 1.10 or later | `brew install hashicorp/tap/terraform` | [packages](https://developer.hashicorp.com/terraform/install) | `winget install Hashicorp.Terraform` |
+| kubectl | within one minor version of the cluster (1.34–1.36) | `brew install kubectl` | [binary](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/) | `winget install Kubernetes.kubectl` |
+| git, openssl, Python 3.8+ | any | preinstalled or `brew install` | your package manager | [Git for Windows](https://git-scm.com/download/win) includes openssl and Git Bash; Python from [python.org](https://www.python.org/downloads/) |
+
+On Windows, run every command in this repository from **Git Bash**, not PowerShell or cmd.
+
+Check the tools are installed:
+
+```sh
+aws --version && terraform version && kubectl version --client && git --version
 ```
 
-For `gha-plan`, `sub` is `repo:shanurwan/<repo>:pull_request`.
+## 4. Connect the CLI to your account
 
-Check the real `sub` format before you trust it:
-- **When a job uses an environment, `sub` is the environment form, not the branch form.**
-- Some repositories get GitHub's immutable form (`repo:<owner>@<owner-id>/<repo>@<repo-id>:...`). If this one does, the condition must match that.
-- How to check: run one debug job that prints the decoded token claims, or read the exact `sub` from the first failed assume-role error, then fix the trust policy.
+```sh
+aws configure --profile multigres-lab
+#   AWS Access Key ID:     <from step 2>
+#   AWS Secret Access Key: <from step 2>
+#   Default region name:   ap-southeast-2      (or another region, see step 5)
+#   Default output format: json
 
-After the bootstrap, remove or disable any access keys you used. Everything from here is GitHub Actions.
+aws sts get-caller-identity --profile multigres-lab
+```
 
-## 3. GitHub settings
+The last command should print an ARN ending in `user/multigres-terraform`. If it does, delete the downloaded CSV.
 
-**Environment `aws-lab`** (Settings → Environments):
-- **Required reviewer:** you. Every apply waits for your click.
-- **Deployment branches:** `main` only.
+Set these in every new terminal you use for the lab:
 
-**Variables** (Settings → Secrets and variables → Actions → Variables; none of these are secret):
-- `AWS_REGION`, e.g. `ap-southeast-1`
-- `AWS_ROLE_PLAN_ARN`, the ARN of `gha-plan`
-- `AWS_ROLE_APPLY_ARN`, the ARN of `gha-apply`
-- `TF_STATE_BUCKET`, the state bucket name
+```sh
+export AWS_PROFILE=multigres-lab AWS_REGION=ap-southeast-2
+```
 
-**Secrets** (only things you'd rather not show publicly):
-- `ADMIN_CIDR`: your public IP /32, for the EKS API endpoint allowlist
-- `ALERT_EMAIL`: for budget or alarm emails, if a stack needs it
+## 5. Check your account can run the lab
 
-**No `AWS_ACCESS_KEY_ID` or `AWS_SECRET_ACCESS_KEY`.** OIDC replaces them.
+Three quick checks before you apply anything. The second one is the problem that cost us most time.
 
-## 4. Workflows
+```sh
+# 1. The region has at least 3 availability zones (the lab puts one cell in each)
+aws ec2 describe-availability-zones --query 'AvailabilityZones[].[ZoneName,ZoneId]' --output table
 
-All three need `permissions: { id-token: write, contents: read }` and use `aws-actions/configure-aws-credentials` with `role-to-assume`. Pin actions to a commit SHA.
+# 2. m7i-flex.large is allowed. Free-plan accounts can only launch some instance types,
+#    and a node group with any other type sits in CREATING for a long time and then fails.
+aws ec2 describe-instance-types --filters Name=free-tier-eligible,Values=true \
+  --query 'InstanceTypes[].InstanceType' --output text | tr '\t' '\n' | grep -x m7i-flex.large
 
-| Workflow | Trigger | Role | What it does |
-|---|---|---|---|
-| `plan.yml` | pull request | `gha-plan` | `fmt -check`, `validate`, `plan` for each changed stack; posts the plan as a PR comment |
-| `apply.yml` | push to `main` | `gha-apply`, environment `aws-lab` | applies stacks in order 10 → 20 → 30 → 40, each with its own backend key |
-| `destroy.yml` | manual (with a "type DESTROY" input) and a nightly schedule | `gha-apply`, environment `aws-lab` | destroys 40 → 30 → 20 → 10; keeps the bootstrap |
+# 3. Kubernetes 1.35 is in standard support (extended support costs about 6 times more per hour)
+aws eks describe-cluster-versions --query 'clusterVersions[].[clusterVersion,versionStatus]' --output table
+```
 
-- **Nightly destroy, e.g. `0 15 * * *` = 23:00 Malaysia time.** It's what keeps the $100 alive. Keep the bootstrap and the backup bucket's state outside what it destroys, or empty the bucket first.
-- **Concurrency:** add `concurrency: { group: terraform-${{ matrix.stack }}, cancel-in-progress: false }` so two runs never apply the same state at once.
+If check 2 prints nothing, pick another type from the full list (2 vCPU and 8 GiB is enough) and set `instance_type` in step 6. If 1.35 has left standard support, set `kubernetes_version` to one that is in it.
 
-## 5. Things that bite on EKS
+## 6. Create the cluster (about 20 minutes)
 
-- **Cluster access:** with the apply role as the cluster creator, add an access entry for your own admin identity too. Otherwise you can't run `kubectl` from your laptop for the drills.
-- **Zones:** use zone IDs (`apse1-az1`) for Multigres cells; read them from the `aws_availability_zones` data source in 10-network.
-- **Destroy order:** delete the Multigres cluster (and its PVCs) before `terraform destroy` on 20-eks, or the EBS volumes outlive the cluster and keep costing.
-- **Load balancers:** anything that created one (an NLB for the gateway) must be deleted inside Kubernetes first, or the VPC destroy hangs on its network interfaces.
-- **Versions:** pick a Kubernetes version in standard support. Older versions in extended support cost far more per hour.
+```sh
+git clone https://github.com/shanurwan/multigres-eks-drills
+cd multigres-eks-drills/terraform
+cp terraform.tfvars.example terraform.tfvars
+curl -s https://checkip.amazonaws.com       # your public IP, for admin_cidrs
+```
 
-## 6. What to keep out of the public repo
+Edit `terraform.tfvars`:
 
-- **No account IDs.** Put the role ARNs in variables, not in the code.
-- **No IP addresses.** `ADMIN_CIDR` goes in a secret.
-- **No `.tfvars` with personal values.** Commit only a `.tfvars.example`.
+```hcl
+region      = "ap-southeast-2"        # the region you checked in step 5
+profile     = "multigres-lab"
+owner       = "your-name"             # a tag on every resource
+alert_email = "you@example.com"       # budget alerts go here
+admin_cidrs = ["198.51.100.7/32"]     # the IP from checkip, with /32
+```
+
+`admin_cidrs` is the only address allowed to reach the cluster's API. Your IP stays out of the repository, because `terraform.tfvars` is ignored by git.
+
+Then apply it:
+
+```sh
+terraform init
+terraform plan -out tfplan                  # should say: 76 to add
+terraform apply tfplan
+```
+
+When it finishes, point kubectl at the cluster:
+
+```sh
+$(terraform output -raw kubeconfig_command)
+kubectl get nodes -L topology.k8s.aws/zone-id
+cd ..
+```
+
+You should see three `Ready` nodes, each in a different zone ID. The IAM user that ran Terraform is the cluster's admin, so kubectl works straight away.
+
+**Next:** [step 4 of the reproduce guide](../failure-drill/reproduce.md#4-operator-about-1-minute) installs the operator, deploys Multigres and runs the drills.
+
+## 7. If something goes wrong
+
+| What you see | Why | What to do |
+|---|---|---|
+| `terraform plan` says `No valid credential sources found` or `ExpiredToken` | the profile isn't set in this terminal | `export AWS_PROFILE=multigres-lab`, or check `profile` in `terraform.tfvars` |
+| Node groups stay `CREATING` for over 10 minutes; the Auto Scaling group's activity says `The specified instance type is not eligible for Free Tier` | the account can't launch that instance type | set `instance_type` to one from step 5. If an apply is already stuck, run `aws eks delete-nodegroup` for each group, wait until they are gone (10 to 20 minutes), then `terraform plan` and `apply` again |
+| `VcpuLimitExceeded` | the account's on-demand vCPU quota is below the 6 vCPU the three nodes need | request more in **Service Quotas → Amazon EC2 → Running On-Demand Standard instances**, then apply again |
+| `kubectl` times out (`dial tcp ... i/o timeout`) | your public IP changed since you set `admin_cidrs` | update `admin_cidrs` with the new IP, then `terraform apply` |
+| `kubectl` says `You must be logged in to the server (Unauthorized)` | kubectl is using a different AWS identity from the one that created the cluster | rerun the `kubeconfig_command` with the same profile Terraform used |
+| `terraform destroy` hangs on the VPC or subnets | something in Kubernetes created a load balancer or volumes that still exist | delete the Multigres cluster first (step 8), then `terraform destroy` again |
+
+## 8. Tear down at the end of every session
+
+From the repository root:
+
+```sh
+kubectl -n multigres-demo delete multigrescluster demo --wait=true   # also deletes its EBS volumes
+kubectl get pv                                                       # should list nothing
+aws s3 rm "s3://$(terraform -chdir=terraform output -raw backup_bucket)" --recursive
+terraform -chdir=terraform destroy
+aws ec2 describe-volumes --filters Name=tag:Project,Values=multigres-lab --query 'Volumes[].VolumeId'   # should be []
+```
+
+The next day, check **Billing and Cost Management → Bills**, to confirm nothing is still running.
+
+When you are done with the lab for good, also delete the access key: **IAM → Users → multigres-terraform → Security credentials → Actions → Delete**.

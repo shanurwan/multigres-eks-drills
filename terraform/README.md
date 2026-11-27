@@ -1,6 +1,6 @@
 # terraform
 
-AWS infrastructure for the drills. Steps to apply it are in [`../failure-drill/reproduce.md`](../failure-drill/reproduce.md).
+AWS infrastructure for the drills. To create it from a new AWS account, follow [`aws-setup.md`](aws-setup.md).
 
 ## What it creates (76 resources)
 
@@ -30,7 +30,3 @@ AWS infrastructure for the drills. Steps to apply it are in [`../failure-drill/r
 ## Cost
 
 About USD 0.50 an hour while it exists in `ap-southeast-2`: the EKS control plane (USD 0.10), three nodes, public IPv4 addresses, small gp3 volumes and logs. The KMS key costs about USD 1 a month until deleted. Destroy it after every session.
-
-## Running it from CI instead
-
-[`aws-setup.md`](aws-setup.md) lays out the same infrastructure applied by GitHub Actions through OIDC, with no long-lived AWS keys.

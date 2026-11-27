@@ -6,11 +6,14 @@ This is an independent test lab, not an official Multigres or Supabase project, 
 
 **Start with [`failure-drill/failure-drill.md`](failure-drill/failure-drill.md)**: the results, findings and what to check before running Multigres on EKS.
 
+**To run it yourself**, you need only an AWS free-plan account. Follow [`terraform/aws-setup.md`](terraform/aws-setup.md) to get a cluster, then [`failure-drill/reproduce.md`](failure-drill/reproduce.md) for the drills.
+
 ## Layout
 
 | Path | What it is |
 |---|---|
 | [`terraform/`](terraform/) | the AWS infrastructure: VPC across 3 zones, EKS with one node group per zone, EBS CSI and backups through IRSA, a budget alarm |
+| [`terraform/aws-setup.md`](terraform/aws-setup.md) | from a new AWS free-plan account to a running 3-zone EKS cluster, step by step |
 | [`failure-drill/failure-drill.md`](failure-drill/failure-drill.md) | summary: results, charts, findings, readiness checklist, limits |
 | [`failure-drill/methodology.md`](failure-drill/methodology.md) | system under test, workload, how one run works, what is measured |
 | [`failure-drill/scenarios.md`](failure-drill/scenarios.md) | every check and drill, the real-world event behind it, and the question it answers |
