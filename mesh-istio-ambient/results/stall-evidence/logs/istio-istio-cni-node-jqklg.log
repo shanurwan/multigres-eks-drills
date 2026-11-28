@@ -1,0 +1,460 @@
+2026-11-27T06:07:43.817012Z	info	cni-agent	CNI version: 1.32.0-19cc19624069db78ce5c6940b7be94c540eecfb0-Clean
+2026-11-27T06:07:43.817213Z	info	cni-agent	CNI logging level: info
+2026-11-27T06:07:43.817301Z	info	cni-agent	CNI install configuration: 
+MountedCNINetDir: /host/etc/cni/net.d
+CNIConfName: 
+ChainedCNIPlugin: true
+CNIAgentRunDir: /var/run/istio-cni
+IstioOwnedCNIConfigFilename: 
+IstioOwnedCNIConfig: false
+PluginLogLevel: info
+KubeconfigMode: 0600
+CNIConfGroupRead: false
+KubeCAFile: 
+SkipTLSVerify: false
+ExcludeNamespaces: kube-system
+PodNamespace: istio-system
+K8sServiceProtocol: 
+K8sServiceHost: 172.20.0.1
+K8sServicePort: 443
+K8sNodeName: istio-cni-node-jqklg
+CNIBinSourceDir: /opt/cni/bin
+CNIBinTargetDirs: /host/opt/cni/bin
+MonitoringPort: 15014
+ZtunnelUDSAddress: /var/run/ztunnel/ztunnel.sock
+AmbientEnabled: true
+AmbientEnablementSelector: - podSelector:
+    matchLabels:
+      istio.io/dataplane-mode: ambient
+- namespaceSelector:
+    matchLabels:
+      istio.io/dataplane-mode: ambient
+  podSelector:
+    matchExpressions:
+    - key: istio.io/dataplane-mode
+      operator: NotIn
+      values:
+      - none
+AmbientDNSCapture: true
+AmbientIPv6: true
+AmbientDisableSafeUpgrade: false
+AmbientReconcilePodRulesOnStartup: true
+EnableAmbientDetectionRetry: false
+NativeNftables: false
+ForceIptablesBinary: 
+
+2026-11-27T06:07:43.817424Z	info	cni-agent	CNI race repair configuration: 
+Enabled: true
+NodeName: ip-10-42-18-161.ap-southeast-2.compute.internal
+LabelKey: cni.istio.io/uninitialized
+LabelValue: true
+DeletePods: false
+LabelPods: false
+SidecarAnnotation: sidecar.istio.io/status
+InitContainerName: istio-validation
+InitTerminationMsg: 
+InitExitCode: 126
+LabelSelectors: 
+FieldSelectors: 
+NativeNftables: false
+ForceIptablesBinary: 
+
+2026-11-27T06:07:43.818412Z	info	ControlZ available at 127.0.0.1:9876
+2026-11-27T06:07:43.819061Z	info	cni-agent	Starting ambient node agent with inpod redirect mode on socket /var/run/istio-cni/pluginevent.sock
+2026-11-27T06:07:43.820543Z	info	cni-agent	creating host addressSet manager in the node netns
+2026-11-27T06:07:43.940636Z	info	cni-agent	configuring host-level iptables rules (healthchecks, etc)
+2026-11-27T06:07:43.940664Z	info	cni-agent	Adding host netnamespace iptables rules
+2026-11-27T06:07:43.945379Z	info	cni-agent	Found residues of old iptables rules/chains, reconciliation is recommended	component=host
+2026-11-27T06:07:43.945395Z	warn	cni-agent	reconcile is needed but no-reconcile flag is set. Unexpected behavior may occur due to preexisting iptables rules	component=host
+2026-11-27T06:07:43.945398Z	info	cni-agent	Applying iptables chains and rules	component=host
+2026-11-27T06:07:43.945409Z	info	cni-agent	Running iptables-nft-restore with the following input:
+* nat
+-N ISTIO_POSTRT
+-I POSTROUTING 1 -j ISTIO_POSTRT
+-A ISTIO_POSTRT -m owner --socket-exists -p tcp -m set --match-set istio-inpod-probes-v4 dst -j SNAT --to-source 169.254.7.127
+COMMIT	component=host
+2026-11-27T06:07:43.953644Z	info	cni-agent	Running ip6tables-nft-restore with the following input:
+* nat
+-N ISTIO_POSTRT
+-I POSTROUTING 1 -j ISTIO_POSTRT
+-A ISTIO_POSTRT -m owner --socket-exists -p tcp -m set --match-set istio-inpod-probes-v6 dst -j SNAT --to-source fd16:9254:7127:1337:ffff:ffff:ffff:ffff
+COMMIT	component=host
+2026-11-27T06:07:43.955034Z	info	cni-agent	starting listener for CNI plugin events at /var/run/istio-cni/pluginevent.sock
+2026-11-27T06:07:43.955135Z	info	cni-agent	CNI ambient server starting
+2026-11-27T06:07:43.955171Z	info	cluster "" kube client started
+2026-11-27T06:07:44.055375Z	info	cni-agent	CNI ambient server kubeclient started
+2026-11-27T06:07:44.062624Z	info	cni-agent	inpod reconcile mode enabled
+2026-11-27T06:07:44.062693Z	info	sync complete	name=informer attempt=1 time=5.617µs
+2026-11-27T06:07:44.062715Z	info	cni-agent	CNI ambient server marking ready
+2026-11-27T06:07:44.062718Z	info	cni-agent	Ambient node agent started, starting installer...
+2026-11-27T06:07:44.062720Z	info	cni-agent	starting CNI sidecar repair controller
+2026-11-27T06:07:44.064582Z	info	controllers	starting	controller=ambient
+2026-11-27T06:07:44.064653Z	info	cni-agent	Namespace default is disabled from ambient mesh
+2026-11-27T06:07:44.064696Z	info	cni-agent	Namespace istio-system is disabled from ambient mesh
+2026-11-27T06:07:44.064717Z	info	cni-agent	Namespace kube-node-lease is disabled from ambient mesh
+2026-11-27T06:07:44.064723Z	info	cni-agent	Namespace kube-public is disabled from ambient mesh
+2026-11-27T06:07:44.064728Z	info	cni-agent	Namespace kube-system is disabled from ambient mesh
+2026-11-27T06:07:44.064741Z	info	cni-agent	Namespace multigres-demo is disabled from ambient mesh
+2026-11-27T06:07:44.064751Z	info	cni-agent	Namespace multigres-operator is disabled from ambient mesh
+2026-11-27T06:07:44.065018Z	info	cluster "" kube client started
+2026-11-27T06:07:44.096544Z	info	sync complete	name=repair controller attempt=5 time=31.442052ms
+2026-11-27T06:07:44.096603Z	info	controllers	starting	controller=repair pods
+2026-11-27T06:07:44.165689Z	info	cni-agent	initialization complete, watching node CNI dir
+2026-11-27T06:07:44.240164Z	info	cni-agent	Copied istio-cni to /host/opt/cni/bin
+2026-11-27T06:07:44.241083Z	info	cni-agent	wrote kubeconfig file /var/run/istio-cni/istio-cni-kubeconfig with: 
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: REDACTED
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURNakNDQWhxZ0F3SUJBZ0lSQUt4eEtoSnNHZWFsdUE4cklRemQ1Szh3RFFZSktvWklodmNOQVFFTEJRQXcKSnpFUU1BNEdBMVVFQ2hNSFFWZFRJRVZMVXpFVE1CRUdBMVVFQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TmpFeApNall4TVRNMk1UZGFGdzB6TVRFeE1qVXhNVE0yTVRkYU1DY3hFREFPQmdOVkJBb1RCMEZYVXlCRlMxTXhFekFSCkJnTlZCQU1UQ210MVltVnlibVYwWlhNd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUIKQVFDeEJtNmJhblRwZndrT2kweTFRaEhVd1ZibGZybHNOU05XbUlLM0c1TmpweHpoeXU1T0hJODBIcWEvS0tXSAowZUhoeDZNckg4d3JDeDJXWkJPaFJiUFBMSUtBQUY1OGtmcDFRQnA3cnJPOHRjTDFlTWEvYVpiOEZFb2lCVTd6ClZPNFIzNlBHU1EvZm8rRmhmaHcxL0ZXZmE5cHc4UUxmWm9jK0ZvckdmZ1NkM0dGTjl2Y2I1UFlKRHN2aFpKcmUKOVNaTlhIVllqK2dCZEY2TVZDNjB5cm5LcWlVUEtOczc4dVR1dFpua0lGNUtoT1Zud2RsWE1QMC8rbkx4aDBHWQpINUFTTVgxQXIwR2JLOTNQQzhaY1RxMURUN1lJelVDVElvYXJXY0tkbTZ0cEdmbk9LTnFweXJYM0gwL3dwZ21BCmhjeEdoYWJQOEl3MTJ2TXdSQUh5dlV2UkFnTUJBQUdqV1RCWE1BNEdBMVVkRHdFQi93UUVBd0lDcERBUEJnTlYKSFJNQkFmOEVCVEFEQVFIL01CMEdBMVVkRGdRV0JCUnd3VE5PdkUzY1lRSU9IQmEvSDRRcS9tc0E5VEFWQmdOVgpIUkVFRGpBTWdncHJkV0psY201bGRHVnpNQTBHQ1NxR1NJYjNEUUVCQ3dVQUE0SUJBUUFxMzdtSVZ4MFgvSmNGCmhUSWw2QVFNd2VucnJBcy9lODlmODVRUVk5LzZvS0FnU1Uvbm5zTDJLZWE3SE9DNGVFQUNrTXJLcE1iVDhFWjIKK0dlUUNiMWxuTnFqVTIxSHczaVJSSTNZVDUvaS81aWt5MmJROHVzMDhPM3VMczlHY2kyWGg0UGRwM0taVmNmUApJY1hCTE4zSWNyR1dFODdWd0U0RCt5a2RqK2VwMDZzZGV2YURsTUVRRHNLYkVRY0YzVjlKbHQ4U05PU29Hdk56Ck0rdGdYemVCZDhLZGlqakc4U05vanh1djBWekN5ZGVEdGo1RDRsRnd1VnZET2F4U1N0VXBpRndiZVFwNnJjdXQKajh3bnpQcWdaUkdWZXc2TjR2QnR4RUQ0dlF1U0RhMnA4bVFEellZclNzUjFqZmVEWnBCMkpTQWdnNm1zdFVwYwpaeGlxUmU4NAotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    server: https://172.20.0.1:443
+  name: local
+contexts:
+- context:
+    cluster: local
+    user: istio-cni
+  name: istio-cni-context
+current-context: istio-cni-context
+kind: Config
+users:
+- name: istio-cni
+  user:
+    token: REDACTED
+
+2026-11-27T06:07:44.241387Z	info	cni-agent	configuration requires updates, (re)writing CNI config file: perform initial update of highest priority config /host/etc/cni/net.d/10-aws.conflist using existing configuration from file 10-aws.conflist
+2026-11-27T06:07:44.241904Z	info	cni-agent	Wrote CNI config to /host/etc/cni/net.d/10-aws.conflist
+2026-11-27T06:07:44.242101Z	info	cni-agent	initial installation complete, start watching for re-installation
+2026-11-27T06:07:49.918584Z	info	cni-plugin	excluded istio-system/ztunnel-mcjb4 pod because it has proxy type ztunnel	pod=istio-system/ztunnel-mcjb4
+2026-11-27T06:07:53.722763Z	info	cni-agent	new ztunnel connected, total connected: 1	conn_uuid=74654fc3-5a39-490e-be85-43b4071e5122
+2026-11-27T06:07:53.723026Z	info	cni-agent	received hello from ztunnel	conn_uuid=74654fc3-5a39-490e-be85-43b4071e5122 version=V1
+2026-11-27T06:08:59.786318Z	info	cni-agent	Namespace multigres-demo is enabled in ambient mesh
+2026-11-27T06:08:59.786393Z	info	cni-agent	adding pod to the mesh	ns=multigres-demo name=demo-global-topo-2
+2026-11-27T06:08:59.793714Z	info	cni-agent	Clean-state detected, new iptables are needed	ns=multigres-demo name=demo-global-topo-2
+2026-11-27T06:08:59.793730Z	info	cni-agent	Applying iptables chains and rules	ns=multigres-demo name=demo-global-topo-2
+2026-11-27T06:08:59.793762Z	info	cni-agent	Running iptables-nft-restore with the following input:
+* mangle
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_PRERT -m mark --mark 0x539/0xfff -j CONNMARK --set-xmark 0x111/0xfff
+-A ISTIO_OUTPUT -m connmark --mark 0x111/0xfff -j CONNMARK --restore-mark --nfmask 0xffffffff --ctmask 0xffffffff
+COMMIT
+* nat
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A OUTPUT -j ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A ISTIO_PRERT -s 169.254.7.127 -p tcp -m tcp -j ACCEPT
+-A ISTIO_OUTPUT -d 169.254.7.127 -p tcp -m tcp -j ACCEPT
+-A ISTIO_PRERT ! -d 127.0.0.1/32 -p tcp ! --dport 15008 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15006
+-A ISTIO_OUTPUT ! -o lo -p udp -m mark ! --mark 0x539/0xfff -m udp --dport 53 -j REDIRECT --to-port 15053
+-A ISTIO_OUTPUT ! -d 127.0.0.1/32 -p tcp --dport 53 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15053
+-A ISTIO_OUTPUT -p tcp -m mark --mark 0x111/0xfff -j ACCEPT
+-A ISTIO_OUTPUT ! -d 127.0.0.1/32 -o lo -j ACCEPT
+-A ISTIO_OUTPUT ! -d 127.0.0.1/32 -p tcp -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15001
+COMMIT
+* raw
+-N ISTIO_OUTPUT
+-N ISTIO_PRERT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_OUTPUT -p udp -m mark --mark 0x539/0xfff -m udp --dport 53 -j CT --zone 1
+-A ISTIO_PRERT -p udp -m mark ! --mark 0x539/0xfff -m udp --sport 53 -j CT --zone 1
+COMMIT	ns=multigres-demo name=demo-global-topo-2
+2026-11-27T06:08:59.805536Z	info	cni-agent	Running ip6tables-nft-restore with the following input:
+* mangle
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_PRERT -m mark --mark 0x539/0xfff -j CONNMARK --set-xmark 0x111/0xfff
+-A ISTIO_OUTPUT -m connmark --mark 0x111/0xfff -j CONNMARK --restore-mark --nfmask 0xffffffff --ctmask 0xffffffff
+COMMIT
+* nat
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A OUTPUT -j ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A ISTIO_PRERT -s fd16:9254:7127:1337:ffff:ffff:ffff:ffff -p tcp -m tcp -j ACCEPT
+-A ISTIO_OUTPUT -d fd16:9254:7127:1337:ffff:ffff:ffff:ffff -p tcp -m tcp -j ACCEPT
+-A ISTIO_PRERT ! -d ::1/128 -p tcp ! --dport 15008 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15006
+-A ISTIO_OUTPUT ! -o lo -p udp -m mark ! --mark 0x539/0xfff -m udp --dport 53 -j REDIRECT --to-port 15053
+-A ISTIO_OUTPUT ! -d ::1/128 -p tcp --dport 53 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15053
+-A ISTIO_OUTPUT -p tcp -m mark --mark 0x111/0xfff -j ACCEPT
+-A ISTIO_OUTPUT ! -d ::1/128 -o lo -j ACCEPT
+-A ISTIO_OUTPUT ! -d ::1/128 -p tcp -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15001
+COMMIT
+* raw
+-N ISTIO_OUTPUT
+-N ISTIO_PRERT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_OUTPUT -p udp -m mark --mark 0x539/0xfff -m udp --dport 53 -j CT --zone 1
+-A ISTIO_PRERT -p udp -m mark ! --mark 0x539/0xfff -m udp --sport 53 -j CT --zone 1
+COMMIT	ns=multigres-demo name=demo-global-topo-2
+2026-11-27T06:08:59.810227Z	info	cni-agent	sending pod add to ztunnel	uid=4e770ae4-6475-43be-ba6f-bc8c391441d1 name=demo-global-topo-2 namespace=multigres-demo serviceAccount=default conn_uuid=74654fc3-5a39-490e-be85-43b4071e5122
+2026-11-27T06:08:59.832550Z	info	cni-agent	adding pod to the mesh	ns=multigres-demo name=demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-56bb955bvvpx
+2026-11-27T06:08:59.840050Z	info	cni-agent	Clean-state detected, new iptables are needed	ns=multigres-demo name=demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-56bb955bvvpx
+2026-11-27T06:08:59.840067Z	info	cni-agent	Applying iptables chains and rules	ns=multigres-demo name=demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-56bb955bvvpx
+2026-11-27T06:08:59.840100Z	info	cni-agent	Running iptables-nft-restore with the following input:
+* mangle
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_PRERT -m mark --mark 0x539/0xfff -j CONNMARK --set-xmark 0x111/0xfff
+-A ISTIO_OUTPUT -m connmark --mark 0x111/0xfff -j CONNMARK --restore-mark --nfmask 0xffffffff --ctmask 0xffffffff
+COMMIT
+* nat
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A OUTPUT -j ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A ISTIO_PRERT -s 169.254.7.127 -p tcp -m tcp -j ACCEPT
+-A ISTIO_OUTPUT -d 169.254.7.127 -p tcp -m tcp -j ACCEPT
+-A ISTIO_PRERT ! -d 127.0.0.1/32 -p tcp ! --dport 15008 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15006
+-A ISTIO_OUTPUT ! -o lo -p udp -m mark ! --mark 0x539/0xfff -m udp --dport 53 -j REDIRECT --to-port 15053
+-A ISTIO_OUTPUT ! -d 127.0.0.1/32 -p tcp --dport 53 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15053
+-A ISTIO_OUTPUT -p tcp -m mark --mark 0x111/0xfff -j ACCEPT
+-A ISTIO_OUTPUT ! -d 127.0.0.1/32 -o lo -j ACCEPT
+-A ISTIO_OUTPUT ! -d 127.0.0.1/32 -p tcp -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15001
+COMMIT
+* raw
+-N ISTIO_OUTPUT
+-N ISTIO_PRERT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_OUTPUT -p udp -m mark --mark 0x539/0xfff -m udp --dport 53 -j CT --zone 1
+-A ISTIO_PRERT -p udp -m mark ! --mark 0x539/0xfff -m udp --sport 53 -j CT --zone 1
+COMMIT	ns=multigres-demo name=demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-56bb955bvvpx
+2026-11-27T06:08:59.842686Z	info	cni-agent	Running ip6tables-nft-restore with the following input:
+* mangle
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_PRERT -m mark --mark 0x539/0xfff -j CONNMARK --set-xmark 0x111/0xfff
+-A ISTIO_OUTPUT -m connmark --mark 0x111/0xfff -j CONNMARK --restore-mark --nfmask 0xffffffff --ctmask 0xffffffff
+COMMIT
+* nat
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A OUTPUT -j ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A ISTIO_PRERT -s fd16:9254:7127:1337:ffff:ffff:ffff:ffff -p tcp -m tcp -j ACCEPT
+-A ISTIO_OUTPUT -d fd16:9254:7127:1337:ffff:ffff:ffff:ffff -p tcp -m tcp -j ACCEPT
+-A ISTIO_PRERT ! -d ::1/128 -p tcp ! --dport 15008 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15006
+-A ISTIO_OUTPUT ! -o lo -p udp -m mark ! --mark 0x539/0xfff -m udp --dport 53 -j REDIRECT --to-port 15053
+-A ISTIO_OUTPUT ! -d ::1/128 -p tcp --dport 53 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15053
+-A ISTIO_OUTPUT -p tcp -m mark --mark 0x111/0xfff -j ACCEPT
+-A ISTIO_OUTPUT ! -d ::1/128 -o lo -j ACCEPT
+-A ISTIO_OUTPUT ! -d ::1/128 -p tcp -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15001
+COMMIT
+* raw
+-N ISTIO_OUTPUT
+-N ISTIO_PRERT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_OUTPUT -p udp -m mark --mark 0x539/0xfff -m udp --dport 53 -j CT --zone 1
+-A ISTIO_PRERT -p udp -m mark ! --mark 0x539/0xfff -m udp --sport 53 -j CT --zone 1
+COMMIT	ns=multigres-demo name=demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-56bb955bvvpx
+2026-11-27T06:08:59.845137Z	info	cni-agent	sending pod add to ztunnel	uid=98e55ce7-ad3d-4131-90e9-494347bac2da name=demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-56bb955bvvpx namespace=multigres-demo serviceAccount=default conn_uuid=74654fc3-5a39-490e-be85-43b4071e5122
+2026-11-27T06:08:59.856402Z	info	cni-agent	adding pod to the mesh	ns=multigres-demo name=demo-global-topo-0
+2026-11-27T06:08:59.866851Z	info	cni-agent	Clean-state detected, new iptables are needed	ns=multigres-demo name=demo-global-topo-0
+2026-11-27T06:08:59.866923Z	info	cni-agent	Applying iptables chains and rules	ns=multigres-demo name=demo-global-topo-0
+2026-11-27T06:08:59.866979Z	info	cni-agent	Running iptables-nft-restore with the following input:
+* mangle
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_PRERT -m mark --mark 0x539/0xfff -j CONNMARK --set-xmark 0x111/0xfff
+-A ISTIO_OUTPUT -m connmark --mark 0x111/0xfff -j CONNMARK --restore-mark --nfmask 0xffffffff --ctmask 0xffffffff
+COMMIT
+* nat
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A OUTPUT -j ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A ISTIO_PRERT -s 169.254.7.127 -p tcp -m tcp -j ACCEPT
+-A ISTIO_OUTPUT -d 169.254.7.127 -p tcp -m tcp -j ACCEPT
+-A ISTIO_PRERT ! -d 127.0.0.1/32 -p tcp ! --dport 15008 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15006
+-A ISTIO_OUTPUT ! -o lo -p udp -m mark ! --mark 0x539/0xfff -m udp --dport 53 -j REDIRECT --to-port 15053
+-A ISTIO_OUTPUT ! -d 127.0.0.1/32 -p tcp --dport 53 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15053
+-A ISTIO_OUTPUT -p tcp -m mark --mark 0x111/0xfff -j ACCEPT
+-A ISTIO_OUTPUT ! -d 127.0.0.1/32 -o lo -j ACCEPT
+-A ISTIO_OUTPUT ! -d 127.0.0.1/32 -p tcp -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15001
+COMMIT
+* raw
+-N ISTIO_OUTPUT
+-N ISTIO_PRERT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_OUTPUT -p udp -m mark --mark 0x539/0xfff -m udp --dport 53 -j CT --zone 1
+-A ISTIO_PRERT -p udp -m mark ! --mark 0x539/0xfff -m udp --sport 53 -j CT --zone 1
+COMMIT	ns=multigres-demo name=demo-global-topo-0
+2026-11-27T06:08:59.869537Z	info	cni-agent	Running ip6tables-nft-restore with the following input:
+* mangle
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_PRERT -m mark --mark 0x539/0xfff -j CONNMARK --set-xmark 0x111/0xfff
+-A ISTIO_OUTPUT -m connmark --mark 0x111/0xfff -j CONNMARK --restore-mark --nfmask 0xffffffff --ctmask 0xffffffff
+COMMIT
+* nat
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A OUTPUT -j ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A ISTIO_PRERT -s fd16:9254:7127:1337:ffff:ffff:ffff:ffff -p tcp -m tcp -j ACCEPT
+-A ISTIO_OUTPUT -d fd16:9254:7127:1337:ffff:ffff:ffff:ffff -p tcp -m tcp -j ACCEPT
+-A ISTIO_PRERT ! -d ::1/128 -p tcp ! --dport 15008 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15006
+-A ISTIO_OUTPUT ! -o lo -p udp -m mark ! --mark 0x539/0xfff -m udp --dport 53 -j REDIRECT --to-port 15053
+-A ISTIO_OUTPUT ! -d ::1/128 -p tcp --dport 53 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15053
+-A ISTIO_OUTPUT -p tcp -m mark --mark 0x111/0xfff -j ACCEPT
+-A ISTIO_OUTPUT ! -d ::1/128 -o lo -j ACCEPT
+-A ISTIO_OUTPUT ! -d ::1/128 -p tcp -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15001
+COMMIT
+* raw
+-N ISTIO_OUTPUT
+-N ISTIO_PRERT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_OUTPUT -p udp -m mark --mark 0x539/0xfff -m udp --dport 53 -j CT --zone 1
+-A ISTIO_PRERT -p udp -m mark ! --mark 0x539/0xfff -m udp --sport 53 -j CT --zone 1
+COMMIT	ns=multigres-demo name=demo-global-topo-0
+2026-11-27T06:08:59.871963Z	info	cni-agent	sending pod add to ztunnel	uid=d1e18645-92e0-4767-97d0-0fedbb7a55de name=demo-global-topo-0 namespace=multigres-demo serviceAccount=default conn_uuid=74654fc3-5a39-490e-be85-43b4071e5122
+2026-11-27T06:08:59.887674Z	info	cni-agent	adding pod to the mesh	ns=multigres-demo name=demo-postgres-default-0-inf-pool-default-az3-97695bdb-0
+2026-11-27T06:08:59.893816Z	info	cni-agent	Clean-state detected, new iptables are needed	ns=multigres-demo name=demo-postgres-default-0-inf-pool-default-az3-97695bdb-0
+2026-11-27T06:08:59.893833Z	info	cni-agent	Applying iptables chains and rules	ns=multigres-demo name=demo-postgres-default-0-inf-pool-default-az3-97695bdb-0
+2026-11-27T06:08:59.893867Z	info	cni-agent	Running iptables-nft-restore with the following input:
+* mangle
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_PRERT -m mark --mark 0x539/0xfff -j CONNMARK --set-xmark 0x111/0xfff
+-A ISTIO_OUTPUT -m connmark --mark 0x111/0xfff -j CONNMARK --restore-mark --nfmask 0xffffffff --ctmask 0xffffffff
+COMMIT
+* nat
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A OUTPUT -j ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A ISTIO_PRERT -s 169.254.7.127 -p tcp -m tcp -j ACCEPT
+-A ISTIO_OUTPUT -d 169.254.7.127 -p tcp -m tcp -j ACCEPT
+-A ISTIO_PRERT ! -d 127.0.0.1/32 -p tcp ! --dport 15008 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15006
+-A ISTIO_OUTPUT ! -o lo -p udp -m mark ! --mark 0x539/0xfff -m udp --dport 53 -j REDIRECT --to-port 15053
+-A ISTIO_OUTPUT ! -d 127.0.0.1/32 -p tcp --dport 53 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15053
+-A ISTIO_OUTPUT -p tcp -m mark --mark 0x111/0xfff -j ACCEPT
+-A ISTIO_OUTPUT ! -d 127.0.0.1/32 -o lo -j ACCEPT
+-A ISTIO_OUTPUT ! -d 127.0.0.1/32 -p tcp -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15001
+COMMIT
+* raw
+-N ISTIO_OUTPUT
+-N ISTIO_PRERT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_OUTPUT -p udp -m mark --mark 0x539/0xfff -m udp --dport 53 -j CT --zone 1
+-A ISTIO_PRERT -p udp -m mark ! --mark 0x539/0xfff -m udp --sport 53 -j CT --zone 1
+COMMIT	ns=multigres-demo name=demo-postgres-default-0-inf-pool-default-az3-97695bdb-0
+2026-11-27T06:08:59.896163Z	info	cni-agent	Running ip6tables-nft-restore with the following input:
+* mangle
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_PRERT -m mark --mark 0x539/0xfff -j CONNMARK --set-xmark 0x111/0xfff
+-A ISTIO_OUTPUT -m connmark --mark 0x111/0xfff -j CONNMARK --restore-mark --nfmask 0xffffffff --ctmask 0xffffffff
+COMMIT
+* nat
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A OUTPUT -j ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A ISTIO_PRERT -s fd16:9254:7127:1337:ffff:ffff:ffff:ffff -p tcp -m tcp -j ACCEPT
+-A ISTIO_OUTPUT -d fd16:9254:7127:1337:ffff:ffff:ffff:ffff -p tcp -m tcp -j ACCEPT
+-A ISTIO_PRERT ! -d ::1/128 -p tcp ! --dport 15008 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15006
+-A ISTIO_OUTPUT ! -o lo -p udp -m mark ! --mark 0x539/0xfff -m udp --dport 53 -j REDIRECT --to-port 15053
+-A ISTIO_OUTPUT ! -d ::1/128 -p tcp --dport 53 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15053
+-A ISTIO_OUTPUT -p tcp -m mark --mark 0x111/0xfff -j ACCEPT
+-A ISTIO_OUTPUT ! -d ::1/128 -o lo -j ACCEPT
+-A ISTIO_OUTPUT ! -d ::1/128 -p tcp -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15001
+COMMIT
+* raw
+-N ISTIO_OUTPUT
+-N ISTIO_PRERT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_OUTPUT -p udp -m mark --mark 0x539/0xfff -m udp --dport 53 -j CT --zone 1
+-A ISTIO_PRERT -p udp -m mark ! --mark 0x539/0xfff -m udp --sport 53 -j CT --zone 1
+COMMIT	ns=multigres-demo name=demo-postgres-default-0-inf-pool-default-az3-97695bdb-0
+2026-11-27T06:08:59.898190Z	info	cni-agent	sending pod add to ztunnel	uid=be5f1371-5f70-416a-b03d-edbdae46ffc6 name=demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 namespace=multigres-demo serviceAccount=multigres-backup conn_uuid=74654fc3-5a39-490e-be85-43b4071e5122
+2026-11-27T06:08:59.929626Z	info	cni-agent	adding pod to the mesh	ns=multigres-demo name=demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl
+2026-11-27T06:08:59.938902Z	info	cni-agent	Clean-state detected, new iptables are needed	ns=multigres-demo name=demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl
+2026-11-27T06:08:59.938938Z	info	cni-agent	Applying iptables chains and rules	ns=multigres-demo name=demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl
+2026-11-27T06:08:59.939015Z	info	cni-agent	Running iptables-nft-restore with the following input:
+* mangle
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_PRERT -m mark --mark 0x539/0xfff -j CONNMARK --set-xmark 0x111/0xfff
+-A ISTIO_OUTPUT -m connmark --mark 0x111/0xfff -j CONNMARK --restore-mark --nfmask 0xffffffff --ctmask 0xffffffff
+COMMIT
+* nat
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A OUTPUT -j ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A ISTIO_PRERT -s 169.254.7.127 -p tcp -m tcp -j ACCEPT
+-A ISTIO_OUTPUT -d 169.254.7.127 -p tcp -m tcp -j ACCEPT
+-A ISTIO_PRERT ! -d 127.0.0.1/32 -p tcp ! --dport 15008 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15006
+-A ISTIO_OUTPUT ! -o lo -p udp -m mark ! --mark 0x539/0xfff -m udp --dport 53 -j REDIRECT --to-port 15053
+-A ISTIO_OUTPUT ! -d 127.0.0.1/32 -p tcp --dport 53 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15053
+-A ISTIO_OUTPUT -p tcp -m mark --mark 0x111/0xfff -j ACCEPT
+-A ISTIO_OUTPUT ! -d 127.0.0.1/32 -o lo -j ACCEPT
+-A ISTIO_OUTPUT ! -d 127.0.0.1/32 -p tcp -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15001
+COMMIT
+* raw
+-N ISTIO_OUTPUT
+-N ISTIO_PRERT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_OUTPUT -p udp -m mark --mark 0x539/0xfff -m udp --dport 53 -j CT --zone 1
+-A ISTIO_PRERT -p udp -m mark ! --mark 0x539/0xfff -m udp --sport 53 -j CT --zone 1
+COMMIT	ns=multigres-demo name=demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl
+2026-11-27T06:08:59.941543Z	info	cni-agent	Running ip6tables-nft-restore with the following input:
+* mangle
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_PRERT -m mark --mark 0x539/0xfff -j CONNMARK --set-xmark 0x111/0xfff
+-A ISTIO_OUTPUT -m connmark --mark 0x111/0xfff -j CONNMARK --restore-mark --nfmask 0xffffffff --ctmask 0xffffffff
+COMMIT
+* nat
+-N ISTIO_PRERT
+-N ISTIO_OUTPUT
+-A OUTPUT -j ISTIO_OUTPUT
+-A PREROUTING -j ISTIO_PRERT
+-A ISTIO_PRERT -s fd16:9254:7127:1337:ffff:ffff:ffff:ffff -p tcp -m tcp -j ACCEPT
+-A ISTIO_OUTPUT -d fd16:9254:7127:1337:ffff:ffff:ffff:ffff -p tcp -m tcp -j ACCEPT
+-A ISTIO_PRERT ! -d ::1/128 -p tcp ! --dport 15008 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15006
+-A ISTIO_OUTPUT ! -o lo -p udp -m mark ! --mark 0x539/0xfff -m udp --dport 53 -j REDIRECT --to-port 15053
+-A ISTIO_OUTPUT ! -d ::1/128 -p tcp --dport 53 -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15053
+-A ISTIO_OUTPUT -p tcp -m mark --mark 0x111/0xfff -j ACCEPT
+-A ISTIO_OUTPUT ! -d ::1/128 -o lo -j ACCEPT
+-A ISTIO_OUTPUT ! -d ::1/128 -p tcp -m mark ! --mark 0x539/0xfff -j REDIRECT --to-ports 15001
+COMMIT
+* raw
+-N ISTIO_OUTPUT
+-N ISTIO_PRERT
+-A PREROUTING -j ISTIO_PRERT
+-A OUTPUT -j ISTIO_OUTPUT
+-A ISTIO_OUTPUT -p udp -m mark --mark 0x539/0xfff -m udp --dport 53 -j CT --zone 1
+-A ISTIO_PRERT -p udp -m mark ! --mark 0x539/0xfff -m udp --sport 53 -j CT --zone 1
+COMMIT	ns=multigres-demo name=demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl
+2026-11-27T06:08:59.943560Z	info	cni-agent	sending pod add to ztunnel	uid=c944e222-574e-46b8-8a36-643272fcaca9 name=demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl namespace=multigres-demo serviceAccount=default conn_uuid=74654fc3-5a39-490e-be85-43b4071e5122

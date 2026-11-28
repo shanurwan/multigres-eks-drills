@@ -1,0 +1,24 @@
+{
+  "run": "storm-none-c500-nomesh-1",
+  "attempts": 70991,
+  "acked": 70991,
+  "failed": 0,
+  "ambiguous": 0,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 0,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "06:03:46.471",
+  "last_event": "06:06:46.433",
+  "outages": null,
+  "error_kinds": {},
+  "ok_latency_ms": {
+    "p100": 266,
+    "p50": 7,
+    "p95": 19,
+    "p99": 35
+  }
+}

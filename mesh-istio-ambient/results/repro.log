@@ -1,0 +1,9 @@
+== 07:06:35 re-enroll multigres-demo in ambient
+namespace/multigres-demo labeled
+== 07:08:23 mesh pod kill 2
+== 07:19:04 after kill 2: shard=Healthy primary=apse2-az2
+== 07:20:04 mesh pod kill 3
+== 07:30:54 after kill 3: shard=Healthy primary=apse2-az3
+== 07:31:54 mesh pod kill 4
+== 07:42:53 after kill 4: shard=Healthy primary=apse2-az2
+REPRO-NOT-STUCK

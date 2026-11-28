@@ -1,0 +1,132 @@
+== 06:03:05 baseline without the mesh (3 min, 500 connections)
+2026-11-27T06:03:15.939Z supafirehose: 500 connections, 2000 reads/s, 200 writes/s
+2026-11-27T06:03:42.997Z no fault; writer for 3m
+2026-11-27T06:07:22.231Z done: /home/wan/up/mgrun/production-scenario/results/storm-none-c500-nomesh-1
+== 06:07:22 install Istio ambient
+        |\          
+        | \         
+        |  \        
+        |   \       
+      /||    \      
+     / ||     \     
+    /  ||      \    
+   /   ||       \   
+  /    ||        \  
+ /     ||         \ 
+/______||__________\
+____________________
+  \__       _____/  
+     \_____/        
+
+
+- Processing resources for Istio core.
+✔ Istio core installed ⛵️
+- Processing resources for CNI, Istiod.
+- Processing resources for CNI, Istiod. Waiting for DaemonSet/istio-system/istio-cni-node
+- Processing resources for CNI, Istiod. Waiting for DaemonSet/istio-system/istio-cni-node, Deploy...
+✔ CNI installed 🪢
+- Processing resources for Istiod, Ztunnel. Waiting for Deployment/istio-system/istiod
+- Processing resources for Istiod, Ztunnel. Waiting for DaemonSet/istio-system/ztunnel, Deploymen...
+✔ Istiod installed 🧠
+- Processing resources for Ztunnel. Waiting for DaemonSet/istio-system/ztunnel
+✔ Ztunnel installed 🔒
+- Pruning removed resources
+✔ Installation completeThe ambient profile has been installed successfully, enjoy Istio without sidecars!
+daemon set "ztunnel" successfully rolled out
+daemon set "istio-cni-node" successfully rolled out
+client version: 1.32.0
+control plane version: 1.32.0
+data plane version: 1.32.0 (3 proxies)
+== 2026-11-27T06:08:13Z 1-istio-installed-not-enrolled
+-- shard
+demo-postgres-default-0-inf-bedd096a   Healthy
+-- multigres pods not fully ready
+-- write and read through the gateway
+NOTICE:  relation "mesh_probe" already exists, skipping
+CREATE TABLE
+-- replication seen from the primary
+az2_p-69f9c303|streaming|quorum
+az3_p-08de2cdd|streaming|quorum
+-- operator errors in the last 3 min
+0
+-- prometheus scrape targets (health: count)
+   1 demo-postgres-default-0-inf-pool-default-az1-headless-4416b9be up
+   1 demo-postgres-default-0-inf-pool-default-az2-headless-d4f1b6bf up
+   1 demo-postgres-default-0-inf-pool-default-az3-headless-4cf5fb4c up
+   1 multigres-operator-controller-manager-metrics-service up
+-- ztunnel workloads (protocol per pod in multigres-demo)
+NAMESPACE          POD NAME                                                        ADDRESS      NODE                                            WAYPOINT PROTOCOL
+multigres-demo     ackcheck                                                        10.42.39.218 ip-10-42-33-80.ap-southeast-2.compute.internal  None     TCP
+multigres-demo     auth-6d66747ccc-7mbc6                                           10.42.1.75   ip-10-42-2-70.ap-southeast-2.compute.internal   None     TCP
+multigres-demo     demo-az1-multigateway-8d59bb63-59744f8b75-2b76l                 10.42.14.119 ip-10-42-2-70.ap-southeast-2.compute.internal   None     TCP
+multigres-demo     demo-az2-multigateway-225ffbee-9598cfcd9-7pskr                  10.42.40.135 ip-10-42-33-80.ap-southeast-2.compute.internal  None     TCP
+multigres-demo     demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl                 10.42.28.134 ip-10-42-18-161.ap-southeast-2.compute.internal None     TCP
+multigres-demo     demo-global-topo-0                                              10.42.21.180 ip-10-42-18-161.ap-southeast-2.compute.internal None     TCP
+multigres-demo     demo-global-topo-1                                              10.42.32.10  ip-10-42-33-80.ap-southeast-2.compute.internal  None     TCP
+multigres-demo     demo-global-topo-2                                              10.42.17.38  ip-10-42-18-161.ap-southeast-2.compute.internal None     TCP
+multigres-demo     demo-multiadmin-6b85487468-p844f                                10.42.32.65  ip-10-42-33-80.ap-southeast-2.compute.internal  None     TCP
+multigres-demo     demo-multiadmin-web-7f6585b866-v5cbc                            10.42.37.206 ip-10-42-33-80.ap-southeast-2.compute.internal  None     TCP
+multigres-demo     demo-postgres-default-0-inf-multiorch-az1-5175f405-6b9f4746v7gb 10.42.11.194 ip-10-42-2-70.ap-southeast-2.compute.internal   None     TCP
+multigres-demo     demo-postgres-default-0-inf-multiorch-az2-77786e6e-754dd78dhf4r 10.42.40.248 ip-10-42-33-80.ap-southeast-2.compute.internal  None     TCP
+multigres-demo     demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-56bb955bvvpx 10.42.26.169 ip-10-42-18-161.ap-southeast-2.compute.internal None     TCP
+multigres-demo     demo-postgres-default-0-inf-pool-default-az1-4b646709-0         10.42.10.46  ip-10-42-2-70.ap-southeast-2.compute.internal   None     TCP
+multigres-demo     demo-postgres-default-0-inf-pool-default-az2-7166e172-0         10.42.38.72  ip-10-42-33-80.ap-southeast-2.compute.internal  None     TCP
+multigres-demo     demo-postgres-default-0-inf-pool-default-az3-97695bdb-0         10.42.19.2   ip-10-42-18-161.ap-southeast-2.compute.internal None     TCP
+multigres-demo     loadgen                                                         10.42.1.112  ip-10-42-2-70.ap-southeast-2.compute.internal   None     TCP
+-- ztunnel errors/warnings in the last 3 min
+== 06:08:58 enroll multigres-demo in ambient
+namespace/multigres-demo labeled
+== 2026-11-27T06:09:59Z 2-enrolled
+-- shard
+demo-postgres-default-0-inf-bedd096a   Healthy
+-- multigres pods not fully ready
+-- write and read through the gateway
+NOTICE:  relation "mesh_probe" already exists, skipping
+CREATE TABLE
+-- replication seen from the primary
+az2_p-69f9c303|streaming|quorum
+az3_p-08de2cdd|streaming|quorum
+-- operator errors in the last 3 min
+0
+-- prometheus scrape targets (health: count)
+   1 demo-postgres-default-0-inf-pool-default-az1-headless-4416b9be up
+   1 demo-postgres-default-0-inf-pool-default-az2-headless-d4f1b6bf up
+   1 demo-postgres-default-0-inf-pool-default-az3-headless-4cf5fb4c up
+   1 multigres-operator-controller-manager-metrics-service up
+-- ztunnel workloads (protocol per pod in multigres-demo)
+NAMESPACE          POD NAME                                                        ADDRESS      NODE                                            WAYPOINT PROTOCOL
+multigres-demo     ackcheck                                                        10.42.39.218 ip-10-42-33-80.ap-southeast-2.compute.internal  None     HBONE
+multigres-demo     auth-6d66747ccc-7mbc6                                           10.42.1.75   ip-10-42-2-70.ap-southeast-2.compute.internal   None     HBONE
+multigres-demo     demo-az1-multigateway-8d59bb63-59744f8b75-2b76l                 10.42.14.119 ip-10-42-2-70.ap-southeast-2.compute.internal   None     HBONE
+multigres-demo     demo-az2-multigateway-225ffbee-9598cfcd9-7pskr                  10.42.40.135 ip-10-42-33-80.ap-southeast-2.compute.internal  None     HBONE
+multigres-demo     demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl                 10.42.28.134 ip-10-42-18-161.ap-southeast-2.compute.internal None     HBONE
+multigres-demo     demo-global-topo-0                                              10.42.21.180 ip-10-42-18-161.ap-southeast-2.compute.internal None     HBONE
+multigres-demo     demo-global-topo-1                                              10.42.32.10  ip-10-42-33-80.ap-southeast-2.compute.internal  None     HBONE
+multigres-demo     demo-global-topo-2                                              10.42.17.38  ip-10-42-18-161.ap-southeast-2.compute.internal None     HBONE
+multigres-demo     demo-multiadmin-6b85487468-p844f                                10.42.32.65  ip-10-42-33-80.ap-southeast-2.compute.internal  None     HBONE
+multigres-demo     demo-multiadmin-web-7f6585b866-v5cbc                            10.42.37.206 ip-10-42-33-80.ap-southeast-2.compute.internal  None     HBONE
+multigres-demo     demo-postgres-default-0-inf-multiorch-az1-5175f405-6b9f4746v7gb 10.42.11.194 ip-10-42-2-70.ap-southeast-2.compute.internal   None     HBONE
+multigres-demo     demo-postgres-default-0-inf-multiorch-az2-77786e6e-754dd78dhf4r 10.42.40.248 ip-10-42-33-80.ap-southeast-2.compute.internal  None     HBONE
+multigres-demo     demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-56bb955bvvpx 10.42.26.169 ip-10-42-18-161.ap-southeast-2.compute.internal None     HBONE
+multigres-demo     demo-postgres-default-0-inf-pool-default-az1-4b646709-0         10.42.10.46  ip-10-42-2-70.ap-southeast-2.compute.internal   None     HBONE
+multigres-demo     demo-postgres-default-0-inf-pool-default-az2-7166e172-0         10.42.38.72  ip-10-42-33-80.ap-southeast-2.compute.internal  None     HBONE
+multigres-demo     demo-postgres-default-0-inf-pool-default-az3-97695bdb-0         10.42.19.2   ip-10-42-18-161.ap-southeast-2.compute.internal None     HBONE
+multigres-demo     loadgen                                                         10.42.1.112  ip-10-42-2-70.ap-southeast-2.compute.internal   None     HBONE
+-- ztunnel errors/warnings in the last 3 min
+== 06:10:46 latency in the mesh (3 min, 500 connections)
+2026-11-27T06:10:56.464Z supafirehose: 500 connections, 2000 reads/s, 200 writes/s
+2026-11-27T06:11:23.117Z no fault; writer for 3m
+2026-11-27T06:15:03.096Z done: /home/wan/up/mgrun/production-scenario/results/storm-none-c500-mesh-1
+== 06:15:03 pod kills in the mesh
+2026-11-27T06:15:15.230Z supafirehose: 500 connections, 2000 reads/s, 200 writes/s
+command terminated with exit code 1
+  2026-11-27T06:16:32.780Z writer start (6m)
+  2026-11-27T06:17:38.782Z fault: force-delete primary pod demo-postgres-default-0-inf-pool-default-az1-4b646709-0 (uid 46abc8db-5469-4959-8a24-c960bcb972a8)
+  Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+  pod "demo-postgres-default-0-inf-pool-default-az1-4b646709-0" force deleted from multigres-demo namespace
+  2026-11-27T06:17:41.090Z waiting for the writer to finish
+  2026-11-27T06:22:43.864Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+  2026-11-27T06:37:43.930Z shard NOT Healthy after 15 min
+  2026-11-27T06:39:46.822Z verify failed (see verify.err)
+  2026-11-27T06:42:27.236Z done: /home/wan/up/mgrun/production-scenario/results/storm-pod-kill-c500-mesh-1
+2026-11-27T06:42:57.475Z done: /home/wan/up/mgrun/production-scenario/results/storm-pod-kill-c500-mesh-1

@@ -1,0 +1,36 @@
+{
+  "run": "storm-pod-kill-c500-mesh-2",
+  "attempts": 126970,
+  "acked": 126822,
+  "failed": 144,
+  "ambiguous": 4,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 0,
+  "failed_present": 4,
+  "unexpected_rows": 0,
+  "first_event": "07:09:44.781",
+  "last_event": "07:15:44.751",
+  "outages": [
+    {
+      "from": "07:10:49.241",
+      "to": "07:11:25.566",
+      "seconds": 36.32462,
+      "errors_in_window": 148,
+      "first_error": "08006 connection to server lost"
+    }
+  ],
+  "error_kinds": {
+    "08006 connection to server lost": 4,
+    "context deadline exceeded": 140,
+    "timeout: context deadline exceeded": 4
+  },
+  "ok_latency_ms": {
+    "p100": 376,
+    "p50": 8,
+    "p95": 22,
+    "p99": 38
+  }
+}

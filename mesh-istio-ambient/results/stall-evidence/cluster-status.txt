@@ -1,0 +1,16 @@
+Usage:
+  multigres cluster status [flags]
+
+Flags:
+  -h, --help   help for status
+
+Global Flags:
+      --config-file string                                          Full path of the config file (with extension) to use. If set, --config-path, --config-type, and --config-name are ignored.
+      --config-file-not-found-handling ConfigFileNotFoundHandling   Behavior when a config file is not found. (Options: error, exit, ignore, warn) (default warn)
+      --config-name string                                          Name of the config file (without extension) to search for. (default "multigres")
+      --config-path strings                                         Paths to search for config files in. (default [/multigres/multigres_local])
+      --config-persistence-min-interval duration                    minimum interval between persisting dynamic config changes back to disk (if no change has occurred, nothing is done). (default 1s)
+      --config-type string                                          Config file type (omit to infer config type from file extension).
+
+Error: unknown flag: --admin-server
+command terminated with exit code 1

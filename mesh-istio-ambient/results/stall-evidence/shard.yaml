@@ -1,0 +1,184 @@
+apiVersion: v1
+items:
+- apiVersion: multigres.com/v1alpha1
+  kind: Shard
+  metadata:
+    annotations:
+      multigres.com/default-backup-key-prefix: clusters/d3563585-78c0-496f-b2e7-f83dec21de77
+    creationTimestamp: "2026-11-26T12:28:43Z"
+    finalizers:
+    - multigres.com/shard-pvc-orphan
+    generation: 2
+    labels:
+      app.kubernetes.io/component: shard
+      app.kubernetes.io/instance: demo
+      app.kubernetes.io/managed-by: multigres-operator
+      app.kubernetes.io/name: multigres
+      app.kubernetes.io/part-of: multigres
+      multigres.com/cluster: demo
+      multigres.com/database: postgres
+      multigres.com/shard: 0-inf
+      multigres.com/tablegroup: default
+    name: demo-postgres-default-0-inf-bedd096a
+    namespace: multigres-demo
+    ownerReferences:
+    - apiVersion: multigres.com/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: TableGroup
+      name: demo-postgres-default-c91a52d0
+      uid: e3286724-71a5-41dd-a765-737b713348ce
+    resourceVersion: "284645"
+    uid: bfa62137-85a1-4263-ac47-651a24d1047a
+  spec:
+    backup:
+      s3:
+        bucket: multigres-lab-backups-<account-id>
+        keyPrefix: multigres-demo
+        region: ap-southeast-2
+        serviceAccountName: multigres-backup
+      type: s3
+    cellTopologyLabels:
+      az1:
+        topology.k8s.aws/zone-id: apse2-az1
+      az2:
+        topology.k8s.aws/zone-id: apse2-az2
+      az3:
+        topology.k8s.aws/zone-id: apse2-az3
+    databaseName: postgres
+    durabilityPolicy: MULTI_CELL_AT_LEAST_2
+    globalTopoServer:
+      address: demo-global-topo.multigres-demo.svc:2379
+      implementation: etcd
+      rootPath: /multigres/multigres-demo/demo/global
+    images:
+      imagePullPolicy: IfNotPresent
+      multiorch: ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363
+      multipooler: ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363
+      postgres: ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647
+    logLevels:
+      multiadmin: info
+      multigateway: info
+      multiorch: info
+      multipooler: info
+      pgctld: info
+    multiorch:
+      cells:
+      - az1
+      - az2
+      - az3
+      replicas: 1
+      resources:
+        limits:
+          memory: 128Mi
+        requests:
+          cpu: 50m
+          memory: 64Mi
+    pools:
+      default:
+        cells:
+        - az1
+        - az2
+        - az3
+        fsGroup: 999
+        multipooler:
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+        postgres:
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+        replicasPerCell: 1
+        storage:
+          class: multigres-gp3
+          size: 10Gi
+        type: readWrite
+    postgresPasswordSecretRef:
+      key: password
+      name: multigres-admin-password
+    postgresSuperuser: postgres
+    pvcDeletionPolicy:
+      whenDeleted: Delete
+      whenScaled: Delete
+    replicas: 3
+    shardName: 0-inf
+    tableGroupName: default
+    topologyPruning:
+      enabled: true
+  status:
+    cells:
+    - az1
+    - az2
+    - az3
+    conditions:
+    - lastTransitionTime: "2026-11-26T12:28:44Z"
+      message: No shard pod mounts a PVC that is being deleted
+      observedGeneration: 2
+      reason: NoMountedPVCBeingDeleted
+      status: "False"
+      type: PVCTerminating
+    - lastTransitionTime: "2026-11-27T06:18:35Z"
+      message: All 3 pods are ready
+      observedGeneration: 2
+      reason: AllPodsReady
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-11-26T12:28:44Z"
+      message: No PVC is keeping a value that differs from the spec
+      observedGeneration: 2
+      reason: NoStorageChangeIgnored
+      status: "False"
+      type: StorageSpecIgnored
+    - lastTransitionTime: "2026-11-26T12:28:44Z"
+      message: All explicitly configured StorageClasses are present
+      observedGeneration: 2
+      reason: StorageClassFound
+      status: "True"
+      type: StorageClassValid
+    - lastTransitionTime: "2026-11-26T15:06:50Z"
+      message: All pods up to date in pool default
+      reason: PodsUpToDate
+      status: "False"
+      type: RollingUpdate
+    - lastTransitionTime: "2026-11-27T06:18:35Z"
+      message: postures consistent with topology roles
+      observedGeneration: 2
+      reason: Consistent
+      status: "True"
+      type: PostureConsistent
+    - lastTransitionTime: "2026-11-27T06:17:41Z"
+      message: 'Failed to check backup health: querying backups from primary multipooler-az1-p-3c7ba9d3:
+        rpc error: code = Unavailable desc = connection error: desc = "transport:
+        Error while dialing: dial tcp 10.42.10.46:15270: connect: connection refused"'
+      observedGeneration: 2
+      reason: BackupCheckUnavailable
+      status: Unknown
+      type: BackupHealthy
+    lastBackupTime: "2026-11-27T05:22:32Z"
+    lastBackupType: incr
+    message: No primary pod for shard
+    observedGeneration: 2
+    orchReady: true
+    phase: Degraded
+    podPostures:
+      demo-postgres-default-0-inf-pool-default-az1-4b646709-0: STANDBY
+      demo-postgres-default-0-inf-pool-default-az2-7166e172-0: STANDBY
+      demo-postgres-default-0-inf-pool-default-az3-97695bdb-0: STANDBY
+    podRoles:
+      demo-postgres-default-0-inf-pool-default-az1-4b646709-0: REPLICA
+      demo-postgres-default-0-inf-pool-default-az2-7166e172-0: REPLICA
+      demo-postgres-default-0-inf-pool-default-az3-97695bdb-0: REPLICA
+    poolsReady: true
+    postgresConfig:
+      lastAppliedAt: "2026-11-26T12:49:15Z"
+    readyReplicas: 3
+kind: List
+metadata:
+  resourceVersion: ""

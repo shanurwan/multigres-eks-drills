@@ -1,0 +1,17 @@
+== 2026-11-27T06:02:11Z 0-before-istio
+-- shard
+demo-postgres-default-0-inf-bedd096a   Healthy
+-- multigres pods not fully ready
+-- write and read through the gateway
+CREATE TABLE
+1|2026-11-27 06:02:17.792839+00
+-- replication seen from the primary
+az2_p-69f9c303|streaming|quorum
+az3_p-08de2cdd|streaming|quorum
+-- operator errors in the last 3 min
+0
+-- prometheus scrape targets (health: count)
+   1 demo-postgres-default-0-inf-pool-default-az1-headless-4416b9be up
+   1 demo-postgres-default-0-inf-pool-default-az2-headless-d4f1b6bf up
+   1 demo-postgres-default-0-inf-pool-default-az3-headless-4cf5fb4c up
+   1 multigres-operator-controller-manager-metrics-service up

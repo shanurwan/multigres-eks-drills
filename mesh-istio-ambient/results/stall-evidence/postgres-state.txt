@@ -1,0 +1,76 @@
+== pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0
+ERROR:  recovery is in progress
+HINT:  WAL control functions cannot be executed during recovery.
+(0 rows)
+
+-[ RECORD 1 ]----+---------------
+application_name | az2_p-69f9c303
+state            | streaming
+sync_state       | async
+-[ RECORD 2 ]----+---------------
+application_name | az3_p-08de2cdd
+state            | streaming
+sync_state       | async
+
+-[ RECORD 1 ]----+-
+primary_conninfo | 
+
+-[ RECORD 1 ]-------------+-------------------------------------------
+synchronous_standby_names | ANY 1 ("az2_p-69f9c303", "az3_p-08de2cdd")
+
+== pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0
+ERROR:  recovery is in progress
+HINT:  WAL control functions cannot be executed during recovery.
+-[ RECORD 1 ]---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+pid                   | 28163
+status                | streaming
+receive_start_lsn     | 0/A3000000
+receive_start_tli     | 23
+written_lsn           | 0/A30000A0
+flushed_lsn           | 0/A3000000
+received_tli          | 23
+last_msg_send_time    | 2026-11-27 06:41:29.338833+00
+last_msg_receipt_time | 2026-11-27 06:41:29.339242+00
+latest_end_lsn        | 0/A30000A0
+latest_end_time       | 2026-11-27 06:17:57.732011+00
+slot_name             | 
+sender_host           | demo-postgres-default-0-inf-pool-default-az1-4b646709-0.demo-postgres-default-0-inf-pool-default-az1-headless-4416b9be.multigres-demo.svc.cluster.local
+sender_port           | 5432
+conninfo              | user=postgres passfile=/var/lib/pooler/pgbackrest/pgbackrest.pgpass channel_binding=prefer dbname=replication host=demo-postgres-default-0-inf-pool-default-az1-4b646709-0.demo-postgres-default-0-inf-pool-default-az1-headless-4416b9be.multigres-demo.svc.cluster.local port=5432 application_name=az2_p-69f9c303 fallback_application_name=demo/postgres/default/0-inf sslmode=prefer sslnegotiation=postgres sslcompression=0 sslcertmode=allow sslsni=1 ssl_min_protocol_version=TLSv1.2 gssencmode=prefer krbsrvname=postgres gssdelegation=0 target_session_attrs=any load_balance_hosts=disable
+
+(0 rows)
+
+-[ RECORD 1 ]----+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+primary_conninfo | host=demo-postgres-default-0-inf-pool-default-az1-4b646709-0.demo-postgres-default-0-inf-pool-default-az1-headless-4416b9be.multigres-demo.svc.cluster.local port=5432 user=postgres application_name=az2_p-69f9c303 dbname=postgres passfile=/var/lib/pooler/pgbackrest/pgbackrest.pgpass
+
+-[ RECORD 1 ]-------------+-------------------------------------------
+synchronous_standby_names | ANY 1 ("az1_p-3c7ba9d3", "az2_p-69f9c303")
+
+== pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0
+ERROR:  recovery is in progress
+HINT:  WAL control functions cannot be executed during recovery.
+-[ RECORD 1 ]---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+pid                   | 25115
+status                | streaming
+receive_start_lsn     | 0/A3000000
+receive_start_tli     | 23
+written_lsn           | 0/A30000A0
+flushed_lsn           | 0/A3000000
+received_tli          | 23
+last_msg_send_time    | 2026-11-27 06:41:32.58559+00
+last_msg_receipt_time | 2026-11-27 06:41:32.586014+00
+latest_end_lsn        | 0/A30000A0
+latest_end_time       | 2026-11-27 06:18:01.026519+00
+slot_name             | 
+sender_host           | demo-postgres-default-0-inf-pool-default-az1-4b646709-0.demo-postgres-default-0-inf-pool-default-az1-headless-4416b9be.multigres-demo.svc.cluster.local
+sender_port           | 5432
+conninfo              | user=postgres passfile=/var/lib/pooler/pgbackrest/pgbackrest.pgpass channel_binding=prefer dbname=replication host=demo-postgres-default-0-inf-pool-default-az1-4b646709-0.demo-postgres-default-0-inf-pool-default-az1-headless-4416b9be.multigres-demo.svc.cluster.local port=5432 application_name=az3_p-08de2cdd fallback_application_name=demo/postgres/default/0-inf sslmode=prefer sslnegotiation=postgres sslcompression=0 sslcertmode=allow sslsni=1 ssl_min_protocol_version=TLSv1.2 gssencmode=prefer krbsrvname=postgres gssdelegation=0 target_session_attrs=any load_balance_hosts=disable
+
+(0 rows)
+
+-[ RECORD 1 ]----+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+primary_conninfo | host=demo-postgres-default-0-inf-pool-default-az1-4b646709-0.demo-postgres-default-0-inf-pool-default-az1-headless-4416b9be.multigres-demo.svc.cluster.local port=5432 user=postgres application_name=az3_p-08de2cdd dbname=postgres passfile=/var/lib/pooler/pgbackrest/pgbackrest.pgpass
+
+-[ RECORD 1 ]-------------+-
+synchronous_standby_names | 
+

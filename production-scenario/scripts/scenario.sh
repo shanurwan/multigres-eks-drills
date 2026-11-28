@@ -8,7 +8,7 @@
 # The third argument is the drill (default pod-kill; anything drill.sh accepts, or "none").
 # resources.txt has "<unix time> <pod> <memory bytes> <cpu usage_usec>" from each pod's cgroup.
 # Environment: CONNS (default 500), READ_QPS (2000), WRITE_QPS (200), AUTH_RATE (20 ops/s),
-# WRITE_FOR (6m), FAULT_AT (60 s), TAG (added to the run name, e.g. buf30 for a changed buffer). Results land in results/<scenario>-<drill>-<conns|rate>-<n>/.
+# WRITE_FOR (6m), FAULT_AT (60 s), SCENARIO_RESULTS (default results/), TAG (added to the run name, e.g. buf30 for a changed buffer). Results land in results/<scenario>-<drill>-<conns|rate>-<n>/.
 set -euo pipefail
 export MSYS_NO_PATHCONV=1
 here="$(cd "$(dirname "$0")/.." && pwd)"
@@ -27,7 +27,7 @@ case "$scenario" in
   auth)  run="auth-$drill-r$auth_rate${TAG:+-$TAG}-$n" ;;
   *) echo "unknown scenario $scenario" >&2; exit 2 ;;
 esac
-results="$here/results"
+results="${SCENARIO_RESULTS:-$here/results}"   # ../day2-operations keeps its runs in its own results/
 out="$results/$run"
 [ -e "$out" ] && { echo "$out exists; use another run number" >&2; exit 1; }
 lg() { kubectl -n "$ns" exec loadgen -- sh -c "$1"; }

@@ -1,0 +1,24 @@
+{"time":"2026-11-27T06:17:41.804117566Z","level":"INFO","msg":"logging initialized","level":"info","format":"json","output":"stdout"}
+{"time":"2026-11-27T06:17:41.805413374Z","level":"INFO","msg":"replaced default pg_hba.conf template","path":"/etc/pgctld/pg_hba_template.conf"}
+{"time":"2026-11-27T06:17:41.80573582Z","level":"INFO","msg":"using fully qualified hostname for service URL","hostname":"demo-postgres-default-0-inf-pool-default-az1-4b646709-0.demo-postgres-default-0-inf-pool-default-az1-headless-4416b9be.multigres-demo.svc.cluster.local"}
+{"time":"2026-11-27T06:17:41.810089116Z","level":"INFO","msg":"generated pgbackrest-server.conf","path":"/var/lib/pooler/pgbackrest/pgbackrest-server.conf"}
+{"time":"2026-11-27T06:17:41.810153927Z","level":"INFO","msg":"setting listening URL","hostname":"demo-postgres-default-0-inf-pool-default-az1-4b646709-0.demo-postgres-default-0-inf-pool-default-az1-headless-4416b9be.multigres-demo.svc.cluster.local","port":15400,"scheme":"http"}
+{"time":"2026-11-27T06:17:41.810530624Z","level":"INFO","msg":"setting grpc max message size","msg_size":16777216}
+{"time":"2026-11-27T06:17:41.810615439Z","level":"INFO","msg":"building interceptors","unary":0,"stream":0}
+{"time":"2026-11-27T06:17:41.810604392Z","level":"INFO","msg":"listening for HTTP calls on port","http_port":15400}
+{"time":"2026-11-27T06:17:41.810781748Z","level":"INFO","msg":"pgctld server starting up","grpc_port":15470,"http_port":15400}
+{"time":"2026-11-27T06:17:41.810796613Z","level":"INFO","msg":"Registering pgctld for grpc, disable it with -grpc-pgctld service_map parameter"}
+{"time":"2026-11-27T06:17:41.810833287Z","level":"INFO","msg":"listening for gRPC calls on port","grpc_port":15470}
+{"time":"2026-11-27T06:17:41.810921616Z","level":"INFO","msg":"listening on socket file for gRPC","name":"/var/lib/pooler/pgctld.sock"}
+{"time":"2026-11-27T06:17:41.811929965Z","level":"INFO","msg":"pgBackRest TLS server started","pid":20,"config":"/var/lib/pooler/pgbackrest/pgbackrest-server.conf","logs":"/var/lib/pooler/pgbackrest/log"}
+{"time":"2026-11-27T06:17:41.812050348Z","level":"INFO","msg":"service successfully started","port":15400}
+{"time":"2026-11-27T06:17:52.225847114Z","level":"INFO","msg":"gRPC Start request","port":0,"as_primary":false,"trace_id":"b8ccee04c51a2f6a9d26f7bb1f0df6d2","span_id":"e2e8f5e8d260299f"}
+{"time":"2026-11-27T06:17:52.226024375Z","level":"INFO","msg":"standby.signal created successfully","path":"/var/lib/pooler/pg_data/standby.signal"}
+{"time":"2026-11-27T06:17:52.249285068Z","level":"WARN","msg":"removing stale postmaster.pid: postgres is not responding","pid":231,"path":"/var/lib/pooler/pg_data/postmaster.pid"}
+{"time":"2026-11-27T06:17:52.251262908Z","level":"INFO","msg":"ensured Unix socket directory exists","socket_dir":"/var/lib/pooler/pg_sockets","trace_id":"b8ccee04c51a2f6a9d26f7bb1f0df6d2","span_id":"e2e8f5e8d260299f"}
+{"time":"2026-11-27T06:17:52.251280584Z","level":"INFO","msg":"starting Postgres server","data_dir":"/var/lib/pooler/pg_data","trace_id":"b8ccee04c51a2f6a9d26f7bb1f0df6d2","span_id":"e2e8f5e8d260299f"}
+{"time":"2026-11-27T06:17:52.251292982Z","level":"INFO","msg":"starting Postgres with configuration","port":5432,"data_dir":"/var/lib/pooler/pg_data","config_file":"/var/lib/pooler/pg_data/postgresql.conf"}
+server starting
+{"time":"2026-11-27T06:17:52.258384514Z","level":"INFO","msg":"waiting for Postgres to be ready","trace_id":"b8ccee04c51a2f6a9d26f7bb1f0df6d2","span_id":"e2e8f5e8d260299f"}
+{"time":"2026-11-27T06:17:53.290430089Z","level":"INFO","msg":"Postgres is ready","attempts":1}
+{"time":"2026-11-27T06:17:53.290567383Z","level":"INFO","msg":"Postgres server started successfully"}

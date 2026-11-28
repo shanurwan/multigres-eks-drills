@@ -1,0 +1,24 @@
+{
+  "run": "storm-none-c500-mesh-2",
+  "attempts": 71568,
+  "acked": 71568,
+  "failed": 0,
+  "ambiguous": 0,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 0,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "07:45:06.640",
+  "last_event": "07:48:06.603",
+  "outages": null,
+  "error_kinds": {},
+  "ok_latency_ms": {
+    "p100": 122,
+    "p50": 8,
+    "p95": 18,
+    "p99": 28
+  }
+}

@@ -1,0 +1,245 @@
+apiVersion: multigres.com/v1alpha1
+kind: MultigresCluster
+metadata:
+  annotations:
+    multigres.com/applied-images: '{"multigateway":"ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363","multiorch":"ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363","multipooler":"ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363","multiadmin":"ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363","multiadminWeb":"ghcr.io/multigres/multiadmin-web@sha256:b968354d1c52c222754799ebd977f3f8c7b93d86f413f0d6c5a4143f968fe667","postgres":"ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647"}'
+    multigres.com/default-backup-key-prefix: clusters/d3563585-78c0-496f-b2e7-f83dec21de77
+    multigres.com/traceparent: 00-08445ab32ac92726d110ad2c5567a99a-c9e16886a8edce68-01
+    multigres.com/traceparent-ts: "1795752965"
+  creationTimestamp: "2026-11-26T12:28:09Z"
+  finalizers:
+  - multigres.com/cluster-cleanup
+  generation: 3
+  name: demo
+  namespace: multigres-demo
+  resourceVersion: "284650"
+  uid: d3563585-78c0-496f-b2e7-f83dec21de77
+spec:
+  backup:
+    filesystem:
+      path: /backups
+      storage:
+        size: 10Gi
+    type: filesystem
+  cells:
+  - name: az1
+    spec:
+      multigateway:
+        buffer:
+          enabled: true
+          maxFailoverDuration: 40s
+          window: 30s
+        clusterViews:
+          enabled: false
+        replicas: 1
+        resources:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+    zoneId: apse2-az1
+  - name: az2
+    spec:
+      multigateway:
+        buffer:
+          enabled: true
+          maxFailoverDuration: 40s
+          window: 30s
+        clusterViews:
+          enabled: false
+        replicas: 1
+        resources:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+    zoneId: apse2-az2
+  - name: az3
+    spec:
+      multigateway:
+        buffer:
+          enabled: true
+          maxFailoverDuration: 40s
+          window: 30s
+        clusterViews:
+          enabled: false
+        replicas: 1
+        resources:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+    zoneId: apse2-az3
+  databases:
+  - backup:
+      s3:
+        bucket: multigres-lab-backups-<account-id>
+        keyPrefix: multigres-demo
+        region: ap-southeast-2
+        serviceAccountName: multigres-backup
+      type: s3
+    default: true
+    name: postgres
+    tablegroups:
+    - default: true
+      name: default
+      shards:
+      - backup:
+          s3:
+            bucket: multigres-lab-backups-<account-id>
+            keyPrefix: multigres-demo
+            region: ap-southeast-2
+            serviceAccountName: multigres-backup
+          type: s3
+        name: 0-inf
+        spec:
+          multiorch:
+            replicas: 1
+            resources:
+              limits:
+                memory: 128Mi
+              requests:
+                cpu: 50m
+                memory: 64Mi
+          pools:
+            default:
+              cells:
+              - az1
+              - az2
+              - az3
+              fsGroup: 999
+              multipooler:
+                resources:
+                  limits:
+                    memory: 256Mi
+                  requests:
+                    cpu: 100m
+                    memory: 128Mi
+              postgres:
+                resources:
+                  limits:
+                    memory: 512Mi
+                  requests:
+                    cpu: 100m
+                    memory: 256Mi
+              replicasPerCell: 1
+              storage:
+                class: multigres-gp3
+                size: 10Gi
+              type: readWrite
+  durabilityPolicy: MULTI_CELL_AT_LEAST_2
+  globalTopoServer:
+    etcd:
+      image: gcr.io/etcd-development/etcd:v3.6.7
+      replicas: 3
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 256Mi
+      rootPath: /multigres/multigres-demo/demo/global
+      storage:
+        size: 1Gi
+  images:
+    imagePullPolicy: IfNotPresent
+  logLevels:
+    multiadmin: info
+    multigateway: info
+    multiorch: info
+    multipooler: info
+    pgctld: info
+  multiadmin:
+    spec:
+      replicas: 1
+      resources:
+        limits:
+          memory: 256Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+  multiadminWeb:
+    spec:
+      replicas: 1
+      resources:
+        limits:
+          memory: 128Mi
+        requests:
+          cpu: 50m
+          memory: 64Mi
+  postgresPasswordSecretRef:
+    key: password
+    name: multigres-admin-password
+  postgresSuperuser: postgres
+  pvcDeletionPolicy:
+    whenDeleted: Delete
+    whenScaled: Delete
+  templateDefaults: {}
+  topologyPruning:
+    enabled: true
+status:
+  cells:
+    az1:
+      gatewayReplicas: 1
+      ready: true
+    az2:
+      gatewayReplicas: 1
+      ready: true
+    az3:
+      gatewayReplicas: 1
+      ready: true
+  conditions:
+  - lastTransitionTime: "2026-11-26T12:28:29Z"
+    message: Operator-managed components use default image set f7706faf47c9
+    observedGeneration: 3
+    reason: UpToDate
+    status: "False"
+    type: ImageRolloutPending
+  - lastTransitionTime: "2026-11-26T12:28:43Z"
+    message: Topology server reachable
+    observedGeneration: 3
+    reason: TopoConnected
+    status: "True"
+    type: TopologyReady
+  - lastTransitionTime: "2026-11-27T04:16:05Z"
+    message: Aggregation of cell availability
+    reason: AggregatedStatus
+    status: "True"
+    type: Available
+  databases:
+    postgres:
+      readyShards: 0
+      totalShards: 1
+  images:
+    applied:
+      multiadmin: ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363
+      multiadminWeb: ghcr.io/multigres/multiadmin-web@sha256:b968354d1c52c222754799ebd977f3f8c7b93d86f413f0d6c5a4143f968fe667
+      multigateway: ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363
+      multiorch: ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363
+      multipooler: ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363
+      postgres: ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647
+    appliedRevision: f7706faf47c9
+    available:
+      multiadmin: ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363
+      multiadminWeb: ghcr.io/multigres/multiadmin-web@sha256:b968354d1c52c222754799ebd977f3f8c7b93d86f413f0d6c5a4143f968fe667
+      multigateway: ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363
+      multiorch: ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363
+      multipooler: ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363
+      postgres: ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647
+    availableRevision: f7706faf47c9
+    effective:
+      multiadmin: ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363
+      multiadminWeb: ghcr.io/multigres/multiadmin-web@sha256:b968354d1c52c222754799ebd977f3f8c7b93d86f413f0d6c5a4143f968fe667
+      multigateway: ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363
+      multiorch: ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363
+      multipooler: ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363
+      postgres: ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647
+    source: defaults
+    updateStrategy: immediate
+  initializedAt: "2026-11-26T12:53:36Z"
+  message: Cluster is degraded
+  observedGeneration: 3
+  phase: Degraded

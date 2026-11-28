@@ -1,0 +1,28 @@
+{
+  "termRevocation": {
+    "revokedBelowTerm": "25",
+    "acceptedCoordinatorId": {
+      "component": "MULTIORCH",
+      "cell": "az3",
+      "name": "xwglmcd9"
+    },
+    "coordinatorInitiatedAt": "2026-11-27T04:50:31.574597157Z",
+    "outgoingRule": {
+      "coordinatorTerm": "24"
+    },
+    "recruitIntent": {
+      "replaceDecision": {
+        "coordinatorTerm": "24"
+      },
+      "attempt": "1"
+    }
+  },
+  "recruitBlockedUntil": {
+    "position": {
+      "decision": {
+        "coordinatorTerm": "25"
+      }
+    },
+    "lsn": "0/A30000A0"
+  }
+}

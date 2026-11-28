@@ -1,0 +1,37 @@
+== 2026-11-27T06:09:59Z 2-enrolled
+-- shard
+demo-postgres-default-0-inf-bedd096a   Healthy
+-- multigres pods not fully ready
+-- write and read through the gateway
+NOTICE:  relation "mesh_probe" already exists, skipping
+CREATE TABLE
+-- replication seen from the primary
+az2_p-69f9c303|streaming|quorum
+az3_p-08de2cdd|streaming|quorum
+-- operator errors in the last 3 min
+0
+-- prometheus scrape targets (health: count)
+   1 demo-postgres-default-0-inf-pool-default-az1-headless-4416b9be up
+   1 demo-postgres-default-0-inf-pool-default-az2-headless-d4f1b6bf up
+   1 demo-postgres-default-0-inf-pool-default-az3-headless-4cf5fb4c up
+   1 multigres-operator-controller-manager-metrics-service up
+-- ztunnel workloads (protocol per pod in multigres-demo)
+NAMESPACE          POD NAME                                                        ADDRESS      NODE                                            WAYPOINT PROTOCOL
+multigres-demo     ackcheck                                                        10.42.39.218 ip-10-42-33-80.ap-southeast-2.compute.internal  None     HBONE
+multigres-demo     auth-6d66747ccc-7mbc6                                           10.42.1.75   ip-10-42-2-70.ap-southeast-2.compute.internal   None     HBONE
+multigres-demo     demo-az1-multigateway-8d59bb63-59744f8b75-2b76l                 10.42.14.119 ip-10-42-2-70.ap-southeast-2.compute.internal   None     HBONE
+multigres-demo     demo-az2-multigateway-225ffbee-9598cfcd9-7pskr                  10.42.40.135 ip-10-42-33-80.ap-southeast-2.compute.internal  None     HBONE
+multigres-demo     demo-az3-multigateway-9d51cd81-84dd69d5c5-z2rtl                 10.42.28.134 ip-10-42-18-161.ap-southeast-2.compute.internal None     HBONE
+multigres-demo     demo-global-topo-0                                              10.42.21.180 ip-10-42-18-161.ap-southeast-2.compute.internal None     HBONE
+multigres-demo     demo-global-topo-1                                              10.42.32.10  ip-10-42-33-80.ap-southeast-2.compute.internal  None     HBONE
+multigres-demo     demo-global-topo-2                                              10.42.17.38  ip-10-42-18-161.ap-southeast-2.compute.internal None     HBONE
+multigres-demo     demo-multiadmin-6b85487468-p844f                                10.42.32.65  ip-10-42-33-80.ap-southeast-2.compute.internal  None     HBONE
+multigres-demo     demo-multiadmin-web-7f6585b866-v5cbc                            10.42.37.206 ip-10-42-33-80.ap-southeast-2.compute.internal  None     HBONE
+multigres-demo     demo-postgres-default-0-inf-multiorch-az1-5175f405-6b9f4746v7gb 10.42.11.194 ip-10-42-2-70.ap-southeast-2.compute.internal   None     HBONE
+multigres-demo     demo-postgres-default-0-inf-multiorch-az2-77786e6e-754dd78dhf4r 10.42.40.248 ip-10-42-33-80.ap-southeast-2.compute.internal  None     HBONE
+multigres-demo     demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-56bb955bvvpx 10.42.26.169 ip-10-42-18-161.ap-southeast-2.compute.internal None     HBONE
+multigres-demo     demo-postgres-default-0-inf-pool-default-az1-4b646709-0         10.42.10.46  ip-10-42-2-70.ap-southeast-2.compute.internal   None     HBONE
+multigres-demo     demo-postgres-default-0-inf-pool-default-az2-7166e172-0         10.42.38.72  ip-10-42-33-80.ap-southeast-2.compute.internal  None     HBONE
+multigres-demo     demo-postgres-default-0-inf-pool-default-az3-97695bdb-0         10.42.19.2   ip-10-42-18-161.ap-southeast-2.compute.internal None     HBONE
+multigres-demo     loadgen                                                         10.42.1.112  ip-10-42-2-70.ap-southeast-2.compute.internal   None     HBONE
+-- ztunnel errors/warnings in the last 3 min
