@@ -52,7 +52,7 @@ flowchart LR
 
 - **AWS:** free-plan account, `ap-southeast-2`, one `m7i-flex.large` node (2 vCPU, 8 GiB) per zone, gp3 volumes through the EBS CSI driver.
 - **Multigres:** 3 cells pinned by zone ID, one pooler per cell, durability `MULTI_CELL_AT_LEAST_2`, operator-managed 3-member etcd for the global topology, pgBackRest backups to S3 through IRSA.
-- **Workload:** 8 connections inserting 50 rows a second each through the gateway, 2-second statement timeout. Every attempt is logged; afterwards every acknowledged write is checked by key.
+- **Workload:** 8 connections inserting 50 rows a second each through the gateway, each with a 2-second client-side timeout. Every attempt is logged; afterwards every acknowledged write is checked by key.
 - **Each drill:** fault at 60 seconds into a 6-minute run (10 minutes for the zone outage), proof that the fault happened, logs of every component, then verification.
 
 Full detail: [methodology](methodology.md), [scenarios](scenarios.md), [validation](validation.md), [failure modes](failure-modes.md), [observability](observability.md), [reproduce](reproduce.md).

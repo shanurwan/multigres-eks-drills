@@ -36,7 +36,7 @@ Exact image digests for every container are recorded per run in `results/<run>/r
 `tools/ackcheck` is a small Go program that writes through the Multigres gateway (`demo-multigateway:5432`), exactly as an application would.
 
 - 8 writers, one connection each, each inserting 50 rows a second: about 400 writes a second in total.
-- Every insert has a 2-second statement timeout.
+- Every insert has a 2-second client-side timeout (a Go context deadline, not Postgres `statement_timeout`).
 - Every attempt is logged with a microsecond timestamp, the writer, a per-writer sequence number, the outcome and the latency:
   - **acknowledged:** the commit returned successfully
   - **failed:** the server returned an error; the write is known not to have committed

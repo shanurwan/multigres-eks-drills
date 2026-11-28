@@ -176,6 +176,12 @@ function print(text, cls) {
   return div;
 }
 
+function intro() {
+  print("This terminal replays real runs recorded on a 3-zone EKS cluster.", "note");
+  print("Type the lesson's command, or press Tab to complete it. Type help for the list.", "note");
+  print("");
+}
+
 function classify(line) {
   if (/fault:|partition |could not|fill |not Healthy|NOT/.test(line)) return "fault";
   if (/heal:|fix:|capacity:|shard Healthy|rollout:|node group update|switch-primary returned/.test(line)) return "good";
@@ -279,7 +285,7 @@ function parseOutput(run) {
 }
 
 function startReplay(run) {
-  S.run = run;
+  S.run = run; S.etcd = run.etcd;
   S.lines = parseOutput(run);
   S.printed = 0;
   S.block = document.createElement("div");
@@ -462,9 +468,9 @@ const P = {
   clients: new THREE.Vector3(0, 0.7, 8.4),
   gw: (i) => new THREE.Vector3(ZX[i], 0.55, 2.6),
   pool: (i) => new THREE.Vector3(ZX[i], 0.8, -0.8),
-  etcd: (i) => new THREE.Vector3(ZX[i] - 1.6, 0.45, -3.2),
+  etcd: (i) => new THREE.Vector3(ZX[i] - 1.75, 0.45, -3.6),
   gauge: (i) => new THREE.Vector3(ZX[i] + 1.55, 0, -0.8),
-  iso: (i) => new THREE.Vector3(ZX[i] + 1.7, 0.5, 4.4),
+  iso: (i) => new THREE.Vector3(ZX[i] + 1.8, 0.5, 5.3),
 };
 
 const scene = (() => {
@@ -472,7 +478,7 @@ const scene = (() => {
   const flat = (why) => {
     document.querySelector(".stage").classList.add("flat");
     $("labels").innerHTML = `<p class="no3d">The 3D view could not start in this browser (${why}). The terminal and the timeline still replay the run.</p>`;
-    return { frame() {}, reset() {} };
+    return { frame() {}, reset() {}, tour() {} };
   };
   let renderer;
   try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true }); }
@@ -500,22 +506,22 @@ const scene = (() => {
 
   const labels = $("labels");
   const tracked = [];
-  const label = (object, dy = 1.1) => {
+  const label = (object, dy = 1.1, kind = "") => {
     const el = document.createElement("div");
     el.className = "label3d";
     labels.append(el);
-    const e = { object, el, dy };
+    const e = { object, el, dy, kind };
     tracked.push(e);
     return e;
   };
   const setLabel = (e, title, sub = "", tone = "") => {
     const html = `${title}${sub ? `<small>${sub}</small>` : ""}`;
     if (e.html !== html) { e.el.innerHTML = html; e.html = html; }
-    e.el.className = `label3d ${tone}`;
+    e.el.className = `label3d ${e.kind} ${tone}`;
   };
   const mat = (color = COLOR.body) => new THREE.MeshStandardMaterial({ color: color.clone(), roughness: 0.5, metalness: 0.05, transparent: true });
 
-  // Zones: a plate each, with a gateway, a pool pod (Postgres) and an etcd member.
+  // Zones: a plate each, with a gateway and a pool pod (Postgres). etcd is drawn below.
   const zones = [0, 1, 2].map((i) => {
     const plate = new THREE.Mesh(new RoundedBoxGeometry(5.4, 0.3, 9.2, 3, 0.12), mat(COLOR.plate));
     plate.position.set(ZX[i], -0.15, -0.3);
@@ -527,8 +533,7 @@ const scene = (() => {
     pool.position.copy(P.pool(i)); world.add(pool);
     const ring = new THREE.Mesh(new THREE.TorusGeometry(1.1, 0.08, 12, 60), new THREE.MeshBasicMaterial({ color: COLOR.primary, transparent: true, opacity: 0 }));
     ring.rotation.x = Math.PI / 2; ring.position.set(P.pool(i).x, P.pool(i).y + 0.95, P.pool(i).z); world.add(ring);
-    const etcd = new THREE.Mesh(new THREE.OctahedronGeometry(0.42), new THREE.MeshStandardMaterial({ color: 0xc3d2dc, roughness: 0.35, metalness: 0.2, transparent: true }));
-    etcd.position.copy(P.etcd(i)); world.add(etcd);
+    const etcdTag = new THREE.Object3D(); etcdTag.position.copy(P.etcd(i)); world.add(etcdTag);
     // Disk gauge, shown only for runs that record the disk.
     const shell = new THREE.Mesh(new THREE.BoxGeometry(0.34, 1.8, 0.34), new THREE.MeshBasicMaterial({ color: 0x9fb2c0, wireframe: true, transparent: true, opacity: 0 }));
     shell.position.set(P.gauge(i).x, 0.9, P.gauge(i).z); world.add(shell);
@@ -540,13 +545,21 @@ const scene = (() => {
     const iso = new THREE.Mesh(new THREE.SphereGeometry(0.34, 24, 16), new THREE.MeshStandardMaterial({ color: COLOR.iso, roughness: 0.4, transparent: true, opacity: 0 }));
     iso.position.copy(P.iso(i)); world.add(iso);
     return {
-      plate, gw, pool, ring, etcd, shell, fill, wall, iso,
-      zoneLabel: label(zoneTag, 0.2), gwLabel: label(gw, 1.0), poolLabel: label(pool, 2.05), isoLabel: label(iso, 0.6),
+      plate, gw, pool, ring, shell, fill, wall, iso,
+      etcdLabel: label(etcdTag, 0.85, "etcd"), zoneLabel: label(zoneTag, 0.2, "zone"), gwLabel: label(gw, 1.0), poolLabel: label(pool, 2.05), isoLabel: label(iso, 0.6),
     };
   });
   const clients = new THREE.Mesh(new THREE.SphereGeometry(0.62, 32, 20), new THREE.MeshStandardMaterial({ color: COLOR.ok, roughness: 0.4 }));
   clients.position.copy(P.clients); world.add(clients);
-  const clientLabel = label(clients, 1.1);
+  const clientLabel = label(clients, 1.1, "client");
+
+  // etcd: three members, drawn in the zone whose node each one ran on in the run (the
+  // scheduler put two on one node), not one per zone.
+  const etcds = [0, 1, 2].map(() => {
+    const m = new THREE.Mesh(new THREE.OctahedronGeometry(0.4), new THREE.MeshStandardMaterial({ color: 0xc3d2dc, roughness: 0.35, metalness: 0.2, transparent: true }));
+    world.add(m);
+    return m;
+  });
 
   // Synchronous replication from the primary to the standbys.
   const replGeo = new THREE.BufferGeometry();
@@ -639,6 +652,20 @@ const scene = (() => {
       setLabel(z.gwLabel, "gateway", cut ? "cut off" : "", cut ? "bad" : "");
     });
 
+    const where = S.etcd || [0, 1, 2];
+    const count = [0, 0, 0], seen = [0, 0, 0];
+    where.forEach((zi_) => { if (zi_ != null) count[zi_]++; });
+    etcds.forEach((m, k) => {
+      const zone = where[k];
+      m.visible = zone != null;
+      if (zone == null) return;
+      const at = P.etcd(zone);
+      m.position.set(at.x + (seen[zone]++ - (count[zone] - 1) / 2) * 0.95, at.y, at.z);
+      m.rotation.y += dt * 0.5;
+      m.material.color.lerp(zone === cutI ? COLOR.cut : new THREE.Color(0xc3d2dc), ease);
+    });
+    zones.forEach((z, i) => setLabel(z.etcdLabel, count[i] ? (count[i] > 1 ? `etcd ×${count[i]}` : "etcd") : "", "", i === cutI && count[i] ? "bad" : ""));
+
     // Replication lines: primary to each standby; red where the cut breaks them.
     const pos = replGeo.attributes.position, col = replGeo.attributes.color;
     let k = 0;
@@ -702,11 +729,16 @@ const scene = (() => {
     if (dots.instanceColor) dots.instanceColor.needsUpdate = true;
 
     const w = canvas.clientWidth, h = canvas.clientHeight;
-    if (canvas.width !== Math.floor(w * renderer.getPixelRatio()) || canvas.height !== Math.floor(h * renderer.getPixelRatio())) {
+    if (reframe || canvas.width !== Math.floor(w * renderer.getPixelRatio()) || canvas.height !== Math.floor(h * renderer.getPixelRatio())) {
+      reframe = false;
       renderer.setSize(w, h, false);
       camera.aspect = w / h;
       // A narrow stage (a phone, a vertical video) moves the camera back so all three zones fit.
-      const dist = 22.1 * clamp((TT ? 1.42 : 1.75) / camera.aspect, 1, 2.7);
+      // During the tour the camera also steps back and the picture moves down, to leave the
+      // top of the stage clear for the captions.
+      const dist = 22.1 * clamp((TT ? 1.42 : 1.75) / camera.aspect, 1, 2.7) * (touring ? 1.16 : 1);
+      if (touring) camera.setViewOffset(w, h, 0, -Math.round(h * (w < 600 ? 0.2 : 0.12)), w, h);
+      else camera.clearViewOffset();
       camera.position.sub(controls.target).setLength(dist).add(controls.target);
       world.fog.near = dist + 4; world.fog.far = dist + 30;
       camera.updateProjectionMatrix();
@@ -721,7 +753,9 @@ const scene = (() => {
       e.el.style.display = tmp.z < 1 ? "" : "none";
     }
   }
-  return { frame, reset, get state() { return state; } };
+  let touring = false, reframe = false;
+  const tour = (on) => { if (on !== touring) { touring = on; reframe = true; } };
+  return { frame, reset, tour, get state() { return state; } };
 })();
 
 let idle = null;
@@ -729,13 +763,13 @@ function idleScene(lesson) {
   const runs = lesson.key ? S.byKey.get(lesson.key) : null;
   const run = runs ? runs[S.pick[lesson.key] || 0] : S.bundle.runs[0];
   if (!run) return;
-  idle = stateAt(run, -run.baseline_s);
+  idle = stateAt(run, -run.baseline_s); S.etcd = run.etcd;
   idle.ok = 0; idle.werr = 0; idle.ferr = 0;
   if (!S.run || !S.playing) { $("clock").textContent = "the cluster at rest"; $("clock").classList.remove("fault"); }
 }
 
 function step(dt) {
-  if (TT) tiktok.step(dt);
+  if (TT || tiktok.on) tiktok.step(dt);
   advance(dt);
   const showRun = S.run && (S.playing || S.finished);
   const st = showRun ? stateAt(S.run, S.t) : idle;
@@ -831,10 +865,15 @@ function openLink() {
 if (Q.has("video") || TT) document.body.classList.add("video");
 if (TT) document.body.classList.add("tiktok");
 
+// The same tour also plays inside the stage when the page opens (the "tour" below), with
+// its captions over the 3D view, until the visitor clicks or types anything in the lab.
+const TOUR = !TT && !CAPTURE && !Q.has("drill") && !reducedMotion;
 const tiktok = (() => {
-  let clock = 0, seg = -1, segStart = 0;
+  let clock = 0, seg = -1, segStart = 0, on = TT || TOUR;
   const cap = document.createElement("div"), foot = document.createElement("div");
-  cap.className = "tt-cap"; foot.className = "tt-foot";
+  cap.className = TT ? "tt-cap" : "tour-cap"; foot.className = "tt-foot";
+  cap.setAttribute("aria-live", "off");
+  const stage = document.querySelector(".stage");
   if (TT) document.body.append(cap, foot);
   const fixAt = (run) => (run.events.find((e) => e.text.startsWith("fix:")) || { t: 222 }).t;
   const backAt = (run) => {
@@ -848,7 +887,7 @@ const tiktok = (() => {
     { run: () => S.byKey.get("az-partition")?.find((r) => r.n === 2), from: -7, to: 78, speed: 6,
       text: (t) => t < 0 ? ["1 · Cut the primary's zone off the network", "It keeps running. It just can't reach the other two zones."]
         : t < 21 ? ["Writes pause while the cluster decides", "The cut-off zone can't get a second zone to confirm"]
-          : ["New primary in another zone after 20 s", "The cut-off side acknowledged 0 writes · 0 lost"] },
+          : ["New primary in another zone after 20 s", "The cut-off side acknowledged nothing after its first 67 ms"] },
     { run: () => S.byKey.get("disk-full")?.find((r) => r.n === 2), from: -6, to: 250, speed: 12.5,
       // Follows the recorded phase, so a caption never says Healthy while the record doesn't.
       text: (t, run) => {
@@ -863,7 +902,7 @@ const tiktok = (() => {
         return ["…then Healthy again", "Writes still failing"];
       } },
     { dur: 4.2, hold: true,
-      text: () => ["0 of 2.7 million acknowledged writes lost", "Interactive lab + every script · github.com/shanurwan/multigres-eks-drills"] },
+      text: () => ["0 of 2.7 million acknowledged writes lost", TT ? "Interactive lab + every script · github.com/shanurwan/multigres-eks-drills" : "Your turn. Pick a lesson, or type help in the terminal."] },
   ];
   const durOf = (s) => s.dur ?? (s.to - s.from) / s.speed;
   function enter(i) {
@@ -879,11 +918,14 @@ const tiktok = (() => {
     seek(s.from);
   }
   function step(dt) {
-    if (!S.bundle) return;
+    if (!on || !S.bundle) return;
     if (seg < 0) enter(0);
     clock += dt;
     while (seg < SEGS.length && clock - segStart >= durOf(SEGS[seg])) {
-      if (seg === SEGS.length - 1) { window.__done = true; break; }
+      if (seg === SEGS.length - 1) {
+        if (TT) { window.__done = true; break; }
+        enter(0); continue;                  // the tour in the page loops
+      }
       enter(seg + 1);
     }
     const s = SEGS[seg];
@@ -891,10 +933,32 @@ const tiktok = (() => {
     const [title, sub] = s.text(S.t, S.run);
     const html = `<b>${title}</b>${sub ? `<span>${sub}</span>` : ""}`;
     if (cap.dataset.html !== html) { cap.innerHTML = html; cap.dataset.html = html; cap.classList.remove("in"); void cap.offsetWidth; cap.classList.add("in"); }
-    foot.innerHTML = s.hold ? `<span class="tt-big">multigres-eks-drills</span>` : `<span>replay of a recorded run · 0 acknowledged writes lost</span>`;
-    document.body.classList.toggle("tt-end", !!s.hold);
+    if (TT) {
+      foot.innerHTML = s.hold ? `<span class="tt-big">multigres-eks-drills</span>` : `<span>replay of a recorded run · 0 acknowledged writes lost</span>`;
+      document.body.classList.toggle("tt-end", !!s.hold);
+    } else stage.classList.toggle("tour-end", !!s.hold);
   }
-  return { step, get total() { return SEGS.reduce((a, s) => a + durOf(s), 0); } };
+  // The visitor took over: drop the tour and leave the lab as a fresh page would be.
+  function stop() {
+    if (!on || TT) return;
+    on = false;
+    cap.remove();
+    stage.classList.remove("tour-end", "touring"); scene.tour(false);
+    S.fixedSpeed = false; S.speed = 8; renderSpeeds();
+    S.run = null; S.playing = false; S.finished = false;
+    out.innerHTML = "";
+    intro();
+    renderRunPick(); drawStrip();
+    idleScene(LESSONS[S.lesson]);
+    scene.reset();
+  }
+  function start() {
+    on = true; clock = 0; seg = -1;
+    stage.append(cap); stage.classList.add("touring"); scene.tour(true);
+    out.innerHTML = "";
+    print("A 40-second tour of two recorded runs. Click anything in the lab, or start typing, to take over.", "note");
+  }
+  return { step, stop, start, get on() { return on && !TT; }, get total() { return SEGS.reduce((a, s) => a + durOf(s), 0); } };
 })();
 window.__frame = (dt) => step(dt);
 window.__videoLength = () => tiktok.total;
@@ -904,11 +968,21 @@ load().then(() => {
   renderRunPick();
   renderResults();
   openLesson(clamp(store.get("mglab.lesson", 0), 0, LESSONS.length - 1), { focus: false });
-  print("This terminal replays real runs recorded on a 3-zone EKS cluster.", "note");
-  print("Type the lesson's command, or press Tab to complete it. Type help for the list.", "note");
-  print("");
+  intro();
   drawStrip();
   openLink();
+  if (TOUR) {
+    tiktok.start();
+    // Any click or key in the lab hands it to the visitor. Dragging the 3D view does not.
+    const takeOver = (e) => {
+      if (!tiktok.on) return;
+      if (e.type === "keydown" || e.target.closest("button, input, a, #strip, .terminal, .lesson, .lessons")) tiktok.stop();
+    };
+    $("course").addEventListener("pointerdown", takeOver, true);
+    $("course").addEventListener("keydown", takeOver, true);
+    $("term-in").addEventListener("focus", () => tiktok.stop());
+  }
+  $("tour")?.addEventListener("click", () => { tiktok.stop(); tiktok.start(); });
   if (!CAPTURE) requestAnimationFrame(loop);
   window.__ready = true;
 }).catch((err) => {

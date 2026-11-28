@@ -3,8 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Multigres day-2 lab: break a 3-zone cluster on purpose, watch what the app saw</title>
-<meta name="description" content="Interactive replays of real day-2 operations on Multigres across three AWS zones: switchover, rolling upgrade, node group upgrade, a zone cut off, a full disk. Type the commands; the terminal and the 3D picture replay the recorded runs.">
+<title>Multigres day-2 lab: a zone cut off, a full disk and upgrades under load, replayed</title>
+<meta name="description" content="Eleven recorded runs of Multigres on a three-zone Amazon EKS cluster under load: a zone partition, a full primary disk, node group and rolling upgrades, switchovers. Replay any of them second by second in 3D, from what the cluster reported to what the app got.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Multigres day-2 lab: a zone cut off, a full disk and upgrades under load, replayed">
+<meta property="og:description" content="0 of 2.7 million acknowledged writes lost across 11 recorded runs on a three-zone EKS cluster. Replay each one in 3D, second by second.">
+<meta property="og:url" content="https://shanurwan.github.io/multigres-eks-drills/">
+<meta property="og:image" content="https://shanurwan.github.io/multigres-eks-drills/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
@@ -30,10 +38,15 @@
 </header>
 
 <section class="hero">
-  <p class="eyebrow">Multigres on Amazon EKS, three zones</p>
-  <h1>Upgrade it, move it, cut it off, fill its disk. Watch what the app saw.</h1>
-  <p class="lede">Six short lessons on day-2 operations for <a href="https://multigres.com">Multigres</a>, the Postgres sharding and high-availability layer. You type each command. The terminal answers with the timeline of a real run on a three-zone EKS cluster under load, and the picture plays back the cluster second by second: where the primary was, which zone was cut off, what the cluster reported, and how many writes succeeded.</p>
-  <p><a class="button" href="#course">Start the lab</a></p>
+  <p class="eyebrow">Multigres on Amazon EKS · three zones · 11 recorded runs</p>
+  <h1>A zone cut off, a full disk, upgrades under load. Every second, replayed.</h1>
+  <p class="lede">Five day-2 operations on a three-zone <a href="https://multigres.com">Multigres</a> cluster (the Vitess-style sharding and high-availability layer for Postgres), each recorded from both sides, what the cluster reported and what the app got.</p>
+  <ul class="stats" aria-label="Headline results">
+    <li><b>0</b><span>of 2,722,526 acknowledged inserts were missing when re-read after the runs</span></li>
+    <li><b>0</b><span>writes acknowledged by the cut-off zone after the first 67 ms of the cut</span></li>
+    <li><b>160 s</b><span>of a full disk's write outage while the Shard's phase read Healthy</span></li>
+  </ul>
+  <p class="cta"><a class="button" href="#course">Open the lab</a> <button type="button" class="button ghost" id="tour">Replay the 40-second tour</button></p>
   <p class="fineprint" id="provenance">Loading the recorded runs.</p>
 </section>
 
@@ -86,10 +99,12 @@
   <p class="center">Every number below is computed in your browser from the same records the lab replays. A range is the spread across runs of the same operation.</p>
   <div class="tablewrap"><table id="results-table"></table></div>
   <div id="takeaways">
-    <div class="take"><h3>Nothing acknowledged was lost</h3><p>Across every run, and on both sides of a network partition, each write the database said was committed was still there afterwards.</p></div>
-    <div class="take"><h3>"Healthy" is not "can take writes"</h3><p>With the primary's disk full, every write failed for 206 seconds while the Shard reported Healthy for most of them. Alert on free space, not only on the phase.</p></div>
-    <div class="take"><h3>Planned moves are invisible, gateway restarts are not</h3><p>Switchovers held and replayed queries with no app errors. Replacing the gateways closed every app connection once.</p></div>
-    <div class="take"><h3>Run it more than once</h3><p>Two identical node group upgrades gave 6,288 and 158 app errors. One run tells you what can happen, not how often.</p></div>
+    <div class="take"><h3>No acknowledged insert went missing</h3><p>After each run the drill writer re-read every insert it had been told was committed. None was missing, across 11 runs and on both sides of the partition. It checks inserts only, not reads or updates.</p></div>
+    <div class="take"><h3>The cut-off side stopped acknowledging</h3><p>Inside the cut-off zone, 8 writes already in flight were acknowledged in the first 67 ms, then nothing until the cut was healed four minutes later. The other zones promoted a new primary after about 20 s, in run 2 while the cut-off zone held 2 of the 3 etcd members.</p></div>
+    <div class="take"><h3>The Shard phase follows pod readiness</h3><p>With the primary's disk full, writes failed for 206 s. The pods stayed ready, so the phase read Healthy for about 160 s of it. Alert on the volume's free space as well.</p></div>
+    <div class="take"><h3>Switchovers held the app's queries</h3><p>The gateways held and replayed queries, and the 500 app connections saw 0 errors. The drill writer gives up after 2 s, so one write per worker timed out on its side, and most of those committed anyway.</p></div>
+    <div class="take"><h3>Replacing a gateway ends its connections</h3><p>The rolling upgrade replaced the gateway pods, which closed each app connection on them once, as any Postgres proxy would. All 500 were open again 25 s after the upgrade started.</p></div>
+    <div class="take"><h3>Run it more than once</h3><p>Two node group upgrades gave 6,288 and 158 app errors. In the first, the new primary landed on the zone 1 node, which also ran the load tool and Auth on 2 vCPUs.</p></div>
   </div>
 </section>
 
@@ -110,7 +125,7 @@
     </div>
     <div>
       <h3>What this lab cannot tell you</h3>
-      <p>One small node per zone, one shard, a free-plan AWS account, one to four runs per operation. The numbers describe this cluster on 27 November 2026. Run it on yours before you believe any of them about yours.</p>
+      <p>One <code>m7i-flex.large</code> node per zone (2 vCPU), one shard, a free-plan AWS account, one to four runs per operation. The write check covers inserts, not reads. The numbers describe this cluster on 27 November 2026. Run it on yours before you believe any of them about yours.</p>
     </div>
   </div>
   <p class="center"><a href="https://github.com/shanurwan/multigres-eks-drills/blob/main/day2-operations/blog.md">The full write-up, with charts and every finding</a></p>
@@ -151,7 +166,7 @@ kubectl get nodes -L topology.k8s.aws/zone-id      # three nodes, three zones</c
     </li>
     <li>
       <h3>Install Multigres (about 6 minutes)</h3>
-<pre class="code"><code>kubectl apply --server-side -f https://github.com/multigres/multigres-operator/releases/download/current/install.yaml
+<pre class="code"><code>kubectl apply --server-side -f failure-drill/results/_versions/operator-install.yaml   # the operator build these runs used
 failure-drill/scripts/deploy.sh          # the 3-zone MultigresCluster, waits for Healthy
 failure-drill/scripts/primary.sh         # which zone holds the primary</code></pre>
     </li>

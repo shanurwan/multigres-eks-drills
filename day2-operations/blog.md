@@ -16,24 +16,24 @@ Every run had the same load as the production scenario. [supafirehose](https://g
 
 | Operation | Runs | Acknowledged writes lost | Longest gap with no acknowledged write | supafirehose client errors | What stood out |
 |---|---|---|---|---|---|
-| Zone cut off | 2 | **0** | 20.0 s, 20.4 s | 670, 520 | the cut-off side acknowledged **nothing** after the cut |
+| Zone cut off | 2 | **0** | 20.0 s, 20.4 s | 670, 520 | the cut-off side acknowledged **nothing** after its first 67 ms (8 writes already in flight) |
 | Node group upgrade | 2 | **0** | 4.5 s, 2.1 s | 6,288, 158 | the same operation, 40 times the client errors in one run |
-| Disk full | 2 | **0** | 0 s, **206 s** | 0, 34,920 | every write rejected for 206 s while the Shard said **Healthy** for most of it |
+| Disk full | 2 | **0** | 0 s, **206 s** | 0, 34,920 | every write rejected for 206 s while the Shard, whose phase follows pod readiness, said **Healthy** for most of it |
 | Rolling Multigres upgrade | 1 | **0** | 2.9 s | 500 | replacing the gateways drops every client connection once |
 | Graceful switchover | 4 | **0** | 2.2–8.5 s | **0** | the gateway retried for the clients, they saw nothing |
 
-**0 of 2,684,205 acknowledged writes lost** across the 11 runs, plus 0 of 38,321 for the second writer inside the cut-off zone.
+**0 of 2,684,205 acknowledged writes lost** across the 11 runs, plus 0 of 38,321 for the second writer inside the cut-off zone. The check re-reads every acknowledged insert after the run. It covers inserts, not reads or updates.
 
 ## Findings
 
 | | Finding | Why it matters |
 |---|---|---|
-| **D1** | With the primary's volume full, every write failed for 206 s. The Shard reported `Healthy` for about 160 s of that, and multiorch raised `LeaderUnhealthy` for 1.1 s, then cleared it | the operator's status is not a signal for "can this shard take writes". A full disk needs its own alert |
+| **D1** | With the primary's volume full, every write failed for 206 s. The Shard reported `Healthy` for about 160 s of that, and multiorch raised `LeaderUnhealthy` for 1.1 s, then cleared it | the Shard phase follows pod readiness, and the pods stayed ready. It is not a signal for "can this shard take writes", so a full disk needs its own alert |
 | **D2** | Growing the volumes through the `MultigresCluster` worked online, and writes came back 13 s after the change | the fix is safe to apply under load, so the runbook can be short |
-| **D3** | A zone cut off from the VPC acknowledged no write after the cut, and the other two zones took writes again after 20 s, even when the cut-off zone held 2 of the 3 etcd members | the safety property you want from a partition, measured from both sides |
-| **D4** | The two node group upgrades caused 6,288 and 158 client errors. In the first, 5,908 were failed credential lookups from clients reconnecting while there was no primary | client impact of the same AWS operation varies a lot from run to run. These runs don't show why |
-| **D5** | A rolling upgrade replaces the gateway pods, and every client connection on an old gateway ends with `unexpected EOF` (500 errors, connections down to 381 of 500 for a few seconds) | applications see a reconnect on every gateway rollout. Graceful draining of client connections would hide it |
-| **D6** | During a graceful switchover the gateways retried the `fenced` errors internally (843–2,472 per run) and clients saw 0 errors | planned moves of the primary are invisible to clients, on both the old and the new image |
+| **D3** | A zone cut off from the VPC acknowledged no write after the 8 already in flight (all within 67 ms of the cut), and the other two zones took writes again after 20 s, even when the cut-off zone held 2 of the 3 etcd members | the safety property you want from a partition, measured from both sides |
+| **D4** | The two node group upgrades caused 6,288 and 158 client errors. In the first, 5,908 were failed credential lookups from clients reconnecting while there was no primary | client impact of the same AWS operation varies a lot from run to run. In run 1 the new primary landed on `apse2-az1`, the node that also runs the load tool, Auth and Prometheus (see Limits), which may explain part of it. Two runs can't show how much |
+| **D5** | A rolling upgrade replaces the gateway pods, and every client connection on an old gateway ends with `unexpected EOF` (500 errors, connections down to 381 of 500 for a few seconds) | applications see one reconnect per client on every gateway rollout, as with any Postgres proxy that is replaced. Plan rollouts for it |
+| **D6** | During a graceful switchover the gateways retried the `fenced` errors internally (843–2,472 per run) and clients saw 0 errors | planned moves of the primary are invisible to clients that wait, on both the old and the new image. The drill writer gives up after 2 s, so 8 of its writes per run timed out on its side, and 4 to 7 of those had committed |
 
 ### D1. A full disk: every write fails, the status says Healthy
 
@@ -82,7 +82,7 @@ The drill gives the primary's zone subnet a network ACL that allows its own subn
 
 In run 2 the cut-off zone also held 2 of the 3 global topology (etcd) members (`demo-global-topo-0` and `-2` in `pods-before.txt`), so the side that kept writing had no etcd quorum. The inside writer had 8 acknowledgements in the first 67 ms after the ACL swap, which were writes already in flight when the rule took effect. After that, nothing. The inside writer's errors were i/o timeouts, context deadlines and `57P03 database is temporarily unavailable`. No write on either side was acknowledged with a synchronous replication warning, and none was lost.
 
-The 20 s gap is the same slow detection path as in [multigres#1734](https://github.com/multigres/multigres/issues/1734). A partition looks like a dead primary from outside the zone, and multiorch detects it through its 20 s quorum-commit backstop.
+Detection is counted from the drill's `fault:` line, and the ACL took effect 3.0 s and 2.7 s after it, so multiorch noticed about 19 s after the cut. From outside the zone a partition looks like a primary whose commits have stopped, and multiorch caught it through `LeaderQuorumWritesStalled`, the same detection path that pod kills took in [multigres#1734](https://github.com/multigres/multigres/issues/1734).
 
 ### D4. Node group upgrades
 
@@ -104,7 +104,7 @@ Both updates succeeded. The managed update starts the new node before draining t
 
 ### D5. A rolling Multigres upgrade
 
-The drill patches `spec.images` to the images from operator commit `a7e06a8`, which include [multigres#1730](https://github.com/multigres/multigres/pull/1730), and waits until no pod runs an old image.
+The drill patches `spec.images` to the Multigres images built from commit `a7e06a8`, which include [multigres#1730](https://github.com/multigres/multigres/pull/1730), and waits until no pod runs an old image.
 
 ![Rolling Multigres upgrade](results/charts/storm-mg-upgrade-c500-1.png)
 
@@ -125,7 +125,7 @@ The gateways log "portal query execution failed … fenced" for every attempt th
 
 ## Limits
 
-- **One to four runs per operation.** Enough to show what happens, not to give rates. The node group upgrade shows how far two identical runs can differ.
+- **One to four runs per operation.** Enough to show what happens, not to give rates. The node group upgrade shows how far two runs of the same operation can differ.
 - **The `apse2-az1` node is busy.** It also runs the load tool, Supabase Auth and Prometheus on 2 vCPU. When the primary lands there, the write rate is uneven (100–400 per second in the charts). Every result above holds, but gaps measured with the primary on that node are longer.
 - **The disk was filled with a file on the primary only** (see D1).
 - **Small instances.** One `m7i-flex.large` per zone from a free-plan AWS account.

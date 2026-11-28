@@ -176,6 +176,11 @@ def build_run(results, name, row, extra):
         "detection_s": num(row.get("detection_s")),
         "shard_not_healthy_s": num(extra.get("shard_not_healthy_s")),
         "iso_acked_after_cut": num(extra.get("iso_acked_1s_after_cut_or_later"), 0),
+        "iso_acked_in_flight": num(extra.get("iso_acked_during_partition"), 0),
+        "iso_last_ack_after_cut_s": float(extra["iso_last_ack_after_cut_s"]) if extra.get("iso_last_ack_after_cut_s") else None,
+        "cut_after_fault_s": num(extra.get("cut_after_fault_line_s")),
+        "writer_ambiguous": num(row.get("writer_ambiguous"), 0),
+        "writer_ambiguous_present": num(row.get("writer_ambiguous_present"), 0),
         "iso_errors": num(extra.get("iso_errors_during_partition"), 0),
         "iso_back_after_heal_s": num(extra.get("iso_first_ack_after_heal_s")),
         "ng_update_s": num(extra.get("ng_update_s")),
@@ -193,7 +198,24 @@ def build_run(results, name, row, extra):
         vi = run["verify_iso"]
         out.append(f"  verify (writer inside the cut-off zone): {vi['attempts']:,} writes, {vi['acked']:,} acknowledged, {vi['lost_acked']} lost")
     run["output"] = "\n".join(out)
+    run["etcd"] = etcd_zones(os.path.join(d, "pods-before.txt"))
     return run
+
+
+def etcd_zones(path):
+    """Zone index (0-2) of each etcd member, from the node it ran on. The gateway pods,
+    one per zone, say which zone each node is in."""
+    node_zone, topo = {}, []
+    for line in read(path).splitlines()[1:]:
+        f = line.split()
+        if len(f) < 7:
+            continue
+        g = re.match(r"^demo-az(\d)-multigateway-", f[0])
+        if g:
+            node_zone[f[6]] = int(g.group(1)) - 1
+        elif "-global-topo-" in f[0]:
+            topo.append(f[6])
+    return [node_zone.get(n) for n in topo]
 
 
 def main():
