@@ -10,30 +10,28 @@ Can a three-zone Multigres cluster run inside Istio's ambient mesh (ztunnel, mTL
 | Does STRICT mTLS work? | Only if the operator's namespace is enrolled too. With only the data namespace enrolled, a client from outside the mesh can open TCP but `psql` is cut off, and a **restarted operator loses etcd and its Shard reconciler errors**. Enrolling `multigres-operator` fixed both |
 | Latency at 500 connections, no fault | read p50 1.8 → **2.6 ms**, write p50 4.8 → **6.4 ms** once every connection was inside the mesh. Up to 3x right after enrollment (see below) |
 | Failover after a primary pod kill | **Different from outside the mesh.** The standbys took the "suspected divergence → rewind" path in **4 of 4** kills, against **0 of 14** without the mesh. 3 of 4 recovered |
-| **1 of 4 kills: no primary for 47 minutes** | a deadlock in Multigres's recruit floor (below), until one pooler's floor was cleared by hand |
+| **1 of 4 kills: no primary for 46 minutes** | a liveness stall around Multigres's recruit floor (below), until one pooler's floor was cleared by hand |
 | Acknowledged writes lost | 0 |
 
 ## The stuck failover
 
-After the primary's pod was killed, the shard had no primary from 06:17:38 to about 07:04:50 UTC. multiorch reported `ShardStuck` ("needs a new leader (LeaderResigned) but cannot reach a sufficient recruitment quorum") every 10 minutes.
+After the primary's pod was killed at 06:17:38 UTC, the shard had no primary until one pooler's floor was cleared by hand at 07:03:51. multiorch logged `ShardStuck` at 06:18 ("needs a new leader (LeaderQuorumWritesStalled) but cannot reach a sufficient recruitment quorum"), then again at 06:28 and 06:38 with `LeaderResigned`.
 
 **What happened:**
-1. The killed primary (az1) came back as a standby.
-2. Both other poolers decided they had stopped streaming from "the recorded leader" (az1), marked suspected divergence, and started a rewind toward it.
-3. Before rewinding, each recorded a recruit floor at its position, term 25 at `0/A30000A0`.
-4. The pg_rewind dry run found no divergence and skipped the rewind, but the floor stayed.
-5. Both restarted streaming from az1. A restarted WAL receiver reports `pg_last_wal_receive_lsn()` from the start of the segment (`0/A3000000`), so their consensus position, which uses the receive LSN first, sat 0xA0 bytes below the floor, even though they had replayed to `0/A30000A0`.
-6. No primary meant no new WAL, so the position never passed the floor. 2 of 3 cohort members stayed unrecruitable, and there was no majority for a new term.
+1. The killed primary (az1) came back as a standby, with an empty `primary_conninfo`.
+2. az2 and az3 both logged that they had stopped streaming from the recorded leader (az1), marked suspected divergence, and started a rewind toward it.
+3. Before a rewind, a pooler records a recruit floor at its replayed position. az2's, which is kept, is term 25 at `0/A30000A0`.
+4. The pg_rewind dry run found no divergence and skipped the rewind. The floor stayed: by design it is only ever raised, never cleared (`consensus_promises.go`).
+5. Both restarted streaming from az1. `pg_stat_wal_receiver` showed `written_lsn` `0/A30000A0` but `flushed_lsn` `0/A3000000`, the segment start, and `pg_last_wal_receive_lsn()` reports the flushed position. A standby's consensus position uses the receive LSN first, so it sat 0xA0 bytes below the floor although that WAL had been received and replayed.
+6. With no primary, no new WAL arrived to move the flushed position past the floor, so 2 of 3 cohort members stayed unrecruitable and there was no majority for a new term.
 
-**What didn't fix it:** restarting all three multiorch pods, and taking the namespace back out of the mesh.
+**What fixed it:** removing `recruitBlockedUntil` from az2's `consensus_promises.json` and restarting that pod ([`actions.txt`](results/stall-evidence/actions.txt)). az2 had replayed exactly to its floor, so this was safe. A new primary followed; logs after the fix weren't kept, so the exact time isn't recorded here.
 
-**What fixed it:** removing `recruitBlockedUntil` from az2's `consensus_promises.json` and restarting that pod. az2 had replayed exactly to its floor, so this was safe. A new primary was elected about 70 s later.
+As far as I can tell the stall comes from the floor and how the position is measured, not from the mesh. The mesh is what made the standbys take the rewind path every time. For the first 25–30 s after the kill, multiorch's gRPC calls to the restarted pooler were reset ("error reading server preface: connection reset by peer"). Separately, the operator's backup health check kept dialling the killed pod's old IP through a cached connection.
 
-The deadlock itself is in Multigres's floor logic and doesn't need a mesh. The mesh is what made the standbys take the rewind path every time. For the first 25–30 s after the kill, multiorch's gRPC calls to the restarted pooler were reset ("error reading server preface: connection reset by peer"). Separately, the operator's backup health check kept dialling the killed pod's old IP through a cached connection.
-
-Evidence, kept before any recovery step:
-- [`results/stall-evidence/`](results/stall-evidence/): every component's logs, all three `consensus_promises.json` files, the LSNs, the shard status and events
-- [`actions.txt`](results/stall-evidence/actions.txt) and the before/after of the one file edited
+Evidence, kept before the manual fix:
+- [`results/stall-evidence/`](results/stall-evidence/): every component's logs, each pooler's Postgres and WAL receiver state, az2's `consensus_promises.json` before and after the fix, the shard status and events
+- [`actions.txt`](results/stall-evidence/actions.txt): the one manual step
 
 ## STRICT mTLS
 
@@ -82,6 +80,6 @@ The Istio release was downloaded from github.com/istio/istio/releases and checke
 
 ## Limits
 
-- 4 fault runs in the mesh: enough to show the rewind path fires every time and can deadlock, not how often it deadlocks.
+- 4 fault runs in the mesh: enough to show the rewind path fires every time and can stall, not how often it stalls.
 - One Istio version (1.32.0) on EKS with the VPC CNI. No waypoints, no L7 policy.
 - The default buffer settings were changed to 30 s / 40 s before these runs (see `../production-scenario`). That doesn't affect the consensus path.
