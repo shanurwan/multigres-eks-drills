@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multigres day-2 lab: break a 3-zone cluster on purpose, watch what the app saw</title>
+<meta name="description" content="Interactive replays of real day-2 operations on Multigres across three AWS zones: switchover, rolling upgrade, node group upgrade, a zone cut off, a full disk. Type the commands; the terminal and the 3D picture replay the recorded runs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{"imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
+</script>
+</head>
+<body>
+
+<header class="masthead">
+  <a class="wordmark" href="#top" id="top">multigres day-2 lab</a>
+  <nav aria-label="Sections">
+    <a href="#course">Lab</a>
+    <a href="#results">Results</a>
+    <a href="#method">How it is measured</a>
+    <a href="#live">Run it yourself</a>
+    <a href="https://github.com/shanurwan/multigres-eks-drills">GitHub</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <p class="eyebrow">Multigres on Amazon EKS, three zones</p>
+  <h1>Upgrade it, move it, cut it off, fill its disk. Watch what the app saw.</h1>
+  <p class="lede">Six short lessons on day-2 operations for <a href="https://multigres.com">Multigres</a>, the Postgres sharding and high-availability layer. You type each command. The terminal answers with the timeline of a real run on a three-zone EKS cluster under load, and the picture plays back the cluster second by second: where the primary was, which zone was cut off, what the cluster reported, and how many writes succeeded.</p>
+  <p><a class="button" href="#course">Start the lab</a></p>
+  <p class="fineprint" id="provenance">Loading the recorded runs.</p>
+</section>
+
+<main id="course" class="classroom">
+  <ol class="lessons" id="lessons" aria-label="Lessons"></ol>
+
+  <div class="desk">
+    <article class="lesson" id="lesson" aria-live="polite"></article>
+
+    <div class="bench">
+      <figure class="stage">
+        <canvas id="scene" aria-label="3D view of the cluster: three zones, each with a gateway, a Postgres pool pod and an etcd member, and the app's connections in front"></canvas>
+        <div id="labels" aria-hidden="true"></div>
+        <div class="stage-top">
+          <span class="chip" id="clock">ready</span>
+          <span class="chip quiet" id="runpick"></span>
+        </div>
+        <div class="hud" id="hud" hidden aria-live="off"></div>
+        <figcaption>
+          <canvas id="strip" height="64" aria-label="Writes per second through the run: acknowledged and failed"></canvas>
+          <div class="strip-key">
+            <span><i class="sw ok"></i>acknowledged writes</span>
+            <span><i class="sw bad"></i>failed writes and app errors</span>
+            <span><i class="sw amber"></i>Shard not Healthy</span>
+            <span><i class="ln iso"></i>writer inside a cut-off zone</span>
+            <span class="speeds" id="speeds" role="group" aria-label="Replay speed"></span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <div class="terminal" id="terminal">
+        <div class="term-bar">
+          <span class="term-title">lab terminal, replay</span>
+          <button type="button" id="hint" class="term-btn">Type it for me</button>
+        </div>
+        <div class="term-body" id="term-body" tabindex="-1">
+          <div id="term-out"></div>
+          <label class="term-line">
+            <span class="prompt">lab&nbsp;$</span>
+            <input id="term-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal input">
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<section id="results" class="prose">
+  <h2>What the recorded runs showed</h2>
+  <p class="center">Every number below is computed in your browser from the same records the lab replays. A range is the spread across runs of the same operation.</p>
+  <div class="tablewrap"><table id="results-table"></table></div>
+  <div id="takeaways">
+    <div class="take"><h3>Nothing acknowledged was lost</h3><p>Across every run, and on both sides of a network partition, each write the database said was committed was still there afterwards.</p></div>
+    <div class="take"><h3>"Healthy" is not "can take writes"</h3><p>With the primary's disk full, every write failed for 206 seconds while the Shard reported Healthy for most of them. Alert on free space, not only on the phase.</p></div>
+    <div class="take"><h3>Planned moves are invisible, gateway restarts are not</h3><p>Switchovers held and replayed queries with no app errors. Replacing the gateways closed every app connection once.</p></div>
+    <div class="take"><h3>Run it more than once</h3><p>Two identical node group upgrades gave 6,288 and 158 app errors. One run tells you what can happen, not how often.</p></div>
+  </div>
+</section>
+
+<section id="method" class="prose">
+  <h2>How it is measured</h2>
+  <div class="cols">
+    <div>
+      <h3>Two kinds of load</h3>
+      <p><a href="https://github.com/multigres/supafirehose">supafirehose</a>, Multigres's own load tool, holds 500 app connections through the gateways: 2,000 reads and 200 writes a second, reconnecting on any error. A second tool writes 400 rows a second and records every attempt, so each acknowledged write can be looked up afterwards.</p>
+    </div>
+    <div>
+      <h3>One clock, started at the operation</h3>
+      <p>The load runs for a minute first. Every time is counted from the moment the operation starts. The Shard's phase and pod readiness are read every few seconds, and the disk every 10 to 40 seconds.</p>
+    </div>
+    <div>
+      <h3>What the picture adds</h3>
+      <p>The dots are a sample drawn from the per-second counts, and the gateway a dot passes through is picked at random. The primary is drawn moving when writes came back, the first moment the record shows clients reaching it.</p>
+    </div>
+    <div>
+      <h3>What this lab cannot tell you</h3>
+      <p>One small node per zone, one shard, a free-plan AWS account, one to four runs per operation. The numbers describe this cluster on 27 November 2026. Run it on yours before you believe any of them about yours.</p>
+    </div>
+  </div>
+  <p class="center"><a href="https://github.com/shanurwan/multigres-eks-drills/blob/main/day2-operations/blog.md">The full write-up, with charts and every finding</a></p>
+</section>
+
+<section id="live" class="prose">
+  <h2>Run it yourself</h2>
+  <p class="center">The same Terraform and scripts that recorded these runs, on your own AWS account. About an afternoon, and about USD 0.50 of credit an hour while the cluster exists.</p>
+
+  <ol class="steps">
+    <li>
+      <h3>An AWS account and the tools</h3>
+      <p>A free-plan account is enough. Create a user for Terraform with its own CLI profile, and install Terraform, the AWS CLI v2, kubectl and Git (Git Bash on Windows). <a href="https://github.com/shanurwan/multigres-eks-drills/blob/main/terraform/aws-setup.md">Step-by-step guide, with checks</a>.</p>
+    </li>
+    <li>
+      <h3>Fill in the template</h3>
+<pre class="code"><code>git clone https://github.com/shanurwan/multigres-eks-drills
+cd multigres-eks-drills
+cp terraform/terraform.tfvars.example terraform/terraform.tfvars
+
+# terraform/terraform.tfvars
+region      = "ap-southeast-2"      # any region with 3 zones
+profile     = "multigres-lab"       # your CLI profile
+owner       = "your-name"
+alert_email = "you@example.com"     # the budget alarm writes here
+admin_cidrs = ["203.0.113.10/32"]   # your public IP, for the EKS API
+budget_usd  = 40</code></pre>
+      <p>The file is ignored by Git, so your email and IP stay on your machine.</p>
+    </li>
+    <li>
+      <h3>Create the cluster (about 20 minutes)</h3>
+<pre class="code"><code>export AWS_PROFILE=multigres-lab AWS_REGION=ap-southeast-2
+terraform -chdir=terraform init
+terraform -chdir=terraform apply
+aws eks update-kubeconfig --name multigres-lab --region $AWS_REGION
+kubectl get nodes -L topology.k8s.aws/zone-id      # three nodes, three zones</code></pre>
+      <p>It builds a VPC across three zones, EKS with one node group per zone, the EBS CSI driver, an S3 bucket for backups with an IAM role for it, and a budget alarm.</p>
+    </li>
+    <li>
+      <h3>Install Multigres (about 6 minutes)</h3>
+<pre class="code"><code>kubectl apply --server-side -f https://github.com/multigres/multigres-operator/releases/download/current/install.yaml
+failure-drill/scripts/deploy.sh          # the 3-zone MultigresCluster, waits for Healthy
+failure-drill/scripts/primary.sh         # which zone holds the primary</code></pre>
+    </li>
+    <li>
+      <h3>Start the load</h3>
+<pre class="code"><code>cd production-scenario
+scripts/build.sh                         # supafirehose and the write checker
+scripts/setup.sh &lt;zone-id&gt;               # the load pod
+../failure-drill/scripts/writer.sh &lt;another zone-id&gt;
+cd ../day2-operations</code></pre>
+    </li>
+    <li>
+      <h3>Run the lessons for real</h3>
+<pre class="code"><code>export CONNS=500
+WRITE_FOR=4m  scripts/day2.sh switchover 1
+WRITE_FOR=8m  scripts/day2.sh az-partition 1
+WRITE_FOR=12m scripts/day2.sh ng-upgrade 1
+WRITE_FOR=12m FILL_LEAVE_MB=1 GROW_TO=20Gi scripts/day2.sh disk-full 1
+WRITE_FOR=25m MG_IMAGE=ghcr.io/multigres/multigres@sha256:... \
+  PGCTLD_IMAGE=ghcr.io/multigres/pgctld@sha256:... \
+  MULTIADMIN_WEB_IMAGE=ghcr.io/multigres/multiadmin-web@sha256:... scripts/day2.sh mg-upgrade 1</code></pre>
+      <p>Wait for the shard to be Healthy between runs. Each run lands in <code>day2-operations/results/</code>.</p>
+    </li>
+    <li>
+      <h3>Replay your own runs here</h3>
+<pre class="code"><code>python3 ../production-scenario/analysis/collect.py results
+python3 analysis/day2.py
+python3 ../lab/build.py results -o my-runs.json</code></pre>
+      <p>Then load the file. It is read in this tab and goes nowhere else.</p>
+      <p class="own"><label class="button">Load my runs.json<input type="file" id="own-file" accept=".json,application/json" hidden></label> <span id="own-status"></span></p>
+    </li>
+    <li>
+      <h3>Tear it down, every time</h3>
+<pre class="code"><code>kubectl -n multigres-demo delete multigrescluster demo --wait=true   # deletes its volumes
+aws s3 rm "s3://$(terraform -chdir=terraform output -raw backup_bucket)" --recursive
+terraform -chdir=terraform destroy
+aws ec2 describe-volumes --filters Name=tag:Project,Values=multigres-lab   # should be empty</code></pre>
+    </li>
+  </ol>
+</section>
+
+<footer class="foot">
+  <p>An independent lab, not an official Multigres or Supabase project. Recorded runs, scripts and Terraform: <a href="https://github.com/shanurwan/multigres-eks-drills">github.com/shanurwan/multigres-eks-drills</a>.</p>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

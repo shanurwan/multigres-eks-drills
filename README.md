@@ -4,6 +4,8 @@ Failure drills for [Multigres](https://github.com/multigres/multigres) on Amazon
 
 This is an independent test lab, not an official Multigres or Supabase project, and not a production reference architecture.
 
+**Try it in the browser first:** the [interactive lab](https://shanurwan.github.io/multigres-eks-drills/) replays the recorded day-2 runs in 3D, with a terminal you type into, and walks through setting it up yourself.
+
 **Start with [`failure-drill/failure-drill.md`](failure-drill/failure-drill.md)**: the results, findings and what to check before running Multigres on EKS.
 
 **What a Supabase-style app sees** during a failover, with Multigres's own load tool and Supabase Auth: [`production-scenario/scenario.md`](production-scenario/scenario.md).
@@ -41,3 +43,4 @@ This is an independent test lab, not an official Multigres or Supabase project, 
 | [`day2-operations/blog.md`](day2-operations/blog.md) | a zone cut off from the VPC, managed node group upgrades, a full primary volume grown online, a rolling Multigres upgrade and switchovers, under the production-scenario load: results, findings D1–D6 |
 | [`day2-operations/`](day2-operations/README.md) | how those runs work, the settings, `day2.py` columns, validation |
 | [`mesh-istio-ambient/`](mesh-istio-ambient/README.md) | Multigres under Istio ambient: what enrollment and STRICT mTLS need, latency, and the stuck-standby problem seen after primary kills in the mesh |
+| [`lab/`](lab/README.md) | the interactive replay page (three.js), its data builder, and the Pages workflow that publishes it |
