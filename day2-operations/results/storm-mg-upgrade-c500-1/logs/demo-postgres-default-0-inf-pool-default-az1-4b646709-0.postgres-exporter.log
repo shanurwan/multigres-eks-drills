@@ -1,0 +1,7 @@
+time=2026-11-27T14:35:01.301Z level=WARN source=main.go:81 msg="Error loading config" err="error opening config file \"postgres_exporter.yml\": open postgres_exporter.yml: no such file or directory"
+time=2026-11-27T14:35:01.303Z level=INFO source=main.go:91 msg="Excluded databases" databases=[]
+time=2026-11-27T14:35:01.303Z level=WARN source=main.go:94 msg="The extended queries.yaml config is DEPRECATED" file=/etc/postgres-exporter/queries.yml
+time=2026-11-27T14:35:01.304Z level=INFO source=tls_config.go:372 msg="Listening on" address=[::]:9187
+time=2026-11-27T14:35:01.304Z level=INFO source=tls_config.go:375 msg="TLS is disabled." http2=false address=[::]:9187
+time=2026-11-27T14:35:14.654Z level=INFO source=server.go:96 msg="Established new database connection" fingerprint=localhost:5432
+time=2026-11-27T14:35:14.672Z level=INFO source=postgres_exporter.go:537 msg="Semantic version changed" server=localhost:5432 from=0.0.0 to=17.7.0

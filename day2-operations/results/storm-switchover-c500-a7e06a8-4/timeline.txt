@@ -1,0 +1,7 @@
+2026-11-27T15:14:01.245Z writer start (4m)
+2026-11-27T15:15:04.508Z fault: multigres cluster switch-primary (graceful)
+2026-11-27T15:15:10.252Z switch-primary returned
+2026-11-27T15:15:10.268Z waiting for the writer to finish
+2026-11-27T15:18:11.743Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+2026-11-27T15:18:14.815Z shard Healthy
+2026-11-27T15:20:44.593Z done: /home/wan/up/mgrun/day2-operations/results/storm-switchover-c500-a7e06a8-4

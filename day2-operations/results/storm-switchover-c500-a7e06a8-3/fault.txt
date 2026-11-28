@@ -1,0 +1,10 @@
+
+Shard:   postgres/default/0-inf
+Reason:  drill storm-switchover-c500-a7e06a8-3
+
+This will quiesce writes on the current primary. The gateway will
+buffer client queries and retry them on the new primary.
+
+Type the shard name (0-inf) to confirm: Switch-primary complete.
+Old leader: az1/p-3c7ba9d3
+Multiorch will elect a new leader. Run "multigres cluster status" to monitor.

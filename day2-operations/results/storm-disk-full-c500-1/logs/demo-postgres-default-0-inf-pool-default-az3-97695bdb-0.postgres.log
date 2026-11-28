@@ -1,0 +1,4 @@
+{"time":"2026-11-27T14:20:33.788432062Z","level":"INFO","msg":"gRPC ReloadConfig request","trace_id":"9540c7b51bc5f8c93bca02bf48a8d6ef","span_id":"6304c0e8c46621bb"}
+{"time":"2026-11-27T14:20:33.827714754Z","level":"INFO","msg":"reloading Postgres configuration","data_dir":"/var/lib/pooler/pg_data","trace_id":"9540c7b51bc5f8c93bca02bf48a8d6ef","span_id":"6304c0e8c46621bb"}
+server signaled
+{"time":"2026-11-27T14:20:33.829156613Z","level":"INFO","msg":"Postgres configuration reloaded successfully"}

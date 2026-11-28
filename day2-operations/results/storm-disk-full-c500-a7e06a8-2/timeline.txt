@@ -1,0 +1,9 @@
+2026-11-27T15:24:10.878Z writer start (12m)
+2026-11-27T15:25:16.898Z fault: fill demo-postgres-default-0-inf-pool-default-az1-4b646709-0's data volume with 12025 MiB, leaving 1 MiB
+2026-11-27T15:28:59.167Z fix: grow the pool volumes to 20Gi through the MultigresCluster
+2026-11-27T15:29:49.483Z pvc data-demo-postgres-default-0-inf-pool-default-az1-4b646709-0 capacity: 20Gi
+2026-11-27T15:34:03.831Z waiting for the writer to finish
+2026-11-27T15:36:21.614Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+2026-11-27T15:36:25.470Z shard Healthy
+2026-11-27T15:36:38.775Z fill file removed
+2026-11-27T15:38:59.777Z done: /home/wan/up/mgrun/day2-operations/results/storm-disk-full-c500-a7e06a8-2

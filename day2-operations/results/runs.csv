@@ -1,0 +1,12 @@
+run,scenario,drill,level,tag,writer_acked,writer_lost_acked,writer_ambiguous,writer_ambiguous_present,writer_failed_present,writer_longest_outage_s,writer_back_after_fault_s,shard_healthy_after_fault_s,fh_connections,fh_base_qps,fh_errors_total,fh_longest_no_success_s,fh_full_rate_after_fault_s,fh_min_connections_after_fault,fh_all_connections_open_after_fault_s,buffer_start_s,buffer_stop_s,buffer_stop_reason,buffer_drained,buffer_timeouts_logged,credential_lookup_failed,detection,detection_s,loadgen_peak_mem_mib,loadgen_peak_cpu_cores,gateway_peak_mem_mib,gateway_peak_cpu_cores,gateway_restarts_total
+storm-az-partition-c500-1,storm,az-partition,c500,,195932,0,8,0,0,20.0,23.0,429.7,500,2200,670,30.6,34,244,190.4,27.0,349.0,max duration exceeded/new primary,39,0,5180,LeaderQuorumWritesStalled,22.1,89,0.26,45,0.4,0
+storm-az-partition-c500-2,storm,az-partition,c500,,183746,0,8,0,0,20.4,23.2,357.7,500,2200,520,30.6,34,295,315.3,262.9,350.8,max duration exceeded/new primary,72,0,7029,LeaderQuorumWritesStalled,21.9,84,0.22,38,0.32,0
+storm-disk-full-c500-1,storm,disk-full,c500,,284830,0,0,0,0,0.0,0.0,0.0,500,2200,0,0.0,,500,,,,,0,0,0,,,90,0.22,43,0.31,0
+storm-disk-full-c500-a7e06a8-2,storm,disk-full,c500,a7e06a8,173941,0,9,0,0,206.0,235.4,192.2,500,2199,34920,98.9,6,476,48.4,,,,0,0,0,LeaderUnhealthy,173.3,79,0.54,57,0.31,0
+storm-mg-upgrade-c500-1,storm,mg-upgrade,c500,,505123,0,16,14,0,2.9,63.1,215.7,500,2200,500,2.3,14,381,24.8,60.3,62.3,new primary,508,0,0,,,95,0.38,45,0.28,0
+storm-ng-upgrade-c500-1,storm,ng-upgrade,c500,,396995,0,5,5,0,4.5,146.9,228.5,500,2200,6288,4.2,147,500,,141.9,142.4,new primary,50,0,5908,,,98,0.49,60,0.39,0
+storm-ng-upgrade-c500-2,storm,ng-upgrade,c500,,589073,0,8,7,0,2.1,137.2,285.0,500,2200,158,2.1,137,500,,135.0,136.8,new primary,345,0,0,,,96,0.26,48,0.4,0
+storm-switchover-c500-1,storm,switchover,c500,,93645,0,8,6,0,2.4,6.4,0.0,500,2200,0,2.3,7,500,,4.0,6.0,new primary,508,0,0,LeaderUnhealthy,5.1,90,0.22,49,0.34,0
+storm-switchover-c500-2,storm,switchover,c500,,92795,0,8,7,0,4.1,7.3,0.0,500,2200,0,3.6,7,500,,3.2,6.5,new primary,515,0,0,,,91,0.23,49,0.3,0
+storm-switchover-c500-a7e06a8-3,storm,switchover,c500,a7e06a8,88515,0,8,4,0,2.2,5.5,0.0,500,2200,0,2.0,6,500,,3.4,5.1,new primary,508,0,0,LeaderUnhealthy,4.2,81,0.23,47,0.32,0
+storm-switchover-c500-a7e06a8-4,storm,switchover,c500,a7e06a8,79610,0,8,5,0,8.5,11.7,0.0,500,2200,0,7.8,11,500,,3.3,10.8,new primary,529,0,0,,,79,0.22,55,0.32,0

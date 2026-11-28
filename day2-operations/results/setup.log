@@ -1,0 +1,177 @@
+2026-11-27T11:56:29Z remove STRICT PeerAuthentication, unenroll namespaces
+peerauthentication.security.istio.io "default" deleted from multigres-demo namespace
+namespace/multigres-demo unlabeled
+namespace/multigres-operator unlabeled
+2026-11-27T11:56:53Z uninstall Istio
+All Istio resources will be pruned from the cluster
+
+  Removed apps/v1, Kind=Deployment/istiod.istio-system.
+  Removed apps/v1, Kind=DaemonSet/istio-cni-node.istio-system.
+  Removed apps/v1, Kind=DaemonSet/ztunnel.istio-system.
+  Removed /v1, Kind=Service/istiod.istio-system.
+  Removed /v1, Kind=Service/istiod-revision-tag-default.istio-system.
+  Removed /v1, Kind=ConfigMap/istio.istio-system.
+  Removed /v1, Kind=ConfigMap/istio-cni-config.istio-system.
+  Removed /v1, Kind=ConfigMap/istio-sidecar-injector.istio-system.
+  Removed /v1, Kind=ConfigMap/values.istio-system.
+object: /v1, Kind=Pod/istiod-85db9869b5-b7pzk.istio-system is not being deleted because it no longer exists
+  Removed /v1, Kind=ServiceAccount/istio-cni.istio-system.
+  Removed /v1, Kind=ServiceAccount/istio-reader-service-account.istio-system.
+  Removed /v1, Kind=ServiceAccount/istiod.istio-system.
+  Removed /v1, Kind=ServiceAccount/ztunnel.istio-system.
+  Removed rbac.authorization.k8s.io/v1, Kind=RoleBinding/istiod.istio-system.
+  Removed rbac.authorization.k8s.io/v1, Kind=Role/istiod.istio-system.
+  Removed autoscaling/v2, Kind=HorizontalPodAutoscaler/istiod.istio-system.
+  Removed admissionregistration.k8s.io/v1, Kind=MutatingWebhookConfiguration/istio-revision-tag-default..
+  Removed admissionregistration.k8s.io/v1, Kind=MutatingWebhookConfiguration/istio-sidecar-injector..
+  Removed admissionregistration.k8s.io/v1, Kind=ValidatingWebhookConfiguration/istio-validator-istio-system..
+  Removed admissionregistration.k8s.io/v1, Kind=ValidatingWebhookConfiguration/istiod-default-validator..
+  Removed rbac.authorization.k8s.io/v1, Kind=ClusterRole/istio-cni..
+  Removed rbac.authorization.k8s.io/v1, Kind=ClusterRole/istio-cni-ambient..
+  Removed rbac.authorization.k8s.io/v1, Kind=ClusterRole/istio-cni-repair-role..
+  Removed rbac.authorization.k8s.io/v1, Kind=ClusterRole/istio-reader-clusterrole-istio-system..
+  Removed rbac.authorization.k8s.io/v1, Kind=ClusterRole/istiod-clusterrole-istio-system..
+  Removed rbac.authorization.k8s.io/v1, Kind=ClusterRole/istiod-gateway-controller-istio-system..
+  Removed rbac.authorization.k8s.io/v1, Kind=ClusterRoleBinding/istio-cni..
+  Removed rbac.authorization.k8s.io/v1, Kind=ClusterRoleBinding/istio-cni-ambient..
+  Removed rbac.authorization.k8s.io/v1, Kind=ClusterRoleBinding/istio-cni-repair-rolebinding..
+  Removed rbac.authorization.k8s.io/v1, Kind=ClusterRoleBinding/istio-reader-clusterrole-istio-system..
+  Removed rbac.authorization.k8s.io/v1, Kind=ClusterRoleBinding/istiod-clusterrole-istio-system..
+  Removed rbac.authorization.k8s.io/v1, Kind=ClusterRoleBinding/istiod-gateway-controller-istio-system..
+  Removed apiextensions.k8s.io/v1, Kind=CustomResourceDefinition/authorizationpolicies.security.istio.io..
+  Removed apiextensions.k8s.io/v1, Kind=CustomResourceDefinition/destinationrules.networking.istio.io..
+  Removed apiextensions.k8s.io/v1, Kind=CustomResourceDefinition/envoyfilters.networking.istio.io..
+  Removed apiextensions.k8s.io/v1, Kind=CustomResourceDefinition/gateways.networking.istio.io..
+  Removed apiextensions.k8s.io/v1, Kind=CustomResourceDefinition/peerauthentications.security.istio.io..
+  Removed apiextensions.k8s.io/v1, Kind=CustomResourceDefinition/proxyconfigs.networking.istio.io..
+  Removed apiextensions.k8s.io/v1, Kind=CustomResourceDefinition/requestauthentications.security.istio.io..
+  Removed apiextensions.k8s.io/v1, Kind=CustomResourceDefinition/serviceentries.networking.istio.io..
+  Removed apiextensions.k8s.io/v1, Kind=CustomResourceDefinition/sidecars.networking.istio.io..
+  Removed apiextensions.k8s.io/v1, Kind=CustomResourceDefinition/telemetries.telemetry.istio.io..
+  Removed apiextensions.k8s.io/v1, Kind=CustomResourceDefinition/trafficextensions.extensions.istio.io..
+  Removed apiextensions.k8s.io/v1, Kind=CustomResourceDefinition/virtualservices.networking.istio.io..
+  Removed apiextensions.k8s.io/v1, Kind=CustomResourceDefinition/wasmplugins.extensions.istio.io..
+  Removed apiextensions.k8s.io/v1, Kind=CustomResourceDefinition/workloadentries.networking.istio.io..
+  Removed apiextensions.k8s.io/v1, Kind=CustomResourceDefinition/workloadgroups.networking.istio.io..
+
+✔ Uninstall completenamespace "istio-system" deleted
+2026-11-27T11:57:22Z buffer back to operator defaults (window/maxFailoverDuration removed)
+multigrescluster.multigres.com/demo patched
+2026-11-27T11:57:24Z restart operator and stateless components
+deployment.apps/grafana restarted
+deployment.apps/multigres-operator-controller-manager restarted
+deployment.apps/otel-collector restarted
+deployment.apps/tempo restarted
+Waiting for deployment "grafana" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "grafana" rollout to finish: 1 old replicas are pending termination...
+deployment "grafana" successfully rolled out
+Waiting for deployment "multigres-operator-controller-manager" rollout to finish: 0 of 1 updated replicas are available...
+deployment "multigres-operator-controller-manager" successfully rolled out
+deployment "otel-collector" successfully rolled out
+Waiting for deployment "tempo" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "tempo" rollout to finish: 1 old replicas are pending termination...
+deployment "tempo" successfully rolled out
+2026-11-27T11:57:58Z restart deployments in multigres-demo (gateways, multiorch, multiadmin, auth) to drop mesh state
+deployment.apps/auth restarted
+deployment.apps/demo-az1-multigateway-8d59bb63 restarted
+deployment.apps/demo-az2-multigateway-225ffbee restarted
+deployment.apps/demo-az3-multigateway-9d51cd81 restarted
+deployment.apps/demo-multiadmin restarted
+deployment.apps/demo-multiadmin-web restarted
+deployment.apps/demo-postgres-default-0-inf-multiorch-az1-5175f405 restarted
+deployment.apps/demo-postgres-default-0-inf-multiorch-az2-77786e6e restarted
+deployment.apps/demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7 restarted
+deployment "auth" successfully rolled out
+Waiting for deployment "demo-az1-multigateway-8d59bb63" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "demo-az1-multigateway-8d59bb63" rollout to finish: 1 old replicas are pending termination...
+deployment "demo-az1-multigateway-8d59bb63" successfully rolled out
+Waiting for deployment "demo-az2-multigateway-225ffbee" rollout to finish: 1 old replicas are pending termination...
+deployment "demo-az2-multigateway-225ffbee" successfully rolled out
+deployment "demo-az3-multigateway-9d51cd81" successfully rolled out
+Waiting for deployment "demo-multiadmin" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "demo-multiadmin" rollout to finish: 1 old replicas are pending termination...
+deployment "demo-multiadmin" successfully rolled out
+Waiting for deployment "demo-multiadmin-web" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "demo-multiadmin-web" rollout to finish: 1 old replicas are pending termination...
+deployment "demo-multiadmin-web" successfully rolled out
+deployment "demo-postgres-default-0-inf-multiorch-az1-5175f405" successfully rolled out
+deployment "demo-postgres-default-0-inf-multiorch-az2-77786e6e" successfully rolled out
+deployment "demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7" successfully rolled out
+2026-11-27T11:58:16Z restart pooler demo-postgres-default-0-inf-pool-default-az1-4b646709-0
+pod "demo-postgres-default-0-inf-pool-default-az1-4b646709-0" deleted from multigres-demo namespace
+pod/demo-postgres-default-0-inf-pool-default-az1-4b646709-0 condition met
+shard.multigres.com/demo-postgres-default-0-inf-bedd096a condition met
+2026-11-27T11:59:07Z shard Healthy
+2026-11-27T12:00:09Z restart pooler demo-postgres-default-0-inf-pool-default-az3-97695bdb-0
+pod "demo-postgres-default-0-inf-pool-default-az3-97695bdb-0" deleted from multigres-demo namespace
+pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 condition met
+shard.multigres.com/demo-postgres-default-0-inf-bedd096a condition met
+2026-11-27T12:00:52Z shard Healthy
+2026-11-27T12:01:54Z restart pooler demo-postgres-default-0-inf-pool-default-az2-7166e172-0
+pod "demo-postgres-default-0-inf-pool-default-az2-7166e172-0" deleted from multigres-demo namespace
+pod/demo-postgres-default-0-inf-pool-default-az2-7166e172-0 condition met
+shard.multigres.com/demo-postgres-default-0-inf-bedd096a condition met
+2026-11-27T12:03:10Z shard Healthy
+NAME                                                              READY   STATUS    RESTARTS   AGE     IP             NODE                                              NOMINATED NODE   READINESS GATES
+ackcheck                                                          1/1     Running   0          21h     10.42.39.218   ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           <none>
+auth-8648fc957f-kjzsj                                             1/1     Running   0          6m12s   10.42.14.158   ip-10-42-2-70.ap-southeast-2.compute.internal     <none>           <none>
+demo-az1-multigateway-8d59bb63-59544c55d7-g5hzq                   1/1     Running   0          6m12s   10.42.8.145    ip-10-42-2-70.ap-southeast-2.compute.internal     <none>           <none>
+demo-az2-multigateway-225ffbee-d88bdd59-x7jfb                     1/1     Running   0          6m11s   10.42.47.31    ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           <none>
+demo-az3-multigateway-9d51cd81-8446d5f9f5-bjfl7                   1/1     Running   0          6m11s   10.42.23.41    ip-10-42-18-161.ap-southeast-2.compute.internal   <none>           <none>
+demo-global-topo-0                                                1/1     Running   0          20h     10.42.21.180   ip-10-42-18-161.ap-southeast-2.compute.internal   <none>           <none>
+demo-global-topo-1                                                1/1     Running   0          21h     10.42.32.10    ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           <none>
+demo-global-topo-2                                                1/1     Running   0          20h     10.42.17.38    ip-10-42-18-161.ap-southeast-2.compute.internal   <none>           <none>
+demo-multiadmin-5f4ddbf49-9ww24                                   1/1     Running   0          6m11s   10.42.30.185   ip-10-42-18-161.ap-southeast-2.compute.internal   <none>           <none>
+demo-multiadmin-web-8f89bc9df-4lklj                               1/1     Running   0          6m10s   10.42.23.172   ip-10-42-18-161.ap-southeast-2.compute.internal   <none>           <none>
+demo-postgres-default-0-inf-multiorch-az1-5175f405-844b76fltsbn   1/1     Running   0          6m10s   10.42.14.119   ip-10-42-2-70.ap-southeast-2.compute.internal     <none>           <none>
+demo-postgres-default-0-inf-multiorch-az2-77786e6e-6fc5c44qsm8c   1/1     Running   0          6m10s   10.42.36.177   ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           <none>
+demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-84bd8c5g5kxr   1/1     Running   0          6m10s   10.42.21.117   ip-10-42-18-161.ap-southeast-2.compute.internal   <none>           <none>
+demo-postgres-default-0-inf-pool-default-az1-4b646709-0           3/3     Running   0          5m53s   10.42.7.125    ip-10-42-2-70.ap-southeast-2.compute.internal     <none>           1/1
+demo-postgres-default-0-inf-pool-default-az2-7166e172-0           3/3     Running   0          2m13s   10.42.37.206   ip-10-42-33-80.ap-southeast-2.compute.internal    <none>           1/1
+demo-postgres-default-0-inf-pool-default-az3-97695bdb-0           3/3     Running   0          4m      10.42.28.134   ip-10-42-18-161.ap-southeast-2.compute.internal   <none>           1/1
+loadgen                                                           1/1     Running   0          16h     10.42.1.112    ip-10-42-2-70.ap-southeast-2.compute.internal     <none>           <none>
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-33-80.ap-southeast-2.compute.internal standby
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-18-161.ap-southeast-2.compute.internal primary
+2026-11-27T12:07:48Z writer pod recreated in apse2-az1 (the old one's 24 h sleep was ending)
+pod/ackcheck created
+pod/ackcheck condition met
+writer ready in apse2-az1 on ip-10-42-2-70.ap-southeast-2.compute.internal
+2026-11-27T12:08:58Z primary in apse2-az3
+
+Type the shard name (0-inf) to confirm: command terminated with exit code 1
+2026-11-27T12:10:53Z primary in apse2-az3
+Type the shard name (0-inf) to confirm: Error: aborted
+command terminated with exit code 1
+2026-11-27T12:12:47Z primary in apse2-az3
+Type the shard name (0-inf) to confirm: Error: aborted
+command terminated with exit code 1
+2026-11-27T12:14:39Z primary in apse2-az3
+
+Type the shard name (0-inf) to confirm: command terminated with exit code 1
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-33-80.ap-southeast-2.compute.internal standby
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-18-161.ap-southeast-2.compute.internal primary
+ackcheck   1/1   Running   0     8m24s   10.42.1.75   ip-10-42-2-70.ap-southeast-2.compute.internal   <none>   <none>
+2026-11-27T12:17:10Z primary in apse2-az3
+Old leader: az3/p-08de2cdd
+Multiorch will elect a new leader. Run "multigres cluster status" to monitor.
+2026-11-27T12:19:07Z primary in apse2-az1
+Old leader: az1/p-3c7ba9d3
+Multiorch will elect a new leader. Run "multigres cluster status" to monitor.
+2026-11-27T12:21:04Z primary in apse2-az3
+Old leader: az3/p-08de2cdd
+Multiorch will elect a new leader. Run "multigres cluster status" to monitor.
+2026-11-27T12:23:00Z primary in apse2-az2
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-33-80.ap-southeast-2.compute.internal primary
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-18-161.ap-southeast-2.compute.internal standby
+2026-11-27T12:53:56Z primary in apse2-az1
+Multiorch will elect a new leader. Run "multigres cluster status" to monitor.
+2026-11-27T12:55:51Z primary in apse2-az2
+demo-global-topo-0                                                1/1     Running   0          21h   10.42.21.180   ip-10-42-18-161.ap-southeast-2.compute.internal   <none>           <none>
+demo-global-topo-1                                                1/1     Running   0          20m   10.42.47.64    ip-10-42-43-121.ap-southeast-2.compute.internal   <none>           <none>
+demo-global-topo-2                                                1/1     Running   0          21h   10.42.17.38    ip-10-42-18-161.ap-southeast-2.compute.internal   <none>           <none>
+2026-11-27T13:21:58Z primary in apse2-az1
+Multiorch will elect a new leader. Run "multigres cluster status" to monitor.
+2026-11-27T13:23:57Z primary in apse2-az3

@@ -1,0 +1,3 @@
+demo-az1-multigateway-8d59bb63-5cd5d6d77d-snslc restarts=0 last= peak_bytes=53583872
+demo-az2-multigateway-225ffbee-f899dbb9d-vqlbj restarts=0 last= peak_bytes=49901568
+demo-az3-multigateway-9d51cd81-66d78546c8-lk8zz restarts=0 last= peak_bytes=52219904

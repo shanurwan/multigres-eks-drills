@@ -1,0 +1,4 @@
+time=2026-11-27T15:28:14.660Z level=ERROR source=collector.go:191 msg="Error opening connection to database" err="error querying postgresql version: pq: could not write init file: No space left on device"
+time=2026-11-27T15:28:15.652Z level=ERROR source=postgres_exporter.go:606 msg="error scraping dsn" err="Error opening connection to database (postgresql://postgres:PASSWORD_REMOVED@localhost:5432/postgres?sslmode=disable&connect_timeout=5&options=-c%20statement_timeout%3D8s): driver: bad connection" dsn="postgresql://postgres:PASSWORD_REMOVED@localhost:5432/postgres?sslmode=disable&connect_timeout=5&options=-c%20statement_timeout%3D8s"
+time=2026-11-27T15:28:44.653Z level=INFO source=server.go:96 msg="Established new database connection" fingerprint=localhost:5432
+time=2026-11-27T15:28:44.690Z level=INFO source=postgres_exporter.go:537 msg="Semantic version changed" server=localhost:5432 from=0.0.0 to=17.7.0

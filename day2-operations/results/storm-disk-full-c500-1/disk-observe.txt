@@ -1,0 +1,72 @@
+== 2026-11-27T14:16:51.692Z full
+/dev/nvme2n1        9980  9899        65 100% /var/lib/pooler
+demo-postgres-default-0-inf-pool-default-az2-7166e172-0   3/3   Running   0     75m
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-43-121.ap-southeast-2.compute.internal primary
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-30-126.ap-southeast-2.compute.internal standby
+== 2026-11-27T14:17:33.099Z full
+/dev/nvme2n1        9980  9903        61 100% /var/lib/pooler
+demo-postgres-default-0-inf-pool-default-az2-7166e172-0   3/3   Running   0     76m
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-43-121.ap-southeast-2.compute.internal primary
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-30-126.ap-southeast-2.compute.internal standby
+== 2026-11-27T14:18:12.970Z full
+/dev/nvme2n1        9980  9907        57 100% /var/lib/pooler
+demo-postgres-default-0-inf-pool-default-az2-7166e172-0   3/3   Running   0     76m
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-43-121.ap-southeast-2.compute.internal primary
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-30-126.ap-southeast-2.compute.internal standby
+== 2026-11-27T14:18:53.367Z full
+/dev/nvme2n1        9980  9911        53 100% /var/lib/pooler
+demo-postgres-default-0-inf-pool-default-az2-7166e172-0   3/3   Running   0     77m
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-43-121.ap-southeast-2.compute.internal primary
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-30-126.ap-southeast-2.compute.internal standby
+== 2026-11-27T14:19:37.089Z full
+/dev/nvme2n1        9980  9915        49 100% /var/lib/pooler
+demo-postgres-default-0-inf-pool-default-az2-7166e172-0   3/3   Running   0     78m
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-43-121.ap-southeast-2.compute.internal primary
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-30-126.ap-southeast-2.compute.internal standby
+== 2026-11-27T14:20:25.440Z growing
+/dev/nvme2n1        9980  9920        45 100% /var/lib/pooler
+demo-postgres-default-0-inf-pool-default-az2-7166e172-0   3/3   Running   0     79m
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-43-121.ap-southeast-2.compute.internal primary
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-30-126.ap-southeast-2.compute.internal standby
+== 2026-11-27T14:21:09.627Z grown
+/dev/nvme2n1       15015  9924      5076  67% /var/lib/pooler
+demo-postgres-default-0-inf-pool-default-az2-7166e172-0   3/3   Running   0     79m
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-43-121.ap-southeast-2.compute.internal primary
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-30-126.ap-southeast-2.compute.internal standby
+== 2026-11-27T14:21:53.451Z grown
+/dev/nvme2n1       15015  9928      5072  67% /var/lib/pooler
+demo-postgres-default-0-inf-pool-default-az2-7166e172-0   3/3   Running   0     80m
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-43-121.ap-southeast-2.compute.internal primary
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-30-126.ap-southeast-2.compute.internal standby
+== 2026-11-27T14:22:34.896Z grown
+/dev/nvme2n1       15015  9931      5069  67% /var/lib/pooler
+demo-postgres-default-0-inf-pool-default-az2-7166e172-0   3/3   Running   0     81m
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-43-121.ap-southeast-2.compute.internal primary
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-30-126.ap-southeast-2.compute.internal standby
+== 2026-11-27T14:23:17.601Z grown
+/dev/nvme2n1       15015  9935      5065  67% /var/lib/pooler
+demo-postgres-default-0-inf-pool-default-az2-7166e172-0   3/3   Running   0     81m
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-43-121.ap-southeast-2.compute.internal primary
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-30-126.ap-southeast-2.compute.internal standby
+== 2026-11-27T14:24:01.366Z grown
+/dev/nvme2n1       15015  9939      5061  67% /var/lib/pooler
+demo-postgres-default-0-inf-pool-default-az2-7166e172-0   3/3   Running   0     82m
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-43-121.ap-southeast-2.compute.internal primary
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-30-126.ap-southeast-2.compute.internal standby
+== 2026-11-27T14:24:42.923Z grown
+/dev/nvme2n1       15015  9943      5057  67% /var/lib/pooler
+demo-postgres-default-0-inf-pool-default-az2-7166e172-0   3/3   Running   0     83m
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-43-121.ap-southeast-2.compute.internal primary
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-30-126.ap-southeast-2.compute.internal standby

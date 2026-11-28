@@ -1,0 +1,35 @@
+{
+  "run": "storm-switchover-c500-a7e06a8-4",
+  "attempts": 79642,
+  "acked": 79610,
+  "failed": 24,
+  "ambiguous": 8,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 5,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "15:14:04.493",
+  "last_event": "15:18:04.464",
+  "outages": [
+    {
+      "from": "15:15:07.786",
+      "to": "15:15:16.237",
+      "seconds": 8.450603,
+      "errors_in_window": 32,
+      "first_error": "timeout: context deadline exceeded"
+    }
+  ],
+  "error_kinds": {
+    "context deadline exceeded": 24,
+    "timeout: context deadline exceeded": 8
+  },
+  "ok_latency_ms": {
+    "p100": 846,
+    "p50": 6,
+    "p95": 32,
+    "p99": 100
+  }
+}

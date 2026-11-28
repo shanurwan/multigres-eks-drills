@@ -1,0 +1,34 @@
+{
+  "run": "storm-ng-upgrade-c500-2",
+  "attempts": 589081,
+  "acked": 589073,
+  "failed": 0,
+  "ambiguous": 8,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 7,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "13:25:17.829",
+  "last_event": "13:50:17.799",
+  "outages": [
+    {
+      "from": "13:28:39.786",
+      "to": "13:28:41.899",
+      "seconds": 2.11361,
+      "errors_in_window": 8,
+      "first_error": "timeout: context deadline exceeded"
+    }
+  ],
+  "error_kinds": {
+    "timeout: context deadline exceeded": 8
+  },
+  "ok_latency_ms": {
+    "p100": 344,
+    "p50": 5,
+    "p95": 12,
+    "p99": 26
+  }
+}

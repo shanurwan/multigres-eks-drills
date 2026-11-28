@@ -1,0 +1,37 @@
+{
+  "run": "storm-ng-upgrade-c500-1",
+  "attempts": 397123,
+  "acked": 396995,
+  "failed": 123,
+  "ambiguous": 5,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 5,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "12:57:22.219",
+  "last_event": "13:17:22.188",
+  "outages": [
+    {
+      "from": "13:00:53.050",
+      "to": "13:00:57.584",
+      "seconds": 4.53389,
+      "errors_in_window": 128,
+      "first_error": "MTF01 planned failover in progress"
+    }
+  ],
+  "error_kinds": {
+    "57P03 database is temporarily unavailable; please retry": 38,
+    "57P03 no writable primary is currently available": 82,
+    "MTF01 planned failover in progress": 3,
+    "timeout: context deadline exceeded": 5
+  },
+  "ok_latency_ms": {
+    "p100": 1943,
+    "p50": 7,
+    "p95": 41,
+    "p99": 107
+  }
+}

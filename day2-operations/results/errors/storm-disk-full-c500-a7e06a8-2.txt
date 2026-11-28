@@ -1,0 +1,4 @@
+    17  sampled error (supafirehose keeps 1 per 10 s): write: ERROR: could not extend file "base/5/<n>": No space left on device (SQLSTATE <n>)
+     3  sampled error (supafirehose keeps 1 per 10 s): write: ERROR: could not extend file "base/5/<n>" with FileFallocate(): No space left on device (SQLSTATE <n>)
+     1  connect (1 in 100 logged): failed to connect to `user=postgres database=postgres`: <addr> (demo-multigateway): server error: FATAL: password authentication failed for user "postgres" (SQLSTATE 28P01)
+     1  sampled error (supafirehose keeps 1 per 10 s): read: failed to connect: failed to connect to `user=postgres database=postgres`: <addr> (demo-multigateway): server error: FATAL: database is temporarily unavailable; please retry (SQLSTATE 57P03)

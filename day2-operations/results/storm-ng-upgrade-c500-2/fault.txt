@@ -1,0 +1,20 @@
+nodegroup=az2-20261126122021811000000001 update=40c6bdf3-8a42-3206-88f3-c930fa270411 launch_template=1->2
+{
+    "update": {
+        "id": "40c6bdf3-8a42-3206-88f3-c930fa270411",
+        "status": "Successful",
+        "type": "VersionUpdate",
+        "params": [
+            {
+                "type": "LaunchTemplateName",
+                "value": "az2-2026112611450772390000001b"
+            },
+            {
+                "type": "LaunchTemplateVersion",
+                "value": "2"
+            }
+        ],
+        "createdAt": "2026-11-27T21:26:28.435000+08:00",
+        "errors": []
+    }
+}

@@ -1,0 +1,7 @@
+2026-11-27T12:57:19.538Z writer start (20m)
+2026-11-27T12:58:30.679Z fault: node group az3-20261126122021811600000003 (apse2-az2) rolling update, launch template version 1 -> 2 (same settings)
+2026-11-27T13:04:07.342Z node group update 3a4225d5-9ab4-383a-94fa-a21763e7063a: Successful
+2026-11-27T13:04:09.195Z waiting for the writer to finish
+2026-11-27T13:17:24.647Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+2026-11-27T13:17:27.216Z shard Healthy
+2026-11-27T13:19:50.321Z done: /home/wan/up/mgrun/day2-operations/results/storm-ng-upgrade-c500-1

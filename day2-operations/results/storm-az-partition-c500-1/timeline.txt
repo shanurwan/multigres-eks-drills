@@ -1,0 +1,8 @@
+2026-11-27T12:25:22.007Z writer start (9m)
+2026-11-27T12:25:25.774Z isolated-zone writer start (9m, through demo-az2-multigateway-225ffbee)
+2026-11-27T12:26:59.953Z fault: partition apse2-az2 (subnet 10.42.32.0/20 cut off from 10.42.0.0/16) for 240s
+2026-11-27T12:31:18.440Z heal: subnet back on acl-0f2748fca55f70519
+2026-11-27T12:31:24.974Z waiting for the writer to finish
+2026-11-27T12:34:32.235Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+2026-11-27T12:34:34.697Z shard Healthy
+2026-11-27T12:37:11.139Z done: /home/wan/up/mgrun/day2-operations/results/storm-az-partition-c500-1

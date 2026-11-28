@@ -1,0 +1,93 @@
+2026-11-27T13:54:46Z == switchover 1
+2026-11-27T13:54:56.917Z supafirehose: 500 connections, 2000 reads/s, 200 writes/s
+command terminated with exit code 1
+  2026-11-27T13:56:03.178Z writer start (4m)
+  2026-11-27T13:57:06.434Z fault: multigres cluster switch-primary (graceful)
+  2026-11-27T13:57:12.870Z switch-primary returned
+  2026-11-27T13:57:12.874Z waiting for the writer to finish
+  2026-11-27T14:00:08.691Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+  2026-11-27T14:00:11.029Z shard Healthy
+  2026-11-27T14:02:39.114Z done: /home/wan/up/mgrun/day2-operations/results/storm-switchover-c500-1
+    "acked": 93645,
+    "failed": 0,
+    "ambiguous": 8,
+    "lost_acked": 0,
+2026-11-27T14:03:08.852Z done: /home/wan/up/mgrun/day2-operations/results/storm-switchover-c500-1
+2026-11-27T14:04:41Z == switchover 2
+2026-11-27T14:04:50.806Z supafirehose: 500 connections, 2000 reads/s, 200 writes/s
+command terminated with exit code 1
+  2026-11-27T14:05:55.005Z writer start (4m)
+  2026-11-27T14:06:58.360Z fault: multigres cluster switch-primary (graceful)
+  2026-11-27T14:07:03.965Z switch-primary returned
+  2026-11-27T14:07:03.969Z waiting for the writer to finish
+  2026-11-27T14:09:59.333Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+  2026-11-27T14:10:02.485Z shard Healthy
+  2026-11-27T14:12:28.429Z done: /home/wan/up/mgrun/day2-operations/results/storm-switchover-c500-2
+    "acked": 92795,
+    "failed": 8,
+    "ambiguous": 8,
+    "lost_acked": 0,
+2026-11-27T14:12:54.659Z done: /home/wan/up/mgrun/day2-operations/results/storm-switchover-c500-2
+2026-11-27T14:14:26Z == disk-full 1
+2026-11-27T14:14:37.932Z supafirehose: 500 connections, 2000 reads/s, 200 writes/s
+command terminated with exit code 1
+  2026-11-27T14:15:42.278Z writer start (12m)
+  2026-11-27T14:16:48.341Z fault: fill demo-postgres-default-0-inf-pool-default-az2-7166e172-0's data volume with 7386 MiB, leaving 64 MiB
+  2026-11-27T14:20:20.947Z fix: grow the pool volumes to 15Gi through the MultigresCluster
+  2026-11-27T14:21:09.623Z pvc data-demo-postgres-default-0-inf-pool-default-az2-7166e172-0 capacity: 15Gi
+  2026-11-27T14:25:28.166Z waiting for the writer to finish
+  2026-11-27T14:27:45.390Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+  2026-11-27T14:27:48.295Z shard Healthy
+  2026-11-27T14:28:00.735Z fill file removed
+  2026-11-27T14:30:17.046Z done: /home/wan/up/mgrun/day2-operations/results/storm-disk-full-c500-1
+    "acked": 284830,
+    "failed": 0,
+    "ambiguous": 0,
+    "lost_acked": 0,
+2026-11-27T14:30:44.899Z done: /home/wan/up/mgrun/day2-operations/results/storm-disk-full-c500-1
+2026-11-27T14:32:17Z == mg-upgrade 1
+2026-11-27T14:32:26.994Z supafirehose: 500 connections, 2000 reads/s, 200 writes/s
+command terminated with exit code 1
+  2026-11-27T14:33:33.368Z writer start (25m)
+  2026-11-27T14:34:36.395Z fault: upgrade images to ghcr.io/multigres/multigres@sha256:71998a9ceaa206f53f3637b1698bf70e78780f59f6fcb9edfe12f94fb73e6100 and ghcr.io/multigres/pgctld@sha256:541d665f8e16b4549b9c50aa87e8bab4a0777925413ea4c32dbdfdc93ce4e7fe
+  2026-11-27T14:38:14.371Z rollout: pods_on_old_image=0
+  2026-11-27T14:38:14.373Z waiting for the writer to finish
+  2026-11-27T14:58:38.481Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+  2026-11-27T14:58:40.665Z shard Healthy
+  2026-11-27T15:00:54.481Z done: /home/wan/up/mgrun/day2-operations/results/storm-mg-upgrade-c500-1
+    "acked": 505123,
+    "failed": 0,
+    "ambiguous": 16,
+    "lost_acked": 0,
+2026-11-27T15:01:22.328Z done: /home/wan/up/mgrun/day2-operations/results/storm-mg-upgrade-c500-1
+2026-11-27T15:02:54Z == switchover 3 new image
+2026-11-27T15:03:04.857Z supafirehose: 500 connections, 2000 reads/s, 200 writes/s
+command terminated with exit code 1
+  2026-11-27T15:04:09.632Z writer start (4m)
+  2026-11-27T15:05:12.665Z fault: multigres cluster switch-primary (graceful)
+  2026-11-27T15:05:19.111Z switch-primary returned
+  2026-11-27T15:05:19.114Z waiting for the writer to finish
+  2026-11-27T15:08:16.157Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+  2026-11-27T15:08:18.894Z shard Healthy
+  2026-11-27T15:10:47.045Z done: /home/wan/up/mgrun/day2-operations/results/storm-switchover-c500-a7e06a8-3
+    "acked": 88515,
+    "failed": 0,
+    "ambiguous": 8,
+    "lost_acked": 0,
+2026-11-27T15:11:14.730Z done: /home/wan/up/mgrun/day2-operations/results/storm-switchover-c500-a7e06a8-3
+2026-11-27T15:12:46Z == switchover 4 new image
+2026-11-27T15:12:56.897Z supafirehose: 500 connections, 2000 reads/s, 200 writes/s
+command terminated with exit code 1
+  2026-11-27T15:14:01.245Z writer start (4m)
+  2026-11-27T15:15:04.508Z fault: multigres cluster switch-primary (graceful)
+  2026-11-27T15:15:10.252Z switch-primary returned
+  2026-11-27T15:15:10.268Z waiting for the writer to finish
+  2026-11-27T15:18:11.743Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+  2026-11-27T15:18:14.815Z shard Healthy
+  2026-11-27T15:20:44.593Z done: /home/wan/up/mgrun/day2-operations/results/storm-switchover-c500-a7e06a8-4
+    "acked": 79610,
+    "failed": 24,
+    "ambiguous": 8,
+    "lost_acked": 0,
+2026-11-27T15:21:14.552Z done: /home/wan/up/mgrun/day2-operations/results/storm-switchover-c500-a7e06a8-4
+2026-11-27T15:21:14Z == batch done

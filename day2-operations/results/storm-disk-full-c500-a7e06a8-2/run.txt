@@ -1,0 +1,8 @@
+drill=disk-full run=2 writer_zone=apse2-az1 target_zone=apse2-az1
+primary_before=demo-postgres-default-0-inf-pool-default-az1-4b646709-0 zone=apse2-az1 node=ip-10-42-2-70.ap-southeast-2.compute.internal
+operator_image=ghcr.io/multigres/multigres-operator@sha256:767d2dfa1894f4732b40ad8153ca3998707b6b8d7179b974a4a50418414d4142
+multipooler=ghcr.io/multigres/multigres@sha256:71998a9ceaa206f53f3637b1698bf70e78780f59f6fcb9edfe12f94fb73e6100
+postgres-exporter=quay.io/prometheuscommunity/postgres-exporter@sha256:ac5ec343104fae0e2d84a27bb8d69b38430a11910c5382cad85d478d2bab713e
+postgres=ghcr.io/multigres/pgctld@sha256:541d665f8e16b4549b9c50aa87e8bab4a0777925413ea4c32dbdfdc93ce4e7fe
+kubernetes=v1.35.9
+write_for=12m fault_at=60s az_hold=240s

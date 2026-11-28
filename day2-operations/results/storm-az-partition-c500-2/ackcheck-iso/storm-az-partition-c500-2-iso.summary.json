@@ -1,0 +1,38 @@
+{
+  "run": "storm-az-partition-c500-2-iso",
+  "attempts": 25847,
+  "acked": 18304,
+  "failed": 7531,
+  "ambiguous": 12,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 0,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "12:40:36.819",
+  "last_event": "12:49:36.768",
+  "outages": [
+    {
+      "from": "12:42:12.291",
+      "to": "12:48:09.293",
+      "seconds": 357.002264,
+      "errors_in_window": 7543,
+      "first_error": "timeout: context deadline exceeded"
+    }
+  ],
+  "error_kinds": {
+    "57P03 database is temporarily unavailable; please retry": 4628,
+    "57P03 no writable primary is currently available": 2348,
+    "context deadline exceeded": 39,
+    "i/o timeout": 516,
+    "timeout: context deadline exceeded": 12
+  },
+  "ok_latency_ms": {
+    "p100": 76,
+    "p50": 4,
+    "p95": 8,
+    "p99": 15
+  }
+}

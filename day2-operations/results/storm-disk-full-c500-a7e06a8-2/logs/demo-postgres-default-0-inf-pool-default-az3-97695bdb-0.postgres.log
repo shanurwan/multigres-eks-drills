@@ -1,0 +1,5 @@
+{"time":"2026-11-27T15:28:16.684140125Z","level":"INFO","msg":"traces export: processor export timeout: retry-able request failure: body: \u0008\u000e\u0012\u0015sending queue is full"}
+{"time":"2026-11-27T15:29:14.221774041Z","level":"INFO","msg":"gRPC ReloadConfig request","trace_id":"2e0d56b1f27efb303a03de8bb85595fa","span_id":"9e2aa00d69ce8dd9"}
+{"time":"2026-11-27T15:29:14.259940376Z","level":"INFO","msg":"reloading Postgres configuration","data_dir":"/var/lib/pooler/pg_data","trace_id":"2e0d56b1f27efb303a03de8bb85595fa","span_id":"9e2aa00d69ce8dd9"}
+server signaled
+{"time":"2026-11-27T15:29:14.261177038Z","level":"INFO","msg":"Postgres configuration reloaded successfully"}

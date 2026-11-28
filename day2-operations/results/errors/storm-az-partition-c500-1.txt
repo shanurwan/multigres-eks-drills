@@ -1,0 +1,8 @@
+     2  sampled error (supafirehose keeps 1 per 10 s): read: failed to connect: failed to connect to `user=postgres database=postgres`: <addr> (demo-multigateway): dial error: timeout: dial tcp <addr>: connect: connection timed out
+     1  connect (1 in 100 logged): failed to connect to `user=postgres database=postgres`: hostname resolving error: lookup demo-multigateway on <addr>: no such host
+     1  connect (1 in 100 logged): failed to connect to `user=postgres database=postgres`: <addr> (demo-multigateway): dial error: timeout: dial tcp <addr>: connect: connection timed out
+     1  sampled error (supafirehose keeps 1 per 10 s): read: ERROR: canceling statement due to statement timeout (SQLSTATE <n>)
+     1  sampled error (supafirehose keeps 1 per 10 s): read: FATAL: statement timed out before backend cleanup could be confirmed (SQLSTATE <n>)
+     1  sampled error (supafirehose keeps 1 per 10 s): read: failed to connect: failed to connect to `user=postgres database=postgres`: hostname resolving error: lookup demo-multigateway on <addr>: no such host
+     1  sampled error (supafirehose keeps 1 per 10 s): write: failed to connect: failed to connect to `user=postgres database=postgres`: <addr> (demo-multigateway): dial error: timeout: dial tcp <addr>: connect: connection timed out
+     1  sampled error (supafirehose keeps 1 per 10 s): read: unexpected EOF

@@ -1,0 +1,5 @@
+LAST SEEN   TYPE     REASON                       OBJECT                                                                               MESSAGE
+5m5s        Normal   Resizing                     persistentvolumeclaim/data-demo-postgres-default-0-inf-pool-default-az2-7166e172-0   External resizer is resizing volume pvc-b7bbecf0-5cd5-4c71-b10a-d30f3118e20d
+4m56s       Normal   ExternalExpanding            persistentvolumeclaim/data-demo-postgres-default-0-inf-pool-default-az2-7166e172-0   waiting for an external controller to expand this PVC
+4m57s       Normal   FileSystemResizeRequired     persistentvolumeclaim/data-demo-postgres-default-0-inf-pool-default-az2-7166e172-0   Require file system resize of volume on node
+4m56s       Normal   FileSystemResizeSuccessful   persistentvolumeclaim/data-demo-postgres-default-0-inf-pool-default-az2-7166e172-0   MountVolume.NodeExpandVolume succeeded for volume "pvc-b7bbecf0-5cd5-4c71-b10a-d30f3118e20d" ip-10-42-43-121.ap-southeast-2.compute.internal

@@ -10,6 +10,10 @@ This is an independent test lab, not an official Multigres or Supabase project, 
 
 **Do the backups restore, completely?** [`restore-check/`](restore-check/README.md).
 
+**Day-2 operations under load**: a zone cut off from the network, node group upgrades, a full disk grown online, a rolling upgrade and switchovers: [`day2-operations/blog.md`](day2-operations/blog.md).
+
+**Under a service mesh**: Multigres with Istio ambient and STRICT mTLS: [`mesh-istio-ambient/`](mesh-istio-ambient/README.md).
+
 **To run it yourself**, you need only an AWS free-plan account. Follow [`terraform/aws-setup.md`](terraform/aws-setup.md) to get a cluster, then [`failure-drill/reproduce.md`](failure-drill/reproduce.md) for the drills.
 
 ## Layout
@@ -34,3 +38,6 @@ This is an independent test lab, not an official Multigres or Supabase project, 
 | [`production-scenario/scenario.md`](production-scenario/scenario.md) | reconnect storm (supafirehose, 500 and 2,000 connections) and Supabase Auth logins through a primary pod kill: results, findings P1–P4 |
 | [`production-scenario/`](production-scenario/README.md) | how those runs work, what is measured, validation, reproduce |
 | [`restore-check/`](restore-check/README.md) | restores the pgBackRest backup from S3 and checks every acknowledged write against live; point-in-time restore; how far behind a quiet database's backup can be |
+| [`day2-operations/blog.md`](day2-operations/blog.md) | a zone cut off from the VPC, managed node group upgrades, a full primary volume grown online, a rolling Multigres upgrade and switchovers, under the production-scenario load: results, findings D1–D6 |
+| [`day2-operations/`](day2-operations/README.md) | how those runs work, the settings, `day2.py` columns, validation |
+| [`mesh-istio-ambient/`](mesh-istio-ambient/README.md) | Multigres under Istio ambient: what enrollment and STRICT mTLS need, latency, and the stuck-standby problem seen after primary kills in the mesh |

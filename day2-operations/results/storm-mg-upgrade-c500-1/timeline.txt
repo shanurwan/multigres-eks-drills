@@ -1,0 +1,7 @@
+2026-11-27T14:33:33.368Z writer start (25m)
+2026-11-27T14:34:36.395Z fault: upgrade images to ghcr.io/multigres/multigres@sha256:71998a9ceaa206f53f3637b1698bf70e78780f59f6fcb9edfe12f94fb73e6100 and ghcr.io/multigres/pgctld@sha256:541d665f8e16b4549b9c50aa87e8bab4a0777925413ea4c32dbdfdc93ce4e7fe
+2026-11-27T14:38:14.371Z rollout: pods_on_old_image=0
+2026-11-27T14:38:14.373Z waiting for the writer to finish
+2026-11-27T14:58:38.481Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+2026-11-27T14:58:40.665Z shard Healthy
+2026-11-27T15:00:54.481Z done: /home/wan/up/mgrun/day2-operations/results/storm-mg-upgrade-c500-1

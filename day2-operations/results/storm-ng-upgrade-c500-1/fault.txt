@@ -1,0 +1,20 @@
+nodegroup=az3-20261126122021811600000003 update=3a4225d5-9ab4-383a-94fa-a21763e7063a launch_template=1->2
+{
+    "update": {
+        "id": "3a4225d5-9ab4-383a-94fa-a21763e7063a",
+        "status": "Successful",
+        "type": "VersionUpdate",
+        "params": [
+            {
+                "type": "LaunchTemplateName",
+                "value": "az3-2026112611450772390000001a"
+            },
+            {
+                "type": "LaunchTemplateVersion",
+                "value": "2"
+            }
+        ],
+        "createdAt": "2026-11-27T20:58:33.560000+08:00",
+        "errors": []
+    }
+}

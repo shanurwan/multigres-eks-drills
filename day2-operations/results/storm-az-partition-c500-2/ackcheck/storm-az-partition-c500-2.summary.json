@@ -1,0 +1,36 @@
+{
+  "run": "storm-az-partition-c500-2",
+  "attempts": 183831,
+  "acked": 183746,
+  "failed": 77,
+  "ambiguous": 8,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 0,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "12:40:34.081",
+  "last_event": "12:49:34.053",
+  "outages": [
+    {
+      "from": "12:42:12.295",
+      "to": "12:42:32.729",
+      "seconds": 20.433414,
+      "errors_in_window": 80,
+      "first_error": "timeout: context deadline exceeded"
+    }
+  ],
+  "error_kinds": {
+    "context deadline exceeded": 63,
+    "i/o timeout": 14,
+    "timeout: context deadline exceeded": 8
+  },
+  "ok_latency_ms": {
+    "p100": 563,
+    "p50": 6,
+    "p95": 30,
+    "p99": 86
+  }
+}

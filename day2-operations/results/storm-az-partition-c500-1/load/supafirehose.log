@@ -1,0 +1,6 @@
+2026/11/27 12:23:41 Starting SupaFirehose on port 8080
+2026/11/27 12:23:41 Connected to database
+2026/11/27 12:23:41 Server listening on http://localhost:8080
+2026/11/27 12:27:47 Connection failed (total failures: 1): failed to connect to `user=postgres database=postgres`: hostname resolving error: lookup demo-multigateway on 172.20.0.10:53: no such host
+2026/11/27 12:29:49 Connection failed (total failures: 101): failed to connect to `user=postgres database=postgres`: 172.20.196.126:5432 (demo-multigateway): dial error: timeout: dial tcp 172.20.196.126:5432: connect: connection timed out
+2026/11/27 12:32:49 Connections: active=500, total_created=1000, total_failed=170

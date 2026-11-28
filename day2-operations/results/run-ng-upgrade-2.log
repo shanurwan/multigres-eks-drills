@@ -1,0 +1,14 @@
+2026-11-27T13:24:07.888Z supafirehose: 500 connections, 2000 reads/s, 200 writes/s
+command terminated with exit code 1
+  2026-11-27T13:25:14.914Z writer start (25m)
+  2026-11-27T13:26:24.747Z fault: node group az2-20261126122021811000000001 (apse2-az3) rolling update, launch template version 1 -> 2 (same settings)
+  2026-11-27T13:33:02.572Z node group update 40c6bdf3-8a42-3206-88f3-c930fa270411: Successful
+  2026-11-27T13:33:04.722Z waiting for the writer to finish
+  2026-11-27T13:50:23.490Z writer finished; waiting for the shard to be Healthy (up to 15 min)
+  2026-11-27T13:50:25.912Z shard Healthy
+  2026-11-27T13:52:50.356Z done: /home/wan/up/mgrun/day2-operations/results/storm-ng-upgrade-c500-2
+    "acked": 589073,
+    "failed": 0,
+    "ambiguous": 8,
+    "lost_acked": 0,
+2026-11-27T13:53:20.115Z done: /home/wan/up/mgrun/day2-operations/results/storm-ng-upgrade-c500-2

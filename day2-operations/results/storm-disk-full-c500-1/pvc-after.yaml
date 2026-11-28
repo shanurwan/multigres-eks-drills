@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    multigres.com/default-backup-key-prefix: clusters/d3563585-78c0-496f-b2e7-f83dec21de77
+    pv.kubernetes.io/bind-completed: "yes"
+    pv.kubernetes.io/bound-by-controller: "yes"
+    volume.beta.kubernetes.io/storage-provisioner: ebs.csi.aws.com
+    volume.kubernetes.io/selected-node: ip-10-42-38-108.ap-southeast-2.compute.internal
+    volume.kubernetes.io/storage-provisioner: ebs.csi.aws.com
+  creationTimestamp: "2026-11-26T12:28:44Z"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app.kubernetes.io/component: shard-pool
+    app.kubernetes.io/instance: demo
+    app.kubernetes.io/managed-by: multigres-operator
+    app.kubernetes.io/name: multigres
+    app.kubernetes.io/part-of: multigres
+    multigres.com/cell: az2
+    multigres.com/cluster: demo
+    multigres.com/database: postgres
+    multigres.com/pool: default
+    multigres.com/shard: 0-inf
+    multigres.com/tablegroup: default
+  name: data-demo-postgres-default-0-inf-pool-default-az2-7166e172-0
+  namespace: multigres-demo
+  ownerReferences:
+  - apiVersion: multigres.com/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Shard
+    name: demo-postgres-default-0-inf-bedd096a
+    uid: bfa62137-85a1-4263-ac47-651a24d1047a
+  resourceVersion: "425071"
+  uid: b7bbecf0-5cd5-4c71-b10a-d30f3118e20d
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 15Gi
+  storageClassName: multigres-gp3
+  volumeMode: Filesystem
+  volumeName: pvc-b7bbecf0-5cd5-4c71-b10a-d30f3118e20d
+status:
+  accessModes:
+  - ReadWriteOnce
+  allocatedResources:
+    storage: 15Gi
+  capacity:
+    storage: 15Gi
+  phase: Bound

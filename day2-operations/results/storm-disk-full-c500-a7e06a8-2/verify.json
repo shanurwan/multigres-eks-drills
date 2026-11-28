@@ -1,0 +1,42 @@
+{
+  "run": "storm-disk-full-c500-a7e06a8-2",
+  "attempts": 179396,
+  "acked": 173941,
+  "failed": 5446,
+  "ambiguous": 9,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 0,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "15:24:13.819",
+  "last_event": "15:36:13.774",
+  "outages": [
+    {
+      "from": "15:25:46.260",
+      "to": "15:29:12.305",
+      "seconds": 206.044812,
+      "errors_in_window": 5294,
+      "first_error": "53100 could not extend file \"base/5/24583\": No space left on device"
+    }
+  ],
+  "error_kinds": {
+    "53100 could not extend file \"base/5/24583\": No space left on device": 5326,
+    "57P03 database is temporarily unavailable; please retry": 17,
+    "context deadline exceeded": 99,
+    "i/o timeout": 4,
+    "timeout: context deadline exceeded": 5,
+    "timeout: read tcp 10.42.1.75:50932-\u003e172.20.196.126:5432: i/o timeout": 1,
+    "timeout: read tcp 10.42.1.75:51070-\u003e172.20.196.126:5432: i/o timeout": 1,
+    "timeout: read tcp 10.42.1.75:51108-\u003e172.20.196.126:5432: i/o timeout": 1,
+    "timeout: read tcp 10.42.1.75:53648-\u003e172.20.196.126:5432: i/o timeout": 1
+  },
+  "ok_latency_ms": {
+    "p100": 1266,
+    "p50": 7,
+    "p95": 39,
+    "p99": 96
+  }
+}

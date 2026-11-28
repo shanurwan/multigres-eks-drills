@@ -1,0 +1,35 @@
+{
+  "run": "storm-mg-upgrade-c500-1",
+  "attempts": 505139,
+  "acked": 505123,
+  "failed": 0,
+  "ambiguous": 16,
+  "lost_acked": 0,
+  "acked_with_syncrep_warning": 0,
+  "lost_with_syncrep_warning": 0,
+  "notices": {},
+  "ambiguous_present": 14,
+  "failed_present": 0,
+  "unexpected_rows": 0,
+  "first_event": "14:33:36.379",
+  "last_event": "14:58:36.350",
+  "outages": [
+    {
+      "from": "14:35:36.638",
+      "to": "14:35:39.535",
+      "seconds": 2.89695,
+      "errors_in_window": 8,
+      "first_error": "timeout: context deadline exceeded"
+    }
+  ],
+  "error_kinds": {
+    "timeout: context deadline exceeded": 8,
+    "unexpected EOF": 8
+  },
+  "ok_latency_ms": {
+    "p100": 1243,
+    "p50": 7,
+    "p95": 37,
+    "p99": 105
+  }
+}

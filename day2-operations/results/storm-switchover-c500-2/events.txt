@@ -1,0 +1,87 @@
+LAST SEEN   TYPE      REASON                   OBJECT                                                                     MESSAGE
+42m         Normal    Killing                  pod/demo-global-topo-0                                                     Stopping container etcd
+42m         Normal    PhaseChange              cell/demo-az3-a11fb6ba                                                     Transitioned from 'Healthy' to 'Progressing'
+42m         Normal    PhaseChange              cell/demo-az3-a11fb6ba                                                     Transitioned from 'Healthy' to 'Initializing'
+42m         Normal    Killing                  pod/ackcheck-iso                                                           Stopping container ackcheck-iso
+42m         Normal    Killing                  pod/demo-az3-multigateway-9d51cd81-8446d5f9f5-bjfl7                        Stopping container multigateway
+42m         Normal    PhaseChange              multigrescluster/demo                                                      Transitioned from 'Healthy' to 'Progressing'
+42m         Normal    Scheduled                pod/demo-az3-multigateway-9d51cd81-8446d5f9f5-kgm9w                        Successfully assigned multigres-demo/demo-az3-multigateway-9d51cd81-8446d5f9f5-kgm9w to ip-10-42-30-126.ap-southeast-2.compute.internal
+42m         Normal    Killing                  pod/demo-multiadmin-5f4ddbf49-9ww24                                        Stopping container multiadmin
+42m         Normal    SuccessfulCreate         replicaset/demo-multiadmin-5f4ddbf49                                       Created pod: demo-multiadmin-5f4ddbf49-v4bdb
+42m         Normal    Killing                  pod/demo-multiadmin-web-8f89bc9df-4lklj                                    Stopping container multiadmin-web
+42m         Normal    Scheduled                pod/demo-multiadmin-5f4ddbf49-v4bdb                                        Successfully assigned multigres-demo/demo-multiadmin-5f4ddbf49-v4bdb to ip-10-42-30-126.ap-southeast-2.compute.internal
+42m         Normal    SuccessfulCreate         replicaset/demo-az3-multigateway-9d51cd81-8446d5f9f5                       Created pod: demo-az3-multigateway-9d51cd81-8446d5f9f5-kgm9w
+42m         Normal    Killing                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Stopping container postgres-exporter
+42m         Normal    SuccessfulCreate         replicaset/demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-84bd8c5855   Created pod: demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-84bd8c5j785f
+42m         Normal    Scheduled                pod/demo-multiadmin-web-8f89bc9df-chnvl                                    Successfully assigned multigres-demo/demo-multiadmin-web-8f89bc9df-chnvl to ip-10-42-30-126.ap-southeast-2.compute.internal
+42m         Normal    Killing                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Stopping container postgres
+42m         Normal    Pulling                  pod/demo-multiadmin-5f4ddbf49-v4bdb                                        Pulling image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363"
+42m         Normal    Pulling                  pod/demo-az3-multigateway-9d51cd81-8446d5f9f5-kgm9w                        Pulling image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363"
+42m         Warning   Unhealthy                pod/demo-multiadmin-web-8f89bc9df-4lklj                                    Readiness probe failed: Get "http://10.42.23.172:18100/": dial tcp 10.42.23.172:18100: connect: connection refused
+42m         Normal    Pulling                  pod/demo-multiadmin-web-8f89bc9df-chnvl                                    Pulling image "ghcr.io/multigres/multiadmin-web@sha256:b968354d1c52c222754799ebd977f3f8c7b93d86f413f0d6c5a4143f968fe667"
+42m         Normal    Scheduled                pod/demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-84bd8c5j785f        Successfully assigned multigres-demo/demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-84bd8c5j785f to ip-10-42-30-126.ap-southeast-2.compute.internal
+42m         Normal    Killing                  pod/demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-84bd8c5g5kxr        Stopping container multiorch
+42m         Normal    Killing                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Stopping container multipooler
+42m         Warning   PostureCheckFailed       shard/demo-postgres-default-0-inf-bedd096a                                 Failed to check postgres posture consistency: listing poolers in cell "az1" for posture check: context canceled
+42m         Warning   ExternalDeletion         shard/demo-postgres-default-0-inf-bedd096a                                 Initiating drain for externally-deleted pod demo-postgres-default-0-inf-pool-default-az3-97695bdb-0
+42m         Normal    SuccessfulCreate         replicaset/demo-multiadmin-web-8f89bc9df                                   Created pod: demo-multiadmin-web-8f89bc9df-chnvl
+42m         Warning   FailedApply              multigrescluster/demo                                                      Failed to reconcile topology: failed to register cell 'az1' in topology: failed to create cell in topology: context canceled
+42m         Normal    Pulling                  pod/demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-84bd8c5j785f        Pulling image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363"
+41m         Normal    Created                  pod/demo-az3-multigateway-9d51cd81-8446d5f9f5-kgm9w                        Container created
+41m         Normal    Pulled                   pod/demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-84bd8c5j785f        Successfully pulled image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363" in 5.936s (5.936s including waiting). Image size: 142885589 bytes.
+41m         Normal    Created                  pod/demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-84bd8c5j785f        Container created
+41m         Normal    Pulled                   pod/demo-multiadmin-5f4ddbf49-v4bdb                                        Successfully pulled image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363" in 6.552s (6.552s including waiting). Image size: 142885589 bytes.
+41m         Normal    Created                  pod/demo-multiadmin-5f4ddbf49-v4bdb                                        Container created
+41m         Normal    Pulled                   pod/demo-az3-multigateway-9d51cd81-8446d5f9f5-kgm9w                        Successfully pulled image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363" in 6.691s (6.691s including waiting). Image size: 142885589 bytes.
+41m         Normal    Started                  pod/demo-postgres-default-0-inf-multiorch-az3-9d7ae8d7-84bd8c5j785f        Container started
+41m         Normal    Started                  pod/demo-az3-multigateway-9d51cd81-8446d5f9f5-kgm9w                        Container started
+41m         Normal    Started                  pod/demo-multiadmin-5f4ddbf49-v4bdb                                        Container started
+41m         Normal    Created                  pod/demo-multiadmin-web-8f89bc9df-chnvl                                    Container created
+41m         Normal    Scheduled                pod/demo-global-topo-0                                                     Successfully assigned multigres-demo/demo-global-topo-0 to ip-10-42-30-126.ap-southeast-2.compute.internal
+41m         Normal    Started                  pod/demo-multiadmin-web-8f89bc9df-chnvl                                    Container started
+41m         Warning   Unhealthy                pod/demo-az3-multigateway-9d51cd81-8446d5f9f5-bjfl7                        Readiness probe failed: Get "http://10.42.23.41:15100/ready": dial tcp 10.42.23.41:15100: connect: connection refused
+41m         Normal    Pulled                   pod/demo-multiadmin-web-8f89bc9df-chnvl                                    Successfully pulled image "ghcr.io/multigres/multiadmin-web@sha256:b968354d1c52c222754799ebd977f3f8c7b93d86f413f0d6c5a4143f968fe667" in 8.32s (8.32s including waiting). Image size: 83448479 bytes.
+41m         Normal    SuccessfulCreate         statefulset/demo-global-topo                                               Create Pod demo-global-topo-0 in StatefulSet demo-global-topo successful
+41m         Normal    PhaseChange              cell/demo-az3-a11fb6ba                                                     Transitioned from 'Progressing' to 'Healthy'
+41m         Normal    PhaseChange              tablegroup/demo-postgres-default-c91a52d0                                  Transitioned from 'Healthy' to 'Progressing'
+41m         Normal    PhaseChange              shard/demo-postgres-default-0-inf-bedd096a                                 Transitioned from 'Healthy' to 'Progressing'
+41m         Normal    DrainCompleted           shard/demo-postgres-default-0-inf-bedd096a                                 Pod demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 is ready for deletion
+41m         Normal    Pulling                  pod/demo-global-topo-0                                                     Pulling image "gcr.io/etcd-development/etcd:v3.6.7"
+41m         Normal    SuccessfulAttachVolume   pod/demo-global-topo-0                                                     AttachVolume.Attach succeeded for volume "pvc-4eb8aef0-2bd6-421b-b9b2-59223cb59cc6"
+41m         Warning   Unhealthy                pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Readiness probe errored and resulted in unknown state: rpc error: code = Canceled desc = context canceled
+41m         Warning   Unhealthy                pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Readiness probe failed: HTTP probe failed with statuscode: 503
+41m         Normal    DrainCompleted           shard/demo-postgres-default-0-inf-bedd096a                                 Completed drain for pod demo-postgres-default-0-inf-pool-default-az3-97695bdb-0
+41m         Normal    PodCreated               shard/demo-postgres-default-0-inf-bedd096a                                 Created pod demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 for pool default
+41m         Warning   FailedAttachVolume       pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Waiting for detach for volume "pvc-0725925e-04aa-4bac-b6c5-ab3bd24913ae" Volume is already exclusively attached to one node, waiting on detach before it can be attached to another node
+41m         Normal    Scheduled                pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Successfully assigned multigres-demo/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 to ip-10-42-30-126.ap-southeast-2.compute.internal
+41m         Normal    DeadPoolersMarked        shard/demo-postgres-default-0-inf-bedd096a                                 Marked 1 dead pooler(s) LIFECYCLE_SHUTDOWN in topology
+41m         Normal    Created                  pod/demo-global-topo-0                                                     Container created
+41m         Normal    Pulled                   pod/demo-global-topo-0                                                     Successfully pulled image "gcr.io/etcd-development/etcd:v3.6.7" in 11.491s (11.491s including waiting). Image size: 22878798 bytes.
+41m         Normal    Started                  pod/demo-global-topo-0                                                     Container started
+41m         Normal    SuccessfulAttachVolume   pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                AttachVolume.Attach succeeded for volume "pvc-0725925e-04aa-4bac-b6c5-ab3bd24913ae"
+41m         Normal    Pulling                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Pulling image "ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647"
+41m         Normal    Killing                  pod/demo-global-topo-2                                                     Stopping container etcd
+40m         Warning   FailedAttachVolume       pod/demo-global-topo-2                                                     Waiting for detach for volume "pvc-62fd6e6d-ed2a-4916-bee1-481e598b806f" Volume is already exclusively attached to one node, waiting on detach before it can be attached to another node
+40m         Normal    Scheduled                pod/demo-global-topo-2                                                     Successfully assigned multigres-demo/demo-global-topo-2 to ip-10-42-30-126.ap-southeast-2.compute.internal
+40m         Normal    SuccessfulCreate         statefulset/demo-global-topo                                               Create Pod demo-global-topo-2 in StatefulSet demo-global-topo successful
+40m         Normal    PhaseChange              toposerver/demo-global-topo                                                Transitioned from 'Healthy' to 'Progressing'
+40m         Normal    Started                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Container started
+40m         Normal    Pulled                   pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Successfully pulled image "ghcr.io/multigres/pgctld@sha256:35f53ecfe98e6c4b6d402ef7a5f6f87b6c4f56495934a62f26f576dde4c27647" in 13.405s (13.405s including waiting). Image size: 171112638 bytes.
+40m         Normal    Created                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Container created
+40m         Warning   PoolEmpty                shard/demo-postgres-default-0-inf-bedd096a                                 Pool default in cell az3 has 0 ready replicas
+40m         Normal    Created                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Container created
+40m         Normal    Pulling                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Pulling image "quay.io/prometheuscommunity/postgres-exporter:v0.20.1"
+40m         Normal    Started                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Container started
+40m         Normal    Pulled                   pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Container image "ghcr.io/multigres/multigres@sha256:ed65d714d548181fc32c32b44d42349bd98514472d60325eab53edb81620a363" already present on machine and can be accessed by the pod
+40m         Normal    Created                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Container created
+40m         Normal    Pulled                   pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Successfully pulled image "quay.io/prometheuscommunity/postgres-exporter:v0.20.1" in 3.012s (3.012s including waiting). Image size: 11784792 bytes.
+40m         Normal    Started                  pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Container started
+40m         Warning   Unhealthy                pod/demo-postgres-default-0-inf-pool-default-az3-97695bdb-0                Readiness probe failed: /var/lib/pooler/pg_sockets:5432 - no response
+40m         Normal    Pulled                   pod/demo-global-topo-2                                                     Container image "gcr.io/etcd-development/etcd:v3.6.7" already present on machine and can be accessed by the pod
+40m         Normal    Created                  pod/demo-global-topo-2                                                     Container created
+40m         Normal    SuccessfulAttachVolume   pod/demo-global-topo-2                                                     AttachVolume.Attach succeeded for volume "pvc-62fd6e6d-ed2a-4916-bee1-481e598b806f"
+40m         Normal    Started                  pod/demo-global-topo-2                                                     Container started
+40m         Normal    PhaseChange              toposerver/demo-global-topo                                                Transitioned from 'Progressing' to 'Healthy'
+39m         Normal    PhaseChange              tablegroup/demo-postgres-default-c91a52d0                                  Transitioned from 'Progressing' to 'Healthy'
+39m         Normal    PhaseChange              shard/demo-postgres-default-0-inf-bedd096a                                 Transitioned from 'Progressing' to 'Healthy'
+39m         Normal    PhaseChange              multigrescluster/demo                                                      Transitioned from 'Progressing' to 'Healthy'

@@ -1,0 +1,39 @@
+2026/11/27 15:23:02 Starting SupaFirehose on port 8080
+2026/11/27 15:23:02 Connected to database
+2026/11/27 15:23:02 Server listening on http://localhost:8080
+2026/11/27 15:25:48 Connections: active=494, total_created=1000, total_failed=0
+2026/11/27 15:25:53 Connections: active=493, total_created=2000, total_failed=0
+2026/11/27 15:25:58 Connections: active=497, total_created=3000, total_failed=0
+2026/11/27 15:26:03 Connections: active=493, total_created=4000, total_failed=0
+2026/11/27 15:26:08 Connections: active=496, total_created=5000, total_failed=0
+2026/11/27 15:26:13 Connections: active=497, total_created=6000, total_failed=0
+2026/11/27 15:26:18 Connections: active=484, total_created=7000, total_failed=0
+2026/11/27 15:26:23 Connections: active=491, total_created=8000, total_failed=0
+2026/11/27 15:26:28 Connections: active=498, total_created=9000, total_failed=0
+2026/11/27 15:26:33 Connections: active=492, total_created=10000, total_failed=0
+2026/11/27 15:26:38 Connections: active=488, total_created=11000, total_failed=0
+2026/11/27 15:26:43 Connections: active=492, total_created=12000, total_failed=0
+2026/11/27 15:26:48 Connections: active=487, total_created=13000, total_failed=0
+2026/11/27 15:26:53 Connections: active=490, total_created=14000, total_failed=0
+2026/11/27 15:26:58 Connections: active=499, total_created=15000, total_failed=0
+2026/11/27 15:27:03 Connections: active=490, total_created=16000, total_failed=0
+2026/11/27 15:27:08 Connections: active=498, total_created=17000, total_failed=0
+2026/11/27 15:27:13 Connections: active=486, total_created=18000, total_failed=0
+2026/11/27 15:27:18 Connections: active=498, total_created=19000, total_failed=0
+2026/11/27 15:27:26 Connections: active=454, total_created=20000, total_failed=0
+2026/11/27 15:27:36 Connections: active=492, total_created=21000, total_failed=0
+2026/11/27 15:27:47 Connections: active=458, total_created=22000, total_failed=0
+2026/11/27 15:27:58 Connections: active=441, total_created=23000, total_failed=0
+2026/11/27 15:28:07 Connections: active=497, total_created=24000, total_failed=0
+2026/11/27 15:28:09 Connection failed (total failures: 1): failed to connect to `user=postgres database=postgres`: 172.20.196.126:5432 (demo-multigateway): server error: FATAL: password authentication failed for user "postgres" (SQLSTATE 28P01)
+2026/11/27 15:28:20 Connections: active=489, total_created=25000, total_failed=15
+2026/11/27 15:28:25 Connections: active=484, total_created=26000, total_failed=15
+2026/11/27 15:28:29 Connections: active=499, total_created=27000, total_failed=15
+2026/11/27 15:28:34 Connections: active=498, total_created=28000, total_failed=15
+2026/11/27 15:28:39 Connections: active=498, total_created=29000, total_failed=15
+2026/11/27 15:28:44 Connections: active=498, total_created=30000, total_failed=15
+2026/11/27 15:28:49 Connections: active=499, total_created=31000, total_failed=15
+2026/11/27 15:28:54 Connections: active=496, total_created=32000, total_failed=15
+2026/11/27 15:28:59 Connections: active=498, total_created=33000, total_failed=15
+2026/11/27 15:29:04 Connections: active=499, total_created=34000, total_failed=15
+2026/11/27 15:29:09 Connections: active=496, total_created=35000, total_failed=15

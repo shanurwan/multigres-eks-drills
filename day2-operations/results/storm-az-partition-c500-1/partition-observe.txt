@@ -1,0 +1,24 @@
+== 2026-11-27T12:27:02.998Z node ip-10-42-33-80.ap-southeast-2.compute.internal Ready=True
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-33-80.ap-southeast-2.compute.internal unknown
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-18-161.ap-southeast-2.compute.internal primary
+== 2026-11-27T12:27:44.342Z node ip-10-42-33-80.ap-southeast-2.compute.internal Ready=True
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-33-80.ap-southeast-2.compute.internal unknown
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-18-161.ap-southeast-2.compute.internal primary
+== 2026-11-27T12:28:27.299Z node ip-10-42-33-80.ap-southeast-2.compute.internal Ready=Unknown
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-33-80.ap-southeast-2.compute.internal unknown
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-18-161.ap-southeast-2.compute.internal primary
+== 2026-11-27T12:29:10.959Z node ip-10-42-33-80.ap-southeast-2.compute.internal Ready=Unknown
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-33-80.ap-southeast-2.compute.internal unknown
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-18-161.ap-southeast-2.compute.internal primary
+== 2026-11-27T12:29:52.205Z node ip-10-42-33-80.ap-southeast-2.compute.internal Ready=Unknown
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-33-80.ap-southeast-2.compute.internal unknown
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-18-161.ap-southeast-2.compute.internal primary
+== 2026-11-27T12:30:34.824Z node ip-10-42-33-80.ap-southeast-2.compute.internal Ready=Unknown
+apse2-az1 demo-postgres-default-0-inf-pool-default-az1-4b646709-0 ip-10-42-2-70.ap-southeast-2.compute.internal standby
+apse2-az2 demo-postgres-default-0-inf-pool-default-az2-7166e172-0 ip-10-42-33-80.ap-southeast-2.compute.internal unknown
+apse2-az3 demo-postgres-default-0-inf-pool-default-az3-97695bdb-0 ip-10-42-18-161.ap-southeast-2.compute.internal primary
